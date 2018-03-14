@@ -1,0 +1,54 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <span class="breadcrumb-item active">Map รหัสยา</span>
+</nav>
+
+<div class="alert alert-app-level alert-info">
+  <div class="alert-item">
+    <div class="clr-icon clr-icon-update"></div>
+    <div class="alert-text">
+      มีการอัปเดทเวอร์ชันของ Mapping. อัปเกรดเป็น v.1234.
+    </div>
+    <div class="alert-actions">
+      <button class="btn alert-action">อัปเดทเดี๋ยวนี้</button>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-xs-4">
+    <h4>รายการยา</h4>
+    <clr-datagrid>
+      <clr-dg-column>ชื่อยา (ชื่อการค้า)</clr-dg-column>
+      <clr-dg-column>#</clr-dg-column>
+
+      <clr-dg-row *ngFor="let drug of drugs">
+        <clr-dg-cell>{{drug.id}}</clr-dg-cell>
+      </clr-dg-row>
+
+      <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
+        <clr-dg-pagination #pagination [clrDgPageSize]="50"></clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+  <div class="col-xs-6">
+    <h4>รายการที่ต้องการ Map</h4>
+    <clr-datagrid>
+      <clr-dg-column>รหัส</clr-dg-column>
+      <clr-dg-column>ชื่อยา (ชื่อการค้า)</clr-dg-column>
+      <clr-dg-column>#</clr-dg-column>
+
+      <clr-dg-row *ngFor="let drug of drugs">
+        <clr-dg-cell>{{drug.id}}</clr-dg-cell>
+        <clr-dg-cell>{{drug.id}}</clr-dg-cell>
+        <clr-dg-cell>{{drug.id}}</clr-dg-cell>
+      </clr-dg-row>
+
+      <clr-dg-footer>
+        {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
+        <clr-dg-pagination #pagination [clrDgPageSize]="50"></clr-dg-pagination>
+      </clr-dg-footer>
+    </clr-datagrid>
+  </div>
+</div>

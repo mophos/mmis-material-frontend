@@ -1,0 +1,37 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <span class="breadcrumb-item active">จัดการคลังสินค้า</span>
+</nav>
+<div class="progress loop" style="height: 5px;" *ngIf="loading">
+  <progress></progress>
+</div>
+
+<clr-datagrid>
+  <clr-dg-column>ชื่อคลังสินค้า</clr-dg-column>
+  <clr-dg-column>รายละเอียด</clr-dg-column>
+  <clr-dg-column>ประเภท</clr-dg-column>
+  <clr-dg-column>ตำแหน่งจัดเก็บ</clr-dg-column>
+  <clr-dg-column>Picking Rule</clr-dg-column>
+  <clr-dg-column>เปิดใช้งาน</clr-dg-column>
+
+  <clr-dg-row class="newLine" *ngIf="isNewRow">
+    <clr-dg-cell>
+      <input type="text" name="warehouseName" style="width: 100%;">
+    </clr-dg-cell>
+    <clr-dg-cell></clr-dg-cell>
+    <clr-dg-cell></clr-dg-cell>
+    <clr-dg-cell></clr-dg-cell>
+    <clr-dg-cell></clr-dg-cell>
+    <clr-dg-cell></clr-dg-cell>
+  </clr-dg-row>
+  <clr-dg-row *ngFor="let w of warehouses">
+      <clr-dg-cell>{{w.warehouse_name}}</clr-dg-cell>
+      <clr-dg-cell>{{w.warehouse_desc}}</clr-dg-cell>
+      <clr-dg-cell>{{w.warehouse_type_name}}</clr-dg-cell>
+      <clr-dg-cell>{{w.is_location_controll}}</clr-dg-cell>
+      <clr-dg-cell>{{w.picking_rule}}</clr-dg-cell>
+      <clr-dg-cell>{{w.is_active}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>{{warehouses.length}} คลัง</clr-dg-footer>
+</clr-datagrid>

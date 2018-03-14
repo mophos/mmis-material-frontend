@@ -1,0 +1,83 @@
+<div class="card">
+  <div class="card-block">
+    <div class="card-text">
+      <div class="card-header">
+        Conversions
+      </div>
+      <table class="table" style="width: 80%;">
+        <thead>
+          <tr>
+            <th class="left">1 Unit</th>
+            <th>= Conversion</th>
+            <th class="left">x Base Unit</th>
+            <th>ราคาต่อแพค</th>
+            <th>ใช้งาน</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left wm-add-row">
+              <ag2-completer placeholder="ค้นหา..." style="width: 100%;" 
+              name="selectedLarge" #fromUnit
+              [datasource]="dataServiceUomActive" 
+              (selected)="setSelectedLarge($event)"
+              (keyup)="clearSelectedLarge()" 
+              [(ngModel)]="fromUnitName" 
+              [openOnFocus]="true" 
+              [minSearchLength]="0"></ag2-completer>
+            </td>
+            <td style="width: 50px;" class="wm-add-row">
+              <input type="number" style="width: 100%" [(ngModel)]="conversionQty" style="text-align: center;">
+            </td>
+            <td class="left wm-add-row">
+              {{primaryUnitName}}
+            </td>
+            <td class="left wm-add-row">
+              <input type="number" name="cost" [(ngModel)]="cost" style="text-align: center;" />
+            </td>
+            <td class="wm-add-row">
+              <clr-checkbox name="isActive" [(ngModel)]="isActive"></clr-checkbox>
+            </td>
+            <td class="wm-add-row">
+              <div class="btn-group">
+                <button class="btn btn-sm btn-success wm-small-btn" 
+              (click)="saveConversion()" [clrLoading]="isSaving"
+              [disabled]="!conversionQty || !fromUnitId || !primaryUnitId || isSaving">
+                <clr-icon shape="floppy" size="16"></clr-icon>
+              </button>
+              <button 
+              [disabled]="!conversionQty || !fromUnitId || isSaving"
+              class="btn btn-sm btn-danger wm-small-btn" (click)="resetForm()">
+                <clr-icon shape="refresh" size="16"></clr-icon>
+              </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let c of conversions" [class.editLine]="c.is_update === 'Y'">
+            <td class="left">{{ c.from_unit_name }}</td>
+            <td>{{ c.qty | number }}</td>
+            <td class="left">{{ c.to_unit_name }}</td>
+            <td>{{ c.cost | number: '1.2-2' }}</td>
+            <td>
+              <clr-icon *ngIf="c.is_active === 'Y'" shape="success" size="16" class="is-success"></clr-icon>
+              <clr-icon *ngIf="c.is_active === 'N' || !c.is_active" shape="close" size="16" class="is-danger"></clr-icon>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button [disabled]="c.is_update === 'Y'" class="btn btn-sm btn-success wm-small-btn" (click)="doEdit(c)" title="แก้ไข">
+                <clr-icon shape="note" size="16"></clr-icon>
+              </button>
+              <button [disabled]="c.is_update === 'Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="doRemove(c)" title="ลบรายการ">
+                <clr-icon shape="trash" size="16"></clr-icon>
+              </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<wm-loading #loadingModal></wm-loading>

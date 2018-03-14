@@ -1,0 +1,101 @@
+<div class="card">
+  <div class="card-block">
+    <div class="card-header">
+      Generic Planning
+    </div>
+    <div class="card-text">
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="left" rowspan="2" style="width: 200px;">Inventory</th>
+            <th colspan="2">Min Max Planning</th>
+            <th rowspan="2">Order Modifier</th>
+            <th rowspan="2">Requisition Quota</th>
+            <th rowspan="2">UOM</th>
+            <th rowspan="2" style="width: 150px;">Sourcing</th>
+            <th rowspan="2">Active</th>
+            <th rowspan="2">&nbsp;</th>
+          </tr>
+          <tr>
+            <th>Min Qty.</th>
+            <th>Max Qty.</th>
+            <!-- <th>Minimum</th> -->
+            <!-- <th>Maximum</th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left wm-add-row">
+              <ag2-completer placeholder="ค้นหา..." style="width: 100%;" name="selectedLarge" #fromUnit [datasource]="warehouseDataService"
+                (selected)="setSelectedWarehouse($event)" (keyup)="clearSelectedWarehouse()" [(ngModel)]="warehouseName" [openOnFocus]="true"
+                [minSearchLength]="0"></ag2-completer>
+            </td>
+            <td class="wm-add-row" style="text-align: center;">
+              <input #inputFocus [textMask]="{mask: mask, guide: false}" type="text" [(ngModel)]="minQty" style="text-align: center; width: 100%;">
+            </td>
+            <td class="left wm-add-row" style="text-align: center;">
+              <input [textMask]="{mask: mask, guide: false}" type="text" [(ngModel)]="maxQty" style="text-align: center; width: 100%;">
+            </td>
+            <td class="left wm-add-row" style="text-align: center;">
+              <input [textMask]="{mask: mask, guide: false}" type="text" [(ngModel)]="minModifier" style="text-align: center; width: 100%;">
+            </td>
+            <td class="left wm-add-row" style="text-align: center;">
+              <input [textMask]="{mask: mask, guide: false}" type="text" [(ngModel)]="requisitionQuotaQty" style="text-align: center; width: 100%;">
+            </td>
+            <!-- <td class="left wm-add-row">
+              <input [textMask]="{mask: mask, guide: false}" type="text" [(ngModel)]="maxModifier" style="text-align: center; width: 50px;">
+            </td> -->
+            <td class="left wm-add-row" style="text-align: center;">
+              {{primaryUnitName}}
+            </td>
+            <td class="left wm-add-row">
+              <ag2-completer placeholder="ค้นหา..." style="width: 100%;" name="selectedLarge" [datasource]="warehouseSourcingDataService"
+                (selected)="setSelectedWarehouseSourcing($event)" (keyup)="clearSelectedWarehouseSourcing()" [(ngModel)]="sourceWarehouseName"
+                [openOnFocus]="true" [minSearchLength]="0"></ag2-completer>
+            </td>
+            <td class="wm-add-row" style="text-align: center;">
+              <clr-checkbox name="isActive" [(ngModel)]="isActive"></clr-checkbox>
+            </td>
+            <td class="wm-add-row" style="text-align: center;">
+              <div class="btn-group">
+                <button class="btn btn-sm btn-success wm-small-btn" (click)="savePlaning()" [disabled]="saving || !warehouseId || !warehouseName">
+                <clr-icon shape="floppy" size="16"></clr-icon>
+              </button>
+                <button [disabled]="saving || !warehouseId || !warehouseName" class="btn btn-sm btn-danger wm-small-btn"
+                  (click)="resetForm()" [clrLoading]="saving">
+                <clr-icon shape="refresh" size="16"></clr-icon>
+              </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let p of plannings" [class.editLine]="p.is_update === 'Y'">
+            <td class="left">{{ p.warehouse_name }}</td>
+            <td style="text-align: center;">{{ p.min_qty | number }}</td>
+            <td style="text-align: center;">{{ p.max_qty | number }}</td>
+            <td style="text-align: center;">{{ p.min_modifier_qty | number }}</td>
+            <td style="text-align: center;">{{ p.requisition_quota_qty | number }}</td>
+            <!-- <td>{{ p.max_modifier_qty | number }}</td> -->
+            <td>{{ p.unit_name }}</td>
+            <td class="left">{{ p.source_warehouse_name }}</td>
+            <td>
+              <clr-icon *ngIf="p.is_active === 'Y'" shape="success" size="16" class="is-success"></clr-icon>
+              <clr-icon *ngIf="p.is_active === 'N' || !p.is_active" shape="close" size="16" class="is-danger"></clr-icon>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button [disabled]="p.is_update === 'Y'" class="btn btn-sm btn-success wm-small-btn" (click)="doEdit(p)" title="แก้ไข">
+                <clr-icon shape="note" size="16"></clr-icon>
+              </button>
+                <button [disabled]="p.is_update === 'Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="doRemove(p)" title="ลบรายการ">
+                <clr-icon shape="trash" size="16"></clr-icon>
+              </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<wm-loading #loadingModal></wm-loading>

@@ -1,0 +1,297 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/products">สินค้า (Products)</a>
+  <span class="breadcrumb-item active">{{productName}} ({{selectedGenericName}})</span>
+</nav>
+
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink clrTabLinkId="link1" (click)="getInfo()">Product detail</button>
+    <clr-tab-content clrContentId="content1" *clrIfActive>
+      <div class="card">
+        <div class="card-block">
+          <div class="card-text">
+            <div class="row">
+              <div class="col-md-9">
+                <form>
+                  <section class="form-block">
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label for="productId">Trade Code</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <input class="form-control" disabled type="text" name="workingCode" [(ngModel)]="workingCode">
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label for="productId">เลขทะเบียนยา</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <input class="form-control" type="text" name="reg_no" [(ngModel)]="reg_no">
+                      </div>
+                      <!-- <div class="col-md-1">
+                        <button class="btn btn-sm btn-icon btn-primary" title="สร้าง Working Code" [disabled]="!productGroupsId || workingCode" (click)="generateWorkingCode()">
+                          <clr-icon shape="refresh"></clr-icon>
+                        </button>
+                      </div> -->
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="required" for="genericName">Generic</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="text" disabled [value]="selectedGenericId">
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <mm-search-generics-box [selectedName]="selectedGenericName" [clearOnChange]="true" (onChange)="clearOnChangeGeneric($event)" (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="required" for="productName">ชื่อทางการค้า</label>
+                      </div>
+                      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <input class="form-control" type="text" name="productName" (keyup)="keytype()" [(ngModel)]="productName" placeholder="">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="required" for="mLabelerName">ผู้ผลิต</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="text" disabled [value]="selectedM" >
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <mm-search-labeler-box [selectedName]="mLabelerName" [clearOnChange]="true" (onChange)="clearOnChangeManufacture($event)" (onSelect)="selectedManufacture($event)" labelerType="M"></mm-search-labeler-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="required" for="vLabelerName">ผู้จำหน่าย</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="text" disabled [value]="selectedV">
+                      </div>
+                      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <mm-search-labeler-box [selectedName]="vLabelerName" [clearOnChange]="true" (onChange)="clearOnChangeVendor($event)" labelerType="V" (onSelect)="selectedVendor($event)"></mm-search-labeler-box>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label>UOM จัดซื้อ</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="select">
+                          <select id="selects_4" name="purchaseUnitId" (change)="keytype()" [(ngModel)]="purchaseUnitId">
+                            <option *ngFor="let u of conversions"   [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label>UOM เบิก/จ่าย</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="select">
+                          <select id="selects_4" name="issueUnitId" [(ngModel)]="issueUnitId" (change)="keytype()" >
+                            <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="required">Base Unit</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="select">
+                          <select id="selects_4" name="primaryUnitId" [(ngModel)]="primaryUnitId" (change)="keytype()" >
+                            <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="required" for="mLabelerName">ราคาจัดซื้อ</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="number" name="purchasePrice" [(ngModel)]="purchasePrice">
+                      </div> -->
+                    </div>
+                    <div class="form-group row">
+
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="required">หมวดสินค้า</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="select">
+                          <select id="selects_4" name="productGroupId" [(ngModel)]="productGroupsId" (change)="keytype()" >
+                            <option *ngFor="let p of productGroups" [value]="p.generic_type_id">{{p.generic_type_name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label>รูปแบบการจ่าย</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="select">
+                          <select id="selects_4" name="pickingRule" [(ngModel)]="pickingRuleId" (change)="keytype()">
+                            <option>รูปแบบ</option>
+                            <option value="1">FEFO (First Expired First Out)</option>
+                            <option value="2">FIFO (First In First Out)</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        <label>&nbsp;</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <clr-checkbox name="isLotControl" [(ngModel)]="isLotControl" (change)="keytype()">
+                          Lot control
+                        </clr-checkbox>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <clr-checkbox name="isActive" [(ngModel)]="isActive" (change)="keytype()">
+                          Active
+                        </clr-checkbox>
+                      </div>
+                      <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <clr-checkbox name="isRawMaterial" [(clrChecked)]="isRawMaterial" (change)="keytype()">
+                          วัตถุดิบเพื่อการผลิต
+                        </clr-checkbox>
+                      </div>
+                    </div>
+                    <!-- <div class="form-group row"> -->
+                      <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label>Planning Method</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="select">
+                          <select id="selects_4" name="planningMethod" [(ngModel)]="planningMethod">
+                            <option>รูปแบบ</option>
+                            <option value="1">Min/Max</option>
+                            <option value="2">EOQ</option>
+                          </select>
+                        </div>
+                      </div> -->
+                    <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                      <label for="standardCost">ราคากลาง</label>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                      <input type="number" name="standardCost" [(ngModel)]="standardCost">
+                    </div> -->
+                    <!-- </div> -->
+                    <!-- <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label for="mLabelerName">Max Qty</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="number" name="maxQty" style="width: 100px;" [(ngModel)]="maxQty">
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label for="mLabelerName">Min Qty</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="number" name="minQty" style="width: 100px;" [(ngModel)]="minQty">
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label for="mLabelerName">EOQ Qty</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="number" name="eoqQty" style="width: 100px;" [(ngModel)]="eoqQty">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label for="mLabelerName">ต้นทุนซื้อ (EOQ)</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="number" name="orderingCost" style="width: 100px;" [(ngModel)]="orderingCost">
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label for="mLabelerName">ต้นทุนเก็บรักษา (EOQ)</label>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="number" name="carryingCost" style="width: 100px;" [(ngModel)]="carryingCost">
+                      </div>
+                    </div> -->
+
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label>Keyword</label>
+                      </div>
+                      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <input type="text" name="keywords" style="width: 100%" [(ngModel)]="keywords" (keyup)="keytype()">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label>รายละเอียด</label>
+                      </div>
+                      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <input type="text" name="description" style="width: 100%" [(ngModel)]="description" (keyup)="keytype()">
+                      </div>
+                    </div>
+                  </section>
+                </form>
+              </div>
+              <div class="col-md-3">
+                <!-- <h4>ภาพสินค้า</h/4> -->
+                <a href="javascript://" (dblclick)="openFile()" class="card clickable">
+                  <div class="card-img">
+                    <img *ngIf="!imageUrl" src="http://via.placeholder.com/350x450">
+                    <img *ngIf="imageUrl" [src]="imageUrl" style="width: 250px; height: 330px;">
+                  </div>
+                  <div class="card-footer">
+                    <label class="btn btn-sm btn-success" style="margin: 0px;">
+                      <input type="file" #file accept="image/*" class="hidden" (change)="fileChangeEvent($event)"> เลือก.. ({{filesToUpload.length}})
+                    </label>
+                    <button class="btn btn-sm btn-danger" (click)="upload()" [disabled]="!filesToUpload.length">อัปโหลด</button>
+                    <span class="spinner spinner-inline" *ngIf="isUploading">
+                      Uploading...
+                    </span>
+                    <span *ngIf="isUploading">
+                      Uploading...
+                    </span>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="card-footer">
+          <button class="btn btn-sm btn-success" [disabled]="isLoading || !productName || !selectedM || !selectedV || !selectedGenericId || isSaving || !productGroupsId"
+            (click)="saveProduct()" [clrLoading]="isSaving">บันทึก</button>
+          <button class="btn btn-sm btn-danger" routerLink="/admin/products">กลับหน้าหลัก</button>
+        </div>
+      </div>
+    </clr-tab-content>
+  </clr-tab>
+  <!-- <clr-tab>
+    <button clrTabLink>UOM Conversion</button>
+    <clr-tab-content *clrIfActive>
+      <wm-uom [productId]="productId"></wm-uom>
+    </clr-tab-content>
+  </clr-tab> -->
+  <!-- <clr-tab>
+    <button clrTabLink>Planning</button>
+    <clr-tab-content *clrIfActive>
+      <mm-product-planning #planning [productId]="productId" [genericId]="genericId"></mm-product-planning>
+    </clr-tab-content>
+  </clr-tab> -->
+  <!-- <clr-tab>
+    <button clrTabLink>Lot Control</button>
+    <clr-tab-content *clrIfActive>
+      <wm-lots [productId]="productId"></wm-lots>
+    </clr-tab-content>
+  </clr-tab> -->
+  <!-- <clr-tab>
+    <button clrTabLink>Lead Time</button>
+    <clr-tab-content *clrIfActive>
+      ...
+    </clr-tab-content>
+  </clr-tab> -->
+</clr-tabs>
+
+<wm-loading #loadingModal></wm-loading>

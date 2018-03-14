@@ -1,0 +1,47 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <span class="breadcrumb-item active">ข้อมูลผู้ประกอบการ</span>
+</nav>
+
+<button type="button" class="btn btn-sm btn-success" routerLink='/admin/labeler/new'>+ เพิ่มรายการใหม่</button>
+<clr-datagrid>
+  <!-- <clr-dg-column [clrDgField]="'labeler_id'">รหัสผู้ประกอบการ</clr-dg-column> -->
+  <clr-dg-column [clrDgField]="'labeler_name'">ชื่อผู้ประกอบการ</clr-dg-column>
+  <clr-dg-column style="width: 150px;" [clrDgField]="'short_code'">keywords</clr-dg-column>
+  <clr-dg-column style="width: 250px;" [clrDgField]="'type_name'">ประเภท</clr-dg-column>
+  <clr-dg-column style="width: 150px;" [clrDgField]="'status_name'">สถานะ</clr-dg-column>
+  <clr-dg-column style="width: 150px;">#</clr-dg-column>
+
+  <clr-dg-row *clrDgItems="let labeler of labelers" [clrDgItem]="labeler">
+    <!-- <clr-dg-action-overflow>
+      <button class="action-item" (click)="editLabeler(labeler)">แก้ไขข้อมูล</button>
+      <button class="action-item">ลบข้อมูล</button>
+    </clr-dg-action-overflow> -->
+    <!-- <clr-dg-cell>{{labeler.labeler_id}}</clr-dg-cell> -->
+    <clr-dg-cell>{{labeler.labeler_name}}</clr-dg-cell>
+    <clr-dg-cell>{{labeler.short_code}}</clr-dg-cell>
+    <clr-dg-cell>{{labeler.type_name}}</clr-dg-cell>
+    <clr-dg-cell>{{labeler.status_name}}</clr-dg-cell>
+    <clr-dg-cell style="text-align: center;">
+      <div class="btn-group">
+        <button class="btn btn-sm btn-icon btn-success" [routerLink]="['/admin/labeler/edit']" [queryParams]="{labelerId: labeler.labeler_id}">
+        <clr-icon shape="note"></clr-icon>
+        </button>
+        <button class="btn btn-sm btn-icon btn-danger" (click)="removeLabeler(labeler)">
+        <clr-icon shape="trash"></clr-icon>
+        </button>
+      </div>
+      <!-- <a href="javascript://" *ngIf="!labeler.moph_labeler_id" (click)="register(labeler)" class="label label-orange clickable">
+          ลงทะเบียน
+      </a> -->
+      <!-- <clr-icon *ngIf="labeler.moph_labeler_id" shape="check" class="is-success"></clr-icon> -->
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
+    <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<wm-loading #loadingModal></wm-loading>

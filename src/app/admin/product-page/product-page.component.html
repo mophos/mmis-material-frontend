@@ -1,0 +1,97 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <span class="breadcrumb-item active">สินค้า (Products)</span>
+</nav>
+<div class="row" style="width:100%;">
+  <div class="col-md-10">
+    <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา...." style="width: 250px;" (keyup)="enterSearch($event)">
+    <button class="btn btn-primary btn-sm" (click)="searchProduct()" [disabled]="!query">ค้นหา</button>
+  </div>
+  <div class="col-md-2">
+    <div class="select" style="padding-top: 10px;">
+      <select id="slGroup" name="groupId" [(ngModel)]="groupId" (change)="getProductList($event)">
+        <option value="all">ทั้งหมด</option>
+        <option *ngFor="let g of groups" [value]="g.generic_type_id">{{g.generic_type_name}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- <button class="btn btn-success btn-sm" style="float: right;" (click)="showAddProduct()">+ เพิ่มรายการยา/เวชภัณฑ์</button> -->
+<clr-datagrid (clrDgRefresh)="refresh($event)">
+  <!-- <clr-dg-column >Working Code</clr-dg-column> -->
+  <clr-dg-column>Trade Name</clr-dg-column>
+  <clr-dg-column>Generic Name</clr-dg-column>
+  <clr-dg-column>Base Unit</clr-dg-column>
+  <clr-dg-column>ผู้ผลิต</clr-dg-column>
+  <clr-dg-column>ผู้จำหน่าย</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
+  <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+  <clr-dg-row class="newLine">
+    <!-- <clr-dg-cell>&nbsp;</clr-dg-cell> -->
+    <clr-dg-cell>
+      <input wmUpperCase placeholder="ระบุชื่อ Trade Name" type="text" style="background-color: #FFFCE8;" [(ngModel)]="newProductName" style="text-align: left; width: 100%;">
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <mm-search-generics-box #selectGeneric (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
+      <!-- <ag2-completer placeholder="..." style="width: 100%;" name="selectedGenericName" [datasource]="dataServiceGeneric" (selected)="selectedGeneric($event)"
+        (keyup)="clearGeneric()" [(ngModel)]="selectedGenericName" [minSearchLength]="0"></ag2-completer> -->
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <div class="select">
+        <select id="selects_4" name="primaryUnitId" [(ngModel)]="primaryUnitId">
+          <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
+        </select>
+      </div>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <mm-search-labeler-box #vlabeler (onSelect)="selectedManufacture($event)" labelerType="M"></mm-search-labeler-box>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <mm-search-labeler-box #mlabeler labelerType="V" (onSelect)="selectedVendor($event)"></mm-search-labeler-box>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <div class="btn-group">
+        <div class="tooltip tooltip-xs tooltip-left">
+          <button class="btn btn-sm btn-success wm-small-btn" (click)="saveProduct()" [disabled]="!selectedGenericId || !selectedM || !selectedV || !newProductName || !primaryUnitId">
+            <clr-icon shape="floppy" size="16"></clr-icon>
+          </button>
+          <span class="tooltip-content center">บันทึก</span>
+        </div>
+        <div class="tooltip tooltip-xs tooltip-right">
+          <button class="btn btn-sm btn-danger wm-small-btn" (click)="clearForm()">
+            <clr-icon shape="refresh" size="16"></clr-icon>
+          </button>
+          <span class="tooltip-content center">ยกเลิก</span>
+        </div>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+  <clr-dg-row *ngFor="let p of products; let idx = index">
+    <!-- <clr-dg-cell></clr-dg-cell> -->
+    <clr-dg-cell>{{p.working_code}} - {{p.product_name}}</clr-dg-cell>
+    <clr-dg-cell>{{p.generic_working_code}} - {{p.generic_name}}</clr-dg-cell>
+    <clr-dg-cell>{{p.primary_unit_name}}</clr-dg-cell>
+    <clr-dg-cell>{{ p.m_labeler }}</clr-dg-cell>
+    <clr-dg-cell>{{ p.v_labeler }}</clr-dg-cell>
+    <clr-dg-cell>
+      <div class="btn-group btn-primary">
+        <button class="btn btn-success btn-sm wm-small-btn tooltip tooltip-xs tooltip-left" [routerLink]="['/admin/products', p.product_id]">
+          <clr-icon shape="note"></clr-icon>
+          <span class="tooltip-content center">แก้ไข</span>
+        </button>
+        <button class="btn btn-danger btn-sm wm-small-btn tooltip tooltip-xs tooltip-right" (click)="markDeleted(idx, p.product_id)">
+          <clr-icon shape="trash"></clr-icon>
+          <span class="tooltip-content center">ลบ</span>
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1 | number}} - {{pagination.lastItem + 1 | number}} จาก {{pagination.totalItems | number}} รายการ
+    <clr-dg-pagination #pagination [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="total"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<wm-loading #loadingModal></wm-loading>

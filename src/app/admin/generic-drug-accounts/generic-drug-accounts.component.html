@@ -1,0 +1,52 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <span class="breadcrumb-item active">ประเภทยา</span>
+</nav>
+
+<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+<clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+  <clr-dg-column [clrDgField]="'name'">ประเภทยา</clr-dg-column>
+  <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+  <clr-dg-row *clrDgItems="let t of accounts" [clrDgItem]="t">
+    <clr-dg-action-overflow>
+      <button class="action-item" (click)="edit(t)">แก้ไขข้อมูล</button>
+      <button class="action-item" (click)="remove(t)">ลบข้อมูล</button>
+    </clr-dg-action-overflow>
+    <clr-dg-cell>{{t.name}}</clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+    <clr-dg-pagination #pagination [clrDgPageSize]="50"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่ม/แก้ไข ประเภทเวชภัณฑ์ยา</h3>
+  <div class="modal-body">
+
+    <form>
+      <section class="form-block">
+        <label>ข้อมูล ประเภทเวชภัณฑ์ยา</label>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required" for="drugAccountName">ประเภท</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="drugAccountName" [(ngModel)]="drugAccountName" placeholder="">
+          </div>
+        </div>
+      </section>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!drugAccountName">
+        บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="opened = false">
+        ปิด
+    </button>
+  </div>
+</clr-modal>

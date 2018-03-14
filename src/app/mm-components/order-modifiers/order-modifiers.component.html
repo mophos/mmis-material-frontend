@@ -1,0 +1,75 @@
+<div class="card">
+  <div class="card-block">
+    <div class="card-text">
+      <h4>Order Modifiers</h4>
+      <table class="table">
+        <thead>
+          <tr>
+            <th class="left">Inventory</th>
+            <th>Minimum</th>
+            <th>Maximum</th>
+            <th>Active</th>
+            <th>&nbsp;</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left wm-add-row">
+              <ag2-completer placeholder="ค้นหา..." style="width: 100%;" 
+              name="selectedLarge" #fromUnit
+              [datasource]="warehouseDataService" 
+              (selected)="setSelectedWarehouse($event)"
+              (keyup)="clearSelectedWarehouse()" 
+              [(ngModel)]="warehouseName" 
+              [openOnFocus]="true" 
+              [minSearchLength]="0"></ag2-completer>
+            </td>
+            <td style="width: 50px;" class="wm-add-row">
+              <input [textMask]="{mask: mask, guide: false}" type="text" style="width: 100%" [(ngModel)]="minQty" style="text-align: center;">
+            </td>
+            <td class="left wm-add-row">
+              <input [textMask]="{mask: mask, guide: false}" type="text" style="width: 100%" [(ngModel)]="maxQty" style="text-align: center;">
+            </td>
+            <td class="wm-add-row">
+              <clr-checkbox name="isActive" [(ngModel)]="isActive"></clr-checkbox>
+            </td>
+
+            <td class="wm-add-row">
+              <div class="btn-group">
+                <button class="btn btn-sm btn-success wm-small-btn" 
+              (click)="saveMinMax()"
+              [disabled]="saving || !minQty || !maxQty || !warehouseId || !warehouseName">
+                <clr-icon shape="floppy" size="16"></clr-icon>
+              </button>
+              <button 
+              [disabled]="saving || !minQty || !maxQty || !warehouseId || !warehouseName" 
+              class="btn btn-sm btn-danger wm-small-btn" (click)="resetForm()">
+                <clr-icon shape="refresh" size="16"></clr-icon>
+              </button>
+              </div>
+            </td>
+          </tr>
+          <tr *ngFor="let p of plannings" [class.editLine]="p.is_update === 'Y'">
+            <td class="left">{{ p.warehouse_name }}</td>
+            <td>{{ p.min_qty | number }}</td>
+            <td>{{ p.max_qty | number }}</td>
+            <td>
+              <clr-icon *ngIf="p.is_active === 'Y'" shape="success" size="16" class="is-success"></clr-icon>
+              <clr-icon *ngIf="p.is_active === 'N' || !p.is_active" shape="close" size="16" class="is-danger"></clr-icon>
+            </td>
+            <td>
+              <div class="btn-group">
+                <button [disabled]="p.is_update === 'Y'" class="btn btn-sm btn-success wm-small-btn" (click)="doEdit(p)" title="แก้ไข">
+                <clr-icon shape="note" size="16"></clr-icon>
+              </button>
+              <button [disabled]="p.is_update === 'Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="doRemove(p)" title="ลบรายการ">
+                <clr-icon shape="trash" size="16"></clr-icon>
+              </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

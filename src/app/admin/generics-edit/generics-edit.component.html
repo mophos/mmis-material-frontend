@@ -1,0 +1,233 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/generics">ข้อมูล Generics</a>
+  <span class="breadcrumb-item active">แก้ไขข้อมูล Generics</span>
+</nav>
+<div class="progress loop" *ngIf="loading">
+  <progress></progress>
+</div>
+
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink id="link1">ข้อมูล Generic</button>
+    <clr-tab-content id="content1" *clrIfActive>
+      <form style="padding: 15px;">
+        <section class="form-block">
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+              <label for="txtWorkingCode" class="required">Generic Code</label>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+              <input class="form-control" type="text" disabled name="txtWorkingCode" [(ngModel)]="workingCode" placeholder="">
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+              <label for="drugAccountId">ชนิดยาในบัญชี/นอกบัญชี</label>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+              <div class="select form-control">
+                <select name="drugAccountId" id="drugAccountId" (change)="keytype()" [(ngModel)]="drugAccountId">
+                  <!-- <option value="">ไม่ระบุ</option> -->
+                  <option *ngFor="let t of drugAccounts" [value]="t.account_id">{{ t.account_name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+              <label class="required" for="txtGenericName">ชื่อ</label>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+              <input class="form-control" type="text" (keyup)="keytype()" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+              <label class="required" for="slType">ชนิด</label>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+              <div class="select form-control">
+                <select name="slType" id="slType" [(ngModel)]="typeId" (change)="keytype()">
+                  <!-- <option value="">ไม่ระบุ</option> -->
+                  <option *ngFor="let t of genericTypes" [value]="t.generic_type_id">{{ t.generic_type_name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+              <label for="slGroup">กลุ่ม</label>
+            </div>
+            <div class="col-lg-4 col-md-3 col-sm-12 col-xs-12">
+              <div class="select form-control">
+                <select name="slGroup" id="slGroup" [(ngModel)]="groupId" (change)="keytype()">
+                  <!-- <option value="">ไม่ระบุ</option> -->
+                  <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+              <label for="slPackage">รูปแบบ</label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <div class="select form-control">
+                <select name="slPackage" id="slPackage" [(ngModel)]="dosageId" (keyup)="keytype()">
+                  <!-- <option value="">ไม่ระบุ</option> -->
+                  <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+              <label for="tProduct">ประเภทยา</label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <div class="select form-control">
+                <select name="tProduct" id="tProduct" [(ngModel)]="pTypeId" (keyup)="keytype()">
+                  <!-- <option value="">ไม่ระบุ</option> -->
+                  <option *ngFor="let t of typeProduct" [value]="t.id">{{ t.name }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <label class="required">Base Unit</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="select">
+                <select id="selects_4" name="primaryUnitId" [(ngModel)]="primaryUnitId" (change)="keytype()">
+                  <!-- <option value="">ไม่ระบุ</option> -->
+                  <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+              <label for="mLabelerName">ราคากลาง
+                <font size="1px">(Base Unit)</font>
+              </label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <input type="number" style="width: 100%; text-align: right;" name="standardCost" (keyup)="keytype()" [(ngModel)]="standardCost">
+            </div>
+            <div class="col-lg-1 col-md-2 col-sm-12 col-xs-12">
+              <label for="eoqQty">EOQ Qty</label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <input type="number" id="eoqQty" name="eoqQty" style="width: 100%; text-align: right;" (keyup)="keytype()" [(ngModel)]="eoqQty">
+            </div>
+          </div>
+          <br>
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <label for="bidTypeId">Purchasing Method</label>
+            </div>
+            <div class="col-lg-4 col-md-2 col-sm-12 col-xs-12">
+              <div class="select">
+                <select id="bidTypeId" name="bidTypeId" [(ngModel)]="bidTypeId" (change)="keytype()">
+                  <!-- <option value="">ไม่ระบุ</option> -->
+                  <option [value]="b.bid_id" *ngFor="let b of bidTypes">{{ b.bid_name}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <label for="planningUnitGenericId">UOM สำหรับจัดทำแผน</label>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+              <div class="select">
+                <select id="planningUnitGenericId" name="planningUnitGenericId" (change)="keytype()" [(ngModel)]="planningUnitGenericId">
+                  <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
+              <label for="orderingCost">ต้นทุนซื้อ (EOQ)</label>
+            </div>
+            <div class="col-lg-4 col-md-2 col-sm-12 col-xs-12">
+              <input type="number" id="orderingCost" name="orderingCost" (keyup)="keytype()" style="width: 100%; text-align: right;" [(ngModel)]="orderingCost">
+            </div>
+            <div class="col-lg-2 col-md-1 col-sm-12 col-xs-12">
+              <label for="carryingCost">ต้นทุนเก็บรักษา (EOQ)</label>
+            </div>
+            <div class="col-lg-4 col-md-2 col-sm-12 col-xs-12">
+              <input type="number" id="carryingCost" name="carryingCost" (keyup)="keytype()" style="width: 100%; text-align: right;" [(ngModel)]="carryingCost">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <label for="planningMethod">Planning Method</label>
+            </div>
+            <div class="col-lg-4 col-md-2 col-sm-12 col-xs-12">
+              <div class="select">
+                <select id="planningMethod" name="planningMethod" [(ngModel)]="planningMethod" (change)="keytype()">
+                  <!-- <option value="">ไม่ระบุ</option> -->
+                  <option value="1">1 - Min/Max</option>
+                  <option value="2">2 - EOQ</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+              <label for="maxQty">Max Qty</label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <input type="number" name="maxQty" style="width: 100%; text-align: right;" (keyup)="keytype()" [(ngModel)]="maxQty">
+            </div>
+            <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+              <label for="minQty">Min Qty</label>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <input type="number" name="minQty" style="width: 100%; text-align: right;" (keyup)="keytype()" [(ngModel)]="minQty">
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <label for="isActive">&nbsp;</label>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <clr-checkbox id="isActive" class="checkbox-inline" name="isActive" [(ngModel)]="isActive" (change)="keytype()">
+                เปิดใช้งาน
+              </clr-checkbox>
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <clr-checkbox id="isPlanning" class="checkbox-inline" name="isPlanning" [(ngModel)]="isPlanning" (change)="keytype()">
+                ใช้คำนวณแผน
+              </clr-checkbox>
+            </div>
+          </div>
+          <div class="form-group row">
+            <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+              <label for="txtDiscription">รายละเอียดอื่นๆ</label>
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+              <textarea name="txtDescript" id="txtDiscription" [(ngModel)]="description" (keyup)="keytype()" rows="2"></textarea>
+            </div>
+            <button class="btn btn-success btn-sm" (click)="save()" [disabled]="isSaving || !genericName || !typeId || !primaryUnitId || !isType">
+              <clr-icon shape="plus"></clr-icon> บันทึกข้อมูล
+            </button>
+
+            <button class="btn btn-danger btn-sm" routerLink="/admin/generics">
+              <clr-icon shape="home"></clr-icon> กลับหน้าหลัก
+            </button>
+          </div>
+
+        </section>
+      </form>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink id="link1">UOM Conversions</button>
+    <clr-tab-content *clrIfActive>
+      <wm-uom [genericId]="genericId"></wm-uom>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>Planning</button>
+    <clr-tab-content *clrIfActive>
+      <wm-generic-planning [genericId]="genericId"></wm-generic-planning>
+    </clr-tab-content>
+  </clr-tab>
+
+</clr-tabs>
+
+<wm-loading #loadingModal></wm-loading>

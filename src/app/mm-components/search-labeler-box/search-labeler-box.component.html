@@ -1,0 +1,7 @@
+<input type="text" autocomplete="off" [disabled]="_disabled" [(ngModel)]="query" name="query"
+  style="width: 100%;" placeholder="ค้นหาผู้ผลิต/ผู้จำหน่าย..." agxTypeahead [taUrl]="searchGenericUrl" taApi="http" [taItemTpl]="itemTpl"
+  (taSelected)="handleResultSelected($event)" (keyup)="clearData($event)">
+
+<ng-template #itemTpl let-result>
+  <span>{{result.result.short_code}} - {{ result.result.labeler_name }}</span>
+</ng-template>

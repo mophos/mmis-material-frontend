@@ -1,0 +1,140 @@
+<clr-main-container>
+  <clr-header class="header-6">
+    <div class="branding">
+      <a class="nav-link">
+        <img src="./assets/images/logo-mmis.png" style="width: 100px; height: 70px; padding-right: 5px;" alt="mmis logo" />
+        <span class="title">Material</span>
+      </a>
+    </div>
+    <div class="header-nav">
+      <a class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" href='/' role="tooltip" aria-haspopup="true">
+        <clr-icon shape="home"></clr-icon>
+        <span class="tooltip-content">Home</span>
+      </a>
+      <a href="{{env.purchasingUrl}}" *ngIf="Purchasing" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+        <clr-icon shape="shopping-cart"></clr-icon>
+        <span class="tooltip-content">Purchasing</span>
+      </a>
+      <a href="{{env.planningUrl}}" *ngIf="Planning" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+        <clr-icon shape="event"></clr-icon>
+        <span class="tooltip-content">Planning</span>
+      </a>
+      <a href="{{env.inventoryUrl}}" *ngIf="Inventory || InventoryWarehouse" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"
+        role="tooltip" aria-haspopup="true">
+        <clr-icon shape="data-cluster"></clr-icon>
+        <span class="tooltip-content">Inventory</span>
+      </a>
+      <a routerLink="{{env.materialsUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+        <clr-icon shape="storage"></clr-icon>
+        <span class="tooltip-content">Materials</span>
+      </a>
+      <a href="{{env.contractsUrl}}" *ngIf="Contracts" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+        <clr-icon shape="scroll"></clr-icon>
+        <span class="tooltip-content">Contracts</span>
+      </a>
+      <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+        <clr-icon shape="cog"></clr-icon>
+        <span class="tooltip-content">Administrator</span>
+      </a>
+    </div>
+    <div class="header-actions">
+      <clr-dropdown class="dropdown bottom-right">
+        <button class="nav-text" clrDropdownToggle>
+          <!-- <clr-icon shape="user"></clr-icon> -->
+          {{ fullname }}
+          <clr-icon shape="caret down"></clr-icon>
+        </button>
+        <div class="dropdown-menu">
+          <!-- <a (click)="downloadManual()" clrDropdownItem>คู่มือ</a> -->
+          <a href="javascript://" (click)="openChangePasswordModal()" clrDropdownItem>เปลี่ยนรหัสผ่าน</a>
+          <a (click)="logout()" clrDropdownItem>ออกจากระบบ</a>
+        </div>
+      </clr-dropdown>
+    </div>
+  </clr-header>
+
+  <div class="content-container">
+    <div class="content-area">
+      <router-outlet></router-outlet>
+    </div>
+
+    <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapse">
+      <a title="รายการสินค้า (Trade Name)" clrVerticalNavLink routerLink="/admin/products" routerLinkActive="active">
+        <clr-icon clrVerticalNavIcon shape="folder"></clr-icon>
+        รายการสินค้า (Trade Name)
+      </a>
+      <a clrVerticalNavLink routerLink="/admin/generics" routerLinkActive="active" title="ชื่อสามัญ (Generics)">
+        <clr-icon shape="book" clrVerticalNavIcon></clr-icon> ชื่อสามัญ (Generics)
+      </a>
+      <a clrVerticalNavLink routerLink="/admin/labeler" routerLinkActive="active" title="รายชื่อผู้ประกอบการ">
+        <clr-icon shape="group" clrVerticalNavIcon></clr-icon> รายชื่อผู้ประกอบการ
+      </a>
+      <a clrVerticalNavLink routerLink="/admin/units" routerLinkActive="active" title="Unit of Measure">
+        <clr-icon shape="grid-view" clrVerticalNavIcon></clr-icon> Unit of Measure
+      </a>
+      <a clrVerticalNavLink routerLink="/admin/generic-dosages" routerLinkActive="active" title="รูปแบบรายการสินค้า">
+        <clr-icon shape="objects" clrVerticalNavIcon></clr-icon> รูปแบบรายการสินค้า
+      </a>
+
+      <a clrVerticalNavLink routerLink="/admin/generic-type-product" routerLinkActive="active" title="ชนิดรายการสินค้า">
+        <clr-icon shape="share" clrVerticalNavIcon></clr-icon> ชนิดรายการสินค้า
+      </a>
+
+      <a clrVerticalNavLink routerLink="/admin/generic-types" routerLinkActive="active" title="ชนิดยาในบัญชี/นอกบัญชี">
+        <clr-icon shape="file-settings" clrVerticalNavIcon></clr-icon> ชนิดยาในบัญชี/นอกบัญชี
+      </a>
+
+      <a clrVerticalNavLink routerLink="/admin/generic-accounts" routerLinkActive="active" title="ประเภทยา">
+        <clr-icon shape="organization" clrVerticalNavIcon></clr-icon> ประเภทยา
+      </a>
+
+      <a clrVerticalNavLink routerLink="/admin/generic-groups" routerLinkActive="active" title="กลุ่มเวชภัณฑ์ยา">
+        <clr-icon shape="folder-open" clrVerticalNavIcon></clr-icon> กลุ่มเวชภัณฑ์ยา
+      </a>
+
+      <!-- <a clrVerticalNavLink routerLink="/admin/warehouses" routerLinkActive="active" title="จัดการคลังสินค้า">
+        <clr-icon shape="store" clrVerticalNavIcon></clr-icon> จัดการคลังสินค้า
+      </a> -->
+
+    </clr-vertical-nav>
+
+  </div>
+
+</clr-main-container>
+
+
+<clr-modal [(clrModalOpen)]="ChangePasswordModal" [clrModalClosable]="false" [clrModalSize]="'md'">
+  <h3 class="modal-title">เปลี่ยนรหัสผ่าน</h3>
+  <div class="modal-body" style="height:210px;">
+
+    <form>
+      <section class="form-block">
+        <!-- <label>เปลี่ยนรหัสผ่านผู้ใช้งาน</label> -->
+        <div class="form-group">
+          <label for="password" class="required">ระบุรหัสผ่านใหม่</label>
+          <input type="password" name="password" placeholder="**********" [(ngModel)]="password">
+          <input type="password" name="password2" placeholder="**********" [(ngModel)]="password2">
+        </div>
+        <!-- <div class="form-group"> -->
+        <div class="row form-group">
+          <div class="col-md-12">
+            <label *ngIf="password.length <= 3 && password != ''">**รหัสผ่านต้องมากกว่า 4 ตัวอักษร</label>
+          </div>
+          <div class="col-md-12">
+            <label *ngIf="password != password2 && password2 != null">***รหัสผ่านไม่ตรงกัน</label>
+          </div>
+        </div>
+        <!-- </div> -->
+      </section>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success btn-sm" (click)="chanagePassword()" [disabled]="!password || password.length <= 3 || isSaving || password!=password2">
+      เปลี่ยนรหัสผ่าน
+    </button>
+    <button type="button" class="btn btn-danger btn-sm" (click)="closeChangePasswordModal()">
+      ปิดหน้าต่าง
+    </button>
+  </div>
+</clr-modal>
