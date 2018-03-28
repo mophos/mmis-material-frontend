@@ -11,7 +11,7 @@ export class GenericService {
   ) { }
 
   async getListByTypes(typeFilterId: any, limit: number, offset: number) {
-    let rs: any = await this.authHttp.post(`${this.url}/generics/list-type`, {
+    const rs: any = await this.authHttp.post(`${this.url}/generics/list-type`, {
       typeId: typeFilterId,
       limit: limit,
       offset: offset
@@ -20,7 +20,7 @@ export class GenericService {
   }
 
   async search(query: any, groupId: any, limit: number, offset: number) {
-    let rs: any = await this.authHttp.post(`${this.url}/generics/search`, {
+    const rs: any = await this.authHttp.post(`${this.url}/generics/search`, {
       query: query,
       groupId: groupId,
       limit: limit,

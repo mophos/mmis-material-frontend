@@ -289,6 +289,7 @@ export class ProductPageComponent implements OnInit {
         if (results.ok) {
           this.products = results.rows;
           this.total = +results.total;
+          this.currentPage = 1;
         } else {
           this.alertService.error(JSON.stringify(results.error));
         }
