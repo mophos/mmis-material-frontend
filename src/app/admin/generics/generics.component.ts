@@ -83,7 +83,7 @@ export class GenericsComponent implements OnInit {
   async searchGeneric() {
     this.loadingModal.show();
     try {
-      const type = this.typeFilterId ? this.typeFilterId : 'all';
+      const type = this.typeFilterId ? this.typeFilterId : this.genericTypeIds;
       const rs: any = await this.genericService.search(this.query, type, this.perPage, 0);
       this.loadingModal.hide();
       if (rs.ok) {
@@ -128,8 +128,12 @@ export class GenericsComponent implements OnInit {
             });
           });
 
-          this.typeFilterId = sessionStorage.getItem('genericGroupId') ? sessionStorage.getItem('genericGroupId') : 'all';
-          sessionStorage.setItem('genericGroupId', this.typeFilterId);
+          // this.typeFilterId = sessionStorage.getItem('genericGroupId') ? sessionStorage.getItem('genericGroupId') : this.genericTypeIds;
+          if (this.typeFilterId === 'all') {
+            sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
+          } else {
+            sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
+          }
         }
       } else {
         this.alertService.error(rs.error);
@@ -204,22 +208,34 @@ export class GenericsComponent implements OnInit {
   }
 
   async getListByTypes() {
-    // this.isSearch = false;
-    // this.loadingModal.show();
-    // try {
-    //   const rs: any = await this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0);
-    //   sessionStorage.setItem('genericGroupId', this.typeFilterId);
-
-    //   this.loadingModal.hide();
-    //   this.generics = rs.rows;
-    //   this.total = rs.total;
-    //   // this.loading = false;
-    // } catch (error) {
-    //   this.loadingModal.hide();
-    //   this.alertService.error(error.message);
-    // }
-    this.searchGeneric();
-    sessionStorage.setItem('genericGroupId', this.typeFilterId);
+    try {
+      if (this.query) {
+        this.searchGeneric();
+      } else {
+        this.loadingModal.show();
+        let results: any;
+        if (this.typeFilterId === 'all') {
+          results = await  this.genericService.getListByTypes(this.genericTypeIds, this.perPage, 0);
+          sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
+        } else {
+          results = await  this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0);
+          sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
+        }
+        console.log( JSON.parse(sessionStorage.getItem('genericGroupId')));
+        
+        this.loadingModal.hide();
+        if (results.ok) {
+          this.generics = results.rows;
+          this.total = +results.total;
+          this.currentPage = 1;
+        } else {
+          this.alertService.error(JSON.stringify(results.error));
+        }
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
   }
 
   async save() {
@@ -303,8 +319,9 @@ export class GenericsComponent implements OnInit {
 
     sessionStorage.setItem('genericCurrentPage', this.pagination.currentPage);
 
-    let _groupId = sessionStorage.getItem('genericGroupId') ? sessionStorage.getItem('genericGroupId') : this.genericTypeIds[0];
-    // this.loading = true;
+    const _groupId = sessionStorage.getItem('genericGroupId') ? JSON.parse(sessionStorage.getItem('genericGroupId')) : this.genericTypeIds;
+    console.log(_groupId);
+    
     this.loadingModal.show();
     if (this.isSearch) {
       const results: any = await this.genericService.search(this.query, _groupId, limit, offset);

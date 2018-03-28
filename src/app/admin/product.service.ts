@@ -27,7 +27,7 @@ export class ProductService {
 
   fastSave(products: any) {
     return new Promise((resolve, reject) => {
-      this.authHttp.post(`${this.url}/products/fast-save`,products)
+      this.authHttp.post(`${this.url}/products/fast-save`, products)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -38,7 +38,7 @@ export class ProductService {
   }
 
   async generateWorkingCode(productId: any, typeId: any) {
-    let rs: any = await this.authHttp.post(`${this.url}/products/generate-workingcode`, {
+    const rs: any = await this.authHttp.post(`${this.url}/products/generate-workingcode`, {
       productId: productId,
       typeId: typeId
     }).toPromise();
@@ -50,8 +50,8 @@ export class ProductService {
     return new Promise((resolve, reject) => {
       this.authHttp.put(`${this.url}/products/${productId}`, data)
         .map(res => res.json())
-        .subscribe(data => {
-          resolve(data);
+        .subscribe(d => {
+          resolve(d);
         }, error => {
           reject(error);
         });
@@ -59,12 +59,24 @@ export class ProductService {
   }
 
   async all(limit: number = 15, offset: number = 0, groupId: any) {
-    let rs = await this.authHttp.get(`${this.url}/products?limit=${limit}&offset=${offset}&groupId=${groupId}`).toPromise();
+    const rs = await this.authHttp.post(`${this.url}/products`,
+      {
+        groupId: groupId,
+        limit: limit,
+        offset: offset
+      }
+    ).toPromise();
     return rs.json();
   }
 
   async search(query: any, limit: number, offset: number, groupId: any) {
-    let rs = await this.authHttp.get(`${this.url}/products/search?query=${query}&limit=${limit}&offset=${offset}&groupId=${groupId}`).toPromise();
+    const rs = await this.authHttp.post(`${this.url}/products/search`,
+    {
+      query: query,
+      groupId: groupId,
+      limit: limit,
+      offset: offset
+    }).toPromise();
     return rs.json();
   }
 
@@ -105,12 +117,12 @@ export class ProductService {
   }
 
   async markDeleted(productId: any) {
-    let rs = await this.authHttp.delete(`${this.url}/products/mark-deleted/${productId}`, {}).toPromise();
+    const rs = await this.authHttp.delete(`${this.url}/products/mark-deleted/${productId}`, {}).toPromise();
     return rs.json();
   }
 
   async getConversions(productId: any) {
-    let rs = await this.authHttp.get(`${this.url}/units/conversion/${productId}`).toPromise();
+    const rs = await this.authHttp.get(`${this.url}/units/conversion/${productId}`).toPromise();
     return rs.json();
   }
 
