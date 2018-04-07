@@ -83,7 +83,7 @@ export class GenericsComponent implements OnInit {
   async searchGeneric() {
     this.loadingModal.show();
     try {
-      const type = this.typeFilterId ? this.typeFilterId : this.genericTypeIds;
+      const type = this.typeFilterId && this.typeFilterId !== 'all' ? this.typeFilterId : this.genericTypeIds;
       const rs: any = await this.genericService.search(this.query, type, this.perPage, 0);
       this.loadingModal.hide();
       if (rs.ok) {
@@ -215,14 +215,14 @@ export class GenericsComponent implements OnInit {
         this.loadingModal.show();
         let results: any;
         if (this.typeFilterId === 'all') {
-          results = await  this.genericService.getListByTypes(this.genericTypeIds, this.perPage, 0);
+          results = await this.genericService.getListByTypes(this.genericTypeIds, this.perPage, 0);
           sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
         } else {
-          results = await  this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0);
+          results = await this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0);
           sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
         }
-        console.log( JSON.parse(sessionStorage.getItem('genericGroupId')));
-        
+        console.log(JSON.parse(sessionStorage.getItem('genericGroupId')));
+
         this.loadingModal.hide();
         if (results.ok) {
           this.generics = results.rows;
@@ -321,7 +321,7 @@ export class GenericsComponent implements OnInit {
 
     const _groupId = sessionStorage.getItem('genericGroupId') ? JSON.parse(sessionStorage.getItem('genericGroupId')) : this.genericTypeIds;
     console.log(_groupId);
-    
+
     this.loadingModal.show();
     if (this.isSearch) {
       const results: any = await this.genericService.search(this.query, _groupId, limit, offset);
