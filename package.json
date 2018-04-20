@@ -8,7 +8,7 @@
     "start": "ng serve",
     "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --target production --environment prod --build-optimizer  --base-href=./",
     "start:server": "node server.js",
-    "pack:dist": "npx cpx 'dist/**/*' ../mmis-frontend-dist/material-web"
+    "pack:dist": "npx cpx 'dist/**/*' ../mmis-frontend-dist/material"
   },
   "private": true,
   "dependencies": {
