@@ -7,7 +7,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "node --max_old_space_size=8192 ./node_modules/@angular/cli/bin/ng build --target production --environment prod --build-optimizer  --base-href=./",
-    "start:server": "node server.js"
+    "start:server": "node server.js",
+    "pack:dist": "npx cpx 'dist/**/*' ../dist/material-web"
   },
   "private": true,
   "dependencies": {
@@ -49,6 +50,7 @@
     "@types/node": "9.4.0",
     "@types/numeral": "0.0.20",
     "codelyzer": "4.1.0",
+    "cpx": "^1.5.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.1",
     "jasmine-core": "~2.7.0",
