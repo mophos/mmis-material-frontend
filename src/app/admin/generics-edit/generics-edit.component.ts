@@ -149,7 +149,7 @@ export class GenericsEditComponent implements OnInit {
         this.typeId = rs.detail.generic_type_id;
         this.typeOldId = rs.detail.generic_type_id;
         this.dosageId = rs.detail.dosage_id;
-        this.pTypeId = rs.detail.product_type_id;
+        this.pTypeId = rs.detail.generic_hosp_id;
         this.groupId = rs.detail.group_id;
         this.description = rs.detail.description;
         this.standardCost = +rs.detail.standard_cost;
@@ -161,8 +161,9 @@ export class GenericsEditComponent implements OnInit {
         this.eoqQty = +rs.detail.eoq_qty;
         this.carryingCost = +rs.detail.carrying_cost;
         this.orderingCost = +rs.detail.ordering_cost;
-        this.bidTypeId ? this.bidTypes[0].bid_id : rs.detail.purchasing_method;
+        this.bidTypeId = this.bidTypeId ? this.bidTypes[0].bid_id : rs.detail.purchasing_method;
         this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
+        this.keyword = rs.detail.keywords;
         // console.log(this.genericId);
       }
     } catch (error) {
@@ -267,7 +268,7 @@ export class GenericsEditComponent implements OnInit {
         dosageId: this.dosageId,
         pTypeId: this.pTypeId,
         description: this.description,
-        keyword: this.keyword,
+        keywords: this.keyword,
         drugAccountId: this.drugAccountId,
         primaryUnitId: this.primaryUnitId,
         planningMethod: this.planningMethod,
