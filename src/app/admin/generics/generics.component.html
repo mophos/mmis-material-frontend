@@ -8,7 +8,7 @@
     <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการใหม่</button>
   </div>
   <div class="col-md-7">
-    <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา...." style="width: 250px;" (keyup)="enterSearch($event)">
+    <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา Generic Code, Generic Name" style="width: 250px;" (keyup)="enterSearch($event)">
     <button class="btn btn-primary btn-sm" [disabled]="!query" (click)="searchGeneric()">ค้นหา</button>
     <!-- <button class="btn btn-success btn-sm" (click)="getAll()">ทั้งหมด</button>     -->
   </div>
@@ -24,7 +24,7 @@
 
 <clr-datagrid (clrDgRefresh)="refresh($event)">
   <clr-dg-column>Generic Code</clr-dg-column>
-  <clr-dg-column>ชื่อ Generic</clr-dg-column>
+  <clr-dg-column>Generic Name</clr-dg-column>
   <clr-dg-column>ประเภท</clr-dg-column>
   <clr-dg-column>Base Unit</clr-dg-column>
   <clr-dg-column>ชนิด</clr-dg-column>
