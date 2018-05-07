@@ -239,7 +239,6 @@ export class GenericsComponent implements OnInit {
   }
 
   async save() {
-
     if (!this.genericCodeAuto && this.workingCode.length !== 7) {
       this.alertService.error('กรุณาระบุ Generic Code 7หลัก');
       return;
@@ -256,10 +255,8 @@ export class GenericsComponent implements OnInit {
         drugAccountId: this.drugAccountId,
         workingCode: this.workingCode
       };
-
       try {
         const rs: any = await this.genericService.saveGeneric(drugs)
-        // const rs2: any = await this.genericService.saveExpiredAlert(this.expired)
         this.loadingModal.hide();
         if (rs.ok) {
           this.router.navigate(['/admin/generics/edit', rs.generic_id]);

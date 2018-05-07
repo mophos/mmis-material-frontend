@@ -158,12 +158,12 @@
     </form>
   </div>
   <div class="modal-footer">
-    <span class="spinner spinner-inline" *ngIf="isSaving">
+    <!-- <span class="spinner spinner-inline" *ngIf="isSaving">
       &nbsp;กำลังบันทึก...
     </span>
     <span *ngIf="isSaving">
       &nbsp;กำลังบันทึก...
-    </span>
+    </span> -->
     <button type="button" class="btn btn-primary" (click)="save()" [disabled]="isSaving || !genericName || !typeId || (!genericCodeAuto && !workingCode)">
       บันทึก
     </button>
