@@ -23,10 +23,11 @@ export class GenericDrugGroupsService {
     });
   }
 
-  save(groupName: string) {
+  save(groupName: string, groupCode: string) {
     return new Promise((resolve, reject) => {
       this.authHttp.post(`${this.url}/drug-groups`, {
-        groupName: groupName
+        groupName: groupName,
+        groupCode: groupCode
       })
         .map(res => res.json())
         .subscribe(data => {
@@ -37,10 +38,11 @@ export class GenericDrugGroupsService {
     });
   }
 
-  update(groupId: string, groupName: string) {
+  update(groupId: string, groupName: string, groupCode: string) {
     return new Promise((resolve, reject) => {
       this.authHttp.put(`${this.url}/drug-groups/${groupId}`, {
-        groupName: groupName
+        groupName: groupName,
+        groupCode: groupCode
       })
         .map(res => res.json())
         .subscribe(data => {

@@ -125,7 +125,7 @@
                   <div class="select form-control">
                     <select name="slGroup" id="slGroup" [(ngModel)]="groupId" (change)="keytype()">
                       <!-- <option value="">ไม่ระบุ</option> -->
-                      <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_name }}</option>
+                      <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_code }} {{ t.group_name }}</option>
                     </select>
                   </div>
                 </div>
