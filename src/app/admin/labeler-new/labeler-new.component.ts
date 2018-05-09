@@ -83,6 +83,8 @@ export class LabelerNewComponent implements OnInit {
   bankType: any;
   bankBranch: any;
   bankId: any;
+  isManufacturer = false;
+  isVendor = false;
 
   @ViewChild('map') myMap;
   @ViewChild('search') private searchElementRef: ElementRef;
@@ -215,7 +217,9 @@ export class LabelerNewComponent implements OnInit {
       orgFADNumber: this.orgFADNumber,
       orgLatitude: this.orgLatitude,
       orgLongitude: this.orgLongitude,
-      orgCountry: this.orgCountry
+      orgCountry: this.orgCountry,
+      isVendor: this.isVendor ? 'Y' : 'N',
+      isManufacturer: this.isManufacturer ? 'Y' : 'N'
     };
 
     if (!this.labelerName) {
@@ -315,7 +319,8 @@ export class LabelerNewComponent implements OnInit {
 
         this.labelerTypeId = rs.labeler.labeler_type.toString();
         this.labelerStatusId = rs.labeler.labeler_status.toString();
-
+        this.isVendor = rs.labeler.is_vendor === 'Y' ? true : false;
+        this.isManufacturer = rs.labeler.is_manufacturer === 'Y' ? true : false;
         const rsAmp: any = await this.stdService.getAmpur(this.labelerProvince);
         if (rsAmp.ok) {
           this.ampurs = rsAmp.rows;
