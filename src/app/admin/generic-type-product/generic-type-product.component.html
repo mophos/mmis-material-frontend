@@ -10,9 +10,9 @@
   <clr-dg-row *clrDgItems="let t of types" [clrDgItem]="t">
     <clr-dg-action-overflow>
       <button class="action-item" (click)="edit(t)">
-          <clr-icon shape="note" class="is-error"></clr-icon>แก้ไขข้อมูล</button>
+        <clr-icon shape="note" class="is-error"></clr-icon>แก้ไขข้อมูล</button>
       <button class="action-item" (click)="remove(t)">
-          <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
+        <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
     </clr-dg-action-overflow>
     <clr-dg-cell>{{t.generic_type_name}}</clr-dg-cell>
   </clr-dg-row>
@@ -45,10 +45,10 @@
   <div class="modal-footer">
 
     <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!typeName">
-            บันทึก
-        </button>
+      บันทึก
+    </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
-            ปิด
-        </button>
+      ปิด
+    </button>
   </div>
 </clr-modal>
