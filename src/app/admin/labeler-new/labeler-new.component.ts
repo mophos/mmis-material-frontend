@@ -604,12 +604,18 @@ export class LabelerNewComponent implements OnInit {
         bank_branch: this.bankBranch,
         labeler_id: this.labelerId
       }
+      let rs: any;
       if (!this.isUpdateBank) {
-        await this.labelerService.saveBank(data);
+        rs = await this.labelerService.saveBank(data);
       } else {
-        await this.labelerService.updateBank(this.bankId, data);
+        rs = await this.labelerService.updateBank(this.bankId, data);
       }
-      this.getBank();
+      if (!rs.ok) {
+        this.alertService.error('ข้อมูลซ้ำ');
+      } else {
+        this.alertService.success();
+        this.getBank();
+      }
       this.loadingModal.hide();
 
     } catch (error) {
@@ -631,10 +637,15 @@ export class LabelerNewComponent implements OnInit {
 
   async removeBank(bank) {
     try {
-      this.loadingModal.show();
-      await this.labelerService.removeBank(bank.bank_id);
-      this.getBank();
-      this.loadingModal.hide();
+      this.alertService.confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')
+        .then(async (result) => {
+          this.loadingModal.show();
+          await this.labelerService.removeBank(bank.bank_id);
+          this.getBank();
+          this.loadingModal.hide();
+        }).catch((err) => {
+
+        });
     } catch (error) {
       this.loadingModal.hide();
       this.alertService.error(JSON.stringify(error));
