@@ -5,10 +5,11 @@
 
 <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="83">
-  <clr-dg-column [clrDgField]="'dosage_name'" [style.width.%]="90">รูปแบบรายการสินค้า (Dosage Form)</clr-dg-column>
+  <clr-dg-column [clrDgField]="'dosage_name'" [style.width.%]="80">รูปแบบรายการสินค้า (Dosage Form)</clr-dg-column>
+  <clr-dg-column>ใช้งาน</clr-dg-column>
   <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
-  <clr-dg-row *clrDgItems="let t of dosages" [clrDgItem]="t">
+  <clr-dg-row *clrDgItems="let t of dosages;let idx = index;" [clrDgItem]="t">
     <!-- <clr-dg-action-overflow>
       <button class="action-item" (click)="edit(t)">
         <clr-icon shape="note"></clr-icon>แก้ไขข้อมูล</button>
@@ -16,6 +17,12 @@
         <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
     </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.dosage_name}}</clr-dg-cell>
+    <clr-dg-cell>
+      <div class="toggle-switch">
+        <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_active==='Y'" (change)="setisActive($event, t.dosage_id)">
+        <label for="chk-{{idx}}"></label>
+      </div>
+    </clr-dg-cell>
     <clr-dg-cell>
       <div class="btn-group btn-primary">
         <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
@@ -63,3 +70,5 @@
     </button>
   </div>
 </clr-modal>
+
+<wm-loading #loadingModal></wm-loading>

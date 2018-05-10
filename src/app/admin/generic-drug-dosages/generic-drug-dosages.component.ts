@@ -1,14 +1,16 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { GenericDrugDosagesService } from '../generic-drug-dosages.service';
 import { AlertService } from '../alert.service';
 
+import { LoadingComponent } from 'app/loading/loading.component';
 @Component({
   selector: 'app-generic-drug-dosages',
   templateUrl: './generic-drug-dosages.component.html',
   styleUrls: ['./generic-drug-dosages.component.css']
 })
 export class GenericDrugDosagesComponent implements OnInit {
-
+  
+  @ViewChild('loadingModal') loadingModal: LoadingComponent;
   dosages: any = [];
   dosageId: string;
   dosageName: string;
@@ -47,6 +49,24 @@ export class GenericDrugDosagesComponent implements OnInit {
         }
       })
       .catch(() => {
+        this.alertService.serverError();
+      });
+  }
+
+  setisActive(active: any, dosage_id: any) {
+    const status = active.target.checked ? 'Y' : 'N';
+    this.loadingModal.show();
+    this.drugDosageService.isActive(dosage_id, status)
+      .then((result: any) => {
+        if (result.ok) {
+          this.alertService.success();
+        } else {
+          this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
+        }
+        this.loadingModal.hide();
+      })
+      .catch(() => {
+        this.loadingModal.hide();
         this.alertService.serverError();
       });
   }
