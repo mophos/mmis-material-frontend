@@ -4,18 +4,22 @@
 </nav>
 
 <div class="row">
-    <div class="col-md-12">
-        <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา" style="width: 250px;" (keyup)="enterSearch($event)">
-        <button class="btn btn-primary btn-sm" [disabled]="!query" (click)="search()">ค้นหา</button>
-      </div>
+  <div class="col-md-2">
+    <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+  </div>
+  <div class="col-md-10">
+    <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา" style="width: 250px;" (keyup)="enterSearch($event)">
+    <button class="btn btn-primary btn-sm" [disabled]="!query" (click)="search()">ค้นหา</button>
+  </div>
 </div>
+
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="88">
-  <clr-dg-column >รหัส</clr-dg-column>
+  <clr-dg-column>รหัส</clr-dg-column>
   <clr-dg-column>หน่วยสินค้า</clr-dg-column>
   <clr-dg-column [style.width.px]="50">Base Unit</clr-dg-column>
   <clr-dg-column [style.width.px]="50">Active</clr-dg-column>
   <clr-dg-column>#</clr-dg-column>
-  <clr-dg-row class="newLine">
+  <!-- <clr-dg-row class="newLine">
     <clr-dg-cell>
       <input #inputUnitCode type="text" [(ngModel)]="unitCode" placeholder="..." style="text-align: left; width: 100%;">
     </clr-dg-cell>
@@ -45,33 +49,31 @@
         </div>
       </div>
     </clr-dg-cell>
-  </clr-dg-row>
+  </clr-dg-row> -->
   <clr-dg-row *ngFor="let unit of units; let idx = index" [clrDgItem]="unit" [class.editLine]="unit.is_edit === 'Y'">
     <clr-dg-cell style="text-align: center;">{{unit.unit_code}}</clr-dg-cell>
     <clr-dg-cell>{{unit.unit_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="tooltip tooltip-sm tooltip-left center">
         <clr-icon *ngIf="unit.is_primary === 'Y'" shape="check" class="is-success"></clr-icon>
-        <span class="tooltip-content center" >Base Unit</span>
+        <span class="tooltip-content center">Base Unit</span>
       </div>
       <div class="tooltip tooltip-sm tooltip-right center">
         <clr-icon *ngIf="unit.is_primary === 'N' || !unit.is_primary" shape="close" class="is-danger"></clr-icon>
-        <span class="tooltip-content center" >ไม่ใช่ Base Unit</span>
+        <span class="tooltip-content center">ไม่ใช่ Base Unit</span>
       </div>
     </clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <!-- <clr-icon *ngIf="unit.is_active === 'Y'" shape="check" class="is-success"></clr-icon>
       <clr-icon *ngIf="unit.is_active === 'N' || !unit.is_active" shape="close" class="is-danger"></clr-icon> -->
-    
       <div class="tooltip tooltip-sm tooltip-left center">
-          <clr-icon *ngIf="unit.is_active === 'Y'" shape="check" class="is-success"></clr-icon>
-          <span class="tooltip-content center" >ใช้งาน</span>
-        </div>
-        <div class="tooltip tooltip-sm tooltip-right center">
-          <clr-icon *ngIf="unit.is_active === 'N' || !unit.is_active" shape="close" class="is-danger"></clr-icon>
-          <span class="tooltip-content center" >ไม่ใช้งาน</span>
-        </div>
-    
+        <clr-icon *ngIf="unit.is_active === 'Y'" shape="check" class="is-success"></clr-icon>
+        <span class="tooltip-content center">ใช้งาน</span>
+      </div>
+      <div class="tooltip tooltip-sm tooltip-right center">
+        <clr-icon *ngIf="unit.is_active === 'N' || !unit.is_active" shape="close" class="is-danger"></clr-icon>
+        <span class="tooltip-content center">ไม่ใช้งาน</span>
+      </div>
     </clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
@@ -91,15 +93,14 @@
     </clr-dg-cell>
   </clr-dg-row>
   <!-- <clr-dg-footer> -->
-<!-- <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
+  <!-- <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
 {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems | number}} รายการ
   </clr-dg-footer> -->
 </clr-datagrid>
-<!-- 
+
 <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
   <h3 class="modal-title">เพิ่ม/แก้ไข Unit</h3>
   <div class="modal-body">
-
     <form>
       <section class="form-block">
         <div class="form-group row">
@@ -141,18 +142,15 @@
             </clr-checkbox>
           </div>
         </div>
-
       </section>
     </form>
-
   </div>
   <div class="modal-footer">
-
     <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!unitName || !unitCode">
-            บันทึก
-        </button>
+      บันทึก
+    </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
-            ปิด
-        </button>
+      ปิด
+    </button>
   </div>
-</clr-modal> -->
+</clr-modal>

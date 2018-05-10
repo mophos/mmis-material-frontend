@@ -38,6 +38,10 @@ export class UnitsMainComponent implements OnInit {
     this.getList();
   }
 
+  async addNew() {
+    this.opened = true;
+  }
+
   async getList() {
     try {
       this.loading = true;
@@ -63,6 +67,7 @@ export class UnitsMainComponent implements OnInit {
     this.unitCode = null;
     this.unitName = null;
     this.isUpdate = false;
+    this.opened = false;
   }
 
   async save() {
