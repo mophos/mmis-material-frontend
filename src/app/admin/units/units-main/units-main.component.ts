@@ -22,6 +22,7 @@ export class UnitsMainComponent implements OnInit {
 
   unitCode: string;
   unitName: string;
+  unitEng: string;
   unitId: any;
   isActive = false;
   isPrimary = false;
