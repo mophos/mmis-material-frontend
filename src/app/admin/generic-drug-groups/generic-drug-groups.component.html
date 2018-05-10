@@ -5,18 +5,29 @@
 
 <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-  <clr-dg-column [clrDgField]="'group_code'">รหัสกลุ่มเวชภัณฑ์</clr-dg-column>
-  <clr-dg-column [clrDgField]="'group_name'">กลุ่มเวชภัณฑ์</clr-dg-column>
+  <clr-dg-column [clrDgField]="'group_code'" [style.width.%]="15">รหัสกลุ่มเวชภัณฑ์</clr-dg-column>
+  <clr-dg-column [clrDgField]="'group_name'" [style.width.%]="75">กลุ่มเวชภัณฑ์</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of groups" [clrDgItem]="t">
-    <clr-dg-action-overflow>
+    <!-- <clr-dg-action-overflow>
       <button class="action-item" (click)="edit(t)">
           <clr-icon shape="note" ></clr-icon>แก้ไขข้อมูล</button>
       <button class="action-item" (click)="remove(t)">
           <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
-    </clr-dg-action-overflow>
+    </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.group_code}}</clr-dg-cell>
     <clr-dg-cell>{{t.group_name}}</clr-dg-cell>
+    <clr-dg-cell>
+        <div class="btn-group btn-primary">
+          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+            <clr-icon shape="note"></clr-icon>
+          </button>
+          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+            <clr-icon shape="trash"></clr-icon>
+          </button>
+        </div>
+      </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
