@@ -118,21 +118,27 @@ export class UnitsMainComponent implements OnInit {
       });
   }
 
-  setEditable(unitId: any) {
+  setEditable(unit: any) {
     // this.inputUnitCode.nativeElement.focus();
-    this.units.forEach(v => {
-      if (v.unit_id === unitId) {
-        v.is_edit = 'Y';
-        this.unitName = v.unit_name;
-        this.unitId = v.unit_id;
-        this.unitCode = v.unit_code;
-        this.isActive = v.is_active === 'Y' ? true : false;
-        this.isPrimary = v.is_primary === 'Y' ? true : false;
-        this.isUpdate = true;
-      } else {
-        v.is_edit = 'N';
-      }
-    });
+    // this.units.forEach(v => {
+    //   if (v.unit_id === unitId) {
+    //     v.is_edit = 'Y';
+    //     this.unitName = v.unit_name;
+    //     this.unitId = v.unit_id;
+    //     this.unitCode = v.unit_code;
+    //     this.isActive = v.is_active === 'Y' ? true : false;
+    //     this.isPrimary = v.is_primary === 'Y' ? true : false;
+    //     this.isUpdate = true;
+    //   } else {
+    //     v.is_edit = 'N';
+    //   }
+    // });
+    this.opened = true;
+    this.unitName = unit.unit_name;
+    this.unitCode = unit.unit_code;
+    this.unitId = unit.unit_id;
+
+    this.isUpdate = true;
   }
 
   cancelEdit() {

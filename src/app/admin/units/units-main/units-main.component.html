@@ -66,7 +66,7 @@
     </clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
-        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="unit.is_primary === 'Y'" (click)="setEditable(unit.unit_id)">
+        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="unit.is_primary === 'Y'" (click)="setEditable(unit)">
           <clr-icon shape="note"></clr-icon>
         </button>
         <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(unit)">
