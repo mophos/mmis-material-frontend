@@ -2,7 +2,6 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">ข้อมูล Units</span>
 </nav>
-
 <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="88">
   <clr-dg-column>รหัส</clr-dg-column>
@@ -57,7 +56,6 @@
     <clr-dg-cell style="text-align: center;">
       <!-- <clr-icon *ngIf="unit.is_active === 'Y'" shape="check" class="is-success"></clr-icon>
       <clr-icon *ngIf="unit.is_active === 'N' || !unit.is_active" shape="close" class="is-danger"></clr-icon> -->
-
       <div class="tooltip tooltip-sm tooltip-left center">
         <clr-icon *ngIf="unit.is_active === 'Y'" shape="check" class="is-success"></clr-icon>
         <span class="tooltip-content center">ใช้งาน</span>
@@ -66,7 +64,6 @@
         <clr-icon *ngIf="unit.is_active === 'N' || !unit.is_active" shape="close" class="is-danger"></clr-icon>
         <span class="tooltip-content center">ไม่ใช้งาน</span>
       </div>
-
     </clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
