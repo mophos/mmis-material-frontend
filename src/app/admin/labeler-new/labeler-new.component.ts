@@ -613,6 +613,7 @@ export class LabelerNewComponent implements OnInit {
       if (!rs.ok) {
         this.alertService.error('ข้อมูลซ้ำ');
       } else {
+        this.alertService.success();
         this.getBank();
       }
       this.loadingModal.hide();
