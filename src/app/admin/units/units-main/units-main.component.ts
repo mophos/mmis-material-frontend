@@ -27,7 +27,7 @@ export class UnitsMainComponent implements OnInit {
   isPrimary = false;
 
   isUpdate = false;
-
+  query: any;
   constructor(
     private unitService: UnitsService,
     private alertService: AlertService,
@@ -70,7 +70,7 @@ export class UnitsMainComponent implements OnInit {
       this.loading = true;
       const _isActive = this.isActive ? 'Y' : 'N';
       const _isPrimary = this.isPrimary ? 'Y' : 'N';
-      
+
       let resp;
       if (this.isUpdate) {
         resp = await this.unitService.update(this.unitId, this.unitCode, this.unitName, _isActive, _isPrimary);
@@ -197,6 +197,25 @@ export class UnitsMainComponent implements OnInit {
     } catch (error) {
       this.isSaving = false;
       this.alertService.error(error.message);
+    }
+  }
+  enterSearch(event) {
+    if (event.target.value === '') {
+      this.search();
+    }
+    if (event.keyCode === 13) {
+      this.search();
+    } else {
+      setTimeout(() => {
+        this.search();
+      }, 550);
+    }
+  }
+
+  async search() {
+    const rs: any = await this.unitService.search(this.query);
+    if (rs.ok) {
+      this.units = rs.rows;
     }
   }
 }

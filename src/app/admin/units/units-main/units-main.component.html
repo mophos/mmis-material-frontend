@@ -3,6 +3,12 @@
   <span class="breadcrumb-item active">ข้อมูล Units</span>
 </nav>
 
+<div class="row">
+    <div class="col-md-12">
+        <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา" style="width: 250px;" (keyup)="enterSearch($event)">
+        <button class="btn btn-primary btn-sm" [disabled]="!query" (click)="search()">ค้นหา</button>
+      </div>
+</div>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="88">
   <clr-dg-column >รหัส</clr-dg-column>
   <clr-dg-column>หน่วยสินค้า</clr-dg-column>

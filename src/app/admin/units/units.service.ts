@@ -15,6 +15,11 @@ export class UnitsService {
     return resp.json();
   }
 
+  async search(query) {
+    const resp = await this.authHttp.get(`${this.url}/units/search?query=${query}`).toPromise();
+    return resp.json();
+  }
+
   async save(unitCode: string, unitName: string, isActive: string, isPrimary: string) {
     const resp = await this.authHttp.post(`${this.url}/units`, {
       isActive: isActive,
