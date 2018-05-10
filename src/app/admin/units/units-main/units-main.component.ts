@@ -17,12 +17,12 @@ export class UnitsMainComponent implements OnInit {
   isFocus = false;
   isNew = false;
 
-  @ViewChild('inputUnitCode') private inputUnitCode: any;
+  // @ViewChild('inputUnitCode') private inputUnitCode: any;
   @ViewChild('myGridDetail') private myGridDetail: any;
 
   unitCode: string;
   unitName: string;
-  unitEng: string;
+  // unitEng: string;
   unitId: any;
   isActive = false;
   isPrimary = false;
@@ -89,7 +89,9 @@ export class UnitsMainComponent implements OnInit {
         this.getList();
         this._clearForm();
       } else {
-        this.alertService.error(resp.error);
+        // this.alertService.error(resp.error);
+        console.log(resp.error);
+        this.alertService.error('ข้อมูลซ้ำ');
       }
       this.loading = false;
     } catch (error) {
@@ -117,7 +119,7 @@ export class UnitsMainComponent implements OnInit {
   }
 
   setEditable(unitId: any) {
-    this.inputUnitCode.nativeElement.focus();
+    // this.inputUnitCode.nativeElement.focus();
     this.units.forEach(v => {
       if (v.unit_id === unitId) {
         v.is_edit = 'Y';
@@ -149,9 +151,9 @@ export class UnitsMainComponent implements OnInit {
     this.units[idx].unit_name = unitName;
   }
 
-  changeUnitEng(idx, unitEng) {
-    this.units[idx].unit_eng = unitEng;
-  }
+  // changeUnitEng(idx, unitEng) {
+  //   this.units[idx].unit_eng = unitEng;
+  // }
 
   changeIsPrimary(idx, isPrimary) {
     console.log(isPrimary);
@@ -183,7 +185,6 @@ export class UnitsMainComponent implements OnInit {
   }
 
   async doSaveNew(unit: any) {
-    console.log(unit);
     try {
       if (unit.unit_code && unit.unit_name) {
         this.isSaving = true;
@@ -193,7 +194,8 @@ export class UnitsMainComponent implements OnInit {
           this.alertService.success();
           this.cancelEdit();
         } else {
-          this.alertService.error(resp.error);
+          console.log(resp.error);
+          this.alertService.error('ข้อมูลซ้ำ');
         }
         this.isSaving = false;
       } else {
