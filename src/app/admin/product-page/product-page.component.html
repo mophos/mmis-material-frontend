@@ -52,18 +52,12 @@
     </clr-dg-cell>
     <clr-dg-cell>
       <div class="btn-group">
-        <div class="tooltip tooltip-xs tooltip-left">
-          <button class="btn btn-sm btn-success wm-small-btn" (click)="saveProduct()" [disabled]="!selectedGenericId || !selectedM || !selectedV || !newProductName || !primaryUnitId">
+          <button class="btn btn-sm btn-success wm-small-btn" title="บันทึก" (click)="saveProduct()" [disabled]="!selectedGenericId || !selectedM || !selectedV || !newProductName || !primaryUnitId">
             <clr-icon shape="floppy" size="16"></clr-icon>
           </button>
-          <span class="tooltip-content center">บันทึก</span>
-        </div>
-        <div class="tooltip tooltip-xs tooltip-right">
-          <button class="btn btn-sm btn-danger wm-small-btn" (click)="clearForm()">
+          <button class="btn btn-sm btn-danger wm-small-btn" title="ยกเลิก" (click)="clearForm()">
             <clr-icon shape="refresh" size="16"></clr-icon>
           </button>
-          <span class="tooltip-content center">ยกเลิก</span>
-        </div>
       </div>
     </clr-dg-cell>
   </clr-dg-row>
@@ -76,13 +70,11 @@
     <clr-dg-cell>{{ p.v_labeler }}</clr-dg-cell>
     <clr-dg-cell>
       <div class="btn-group btn-primary">
-        <button class="btn btn-success btn-sm wm-small-btn tooltip tooltip-xs tooltip-left" [routerLink]="['/admin/products', p.product_id]">
+        <button class="btn btn-success btn-sm wm-small-btn" title="แก้ไข" [routerLink]="['/admin/products', p.product_id]">
           <clr-icon shape="note"></clr-icon>
-          <span class="tooltip-content center">แก้ไข</span>
         </button>
-        <button class="btn btn-danger btn-sm wm-small-btn tooltip tooltip-xs tooltip-right" (click)="markDeleted(idx, p.product_id)">
+        <button class="btn btn-danger btn-sm wm-small-btn"  title="ลบ" (click)="markDeleted(idx, p.product_id)">
           <clr-icon shape="trash"></clr-icon>
-          <span class="tooltip-content center">ลบ</span>
         </button>
       </div>
     </clr-dg-cell>

@@ -5,16 +5,27 @@
 
 <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="83">
-  <clr-dg-column [clrDgField]="'dosage_name'">รูปแบบรายการสินค้า (Dosage Form)</clr-dg-column>
+  <clr-dg-column [clrDgField]="'dosage_name'" [style.width.%]="90">รูปแบบรายการสินค้า (Dosage Form)</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of dosages" [clrDgItem]="t">
-    <clr-dg-action-overflow>
+    <!-- <clr-dg-action-overflow>
       <button class="action-item" (click)="edit(t)">
-          <clr-icon shape="note" ></clr-icon>แก้ไขข้อมูล</button>
+        <clr-icon shape="note"></clr-icon>แก้ไขข้อมูล</button>
       <button class="action-item" (click)="remove(t)">
-          <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
-    </clr-dg-action-overflow>
+        <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
+    </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.dosage_name}}</clr-dg-cell>
+    <clr-dg-cell>
+      <div class="btn-group btn-primary">
+        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+          <clr-icon shape="note"></clr-icon>
+        </button>
+        <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
@@ -45,10 +56,10 @@
   <div class="modal-footer">
 
     <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!dosageName">
-            บันทึก
-        </button>
+      บันทึก
+    </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
-            ปิด
-        </button>
+      ปิด
+    </button>
   </div>
 </clr-modal>

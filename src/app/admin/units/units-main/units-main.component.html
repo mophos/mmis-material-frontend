@@ -18,7 +18,7 @@
   <clr-dg-column>หน่วยสินค้า</clr-dg-column>
   <clr-dg-column [style.width.px]="50">Base Unit</clr-dg-column>
   <clr-dg-column [style.width.px]="50">ใช้งาน</clr-dg-column>
-  <clr-dg-column>#</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
   <!-- <clr-dg-row class="newLine">
     <clr-dg-cell>
       <input #inputUnitCode type="text" [(ngModel)]="unitCode" placeholder="..." style="text-align: left; width: 100%;">
@@ -54,41 +54,24 @@
     <clr-dg-cell style="text-align: center;">{{unit.unit_code}}</clr-dg-cell>
     <clr-dg-cell>{{unit.unit_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
-      <div class="tooltip tooltip-sm tooltip-left center">
-        <clr-icon *ngIf="unit.is_primary === 'Y'" shape="check" class="is-success"></clr-icon>
-        <span class="tooltip-content center">Base Unit</span>
-      </div>
-      <div class="tooltip tooltip-sm tooltip-right center">
-        <clr-icon *ngIf="unit.is_primary === 'N' || !unit.is_primary" shape="close" class="is-danger"></clr-icon>
-        <span class="tooltip-content center">ไม่ใช่ Base Unit</span>
-      </div>
+
+      <clr-icon title="Base Unit" *ngIf="unit.is_primary === 'Y'" shape="check" class="is-success"></clr-icon>
+
+      <clr-icon title="ไม่ใช่ Base Unit" *ngIf="unit.is_primary === 'N' || !unit.is_primary" shape="close" class="is-danger"></clr-icon>
+
     </clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
-      <!-- <clr-icon *ngIf="unit.is_active === 'Y'" shape="check" class="is-success"></clr-icon>
-      <clr-icon *ngIf="unit.is_active === 'N' || !unit.is_active" shape="close" class="is-danger"></clr-icon> -->
-      <div class="tooltip tooltip-sm tooltip-left center">
-        <clr-icon *ngIf="unit.is_active === 'Y'" shape="check" class="is-success"></clr-icon>
-        <span class="tooltip-content center">ใช้งาน</span>
-      </div>
-      <div class="tooltip tooltip-sm tooltip-right center">
-        <clr-icon *ngIf="unit.is_active === 'N' || !unit.is_active" shape="close" class="is-danger"></clr-icon>
-        <span class="tooltip-content center">ไม่ใช้งาน</span>
-      </div>
+      <clr-icon title="ใช้งาน" *ngIf="unit.is_active === 'Y'" shape="check" class="is-success"></clr-icon>
+      <clr-icon title="ไม่ใช้งาน" *ngIf="unit.is_active === 'N' || !unit.is_active" shape="close" class="is-danger"></clr-icon>
     </clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
-        <div class="tooltip tooltip-xs tooltip-left">
-          <button class="btn btn-sm btn-success wm-small-btn" [disabled]="unit.is_primary === 'Y'" (click)="setEditable(unit.unit_id)">
-            <clr-icon shape="note"></clr-icon>
-          </button>
-          <span class="tooltip-content center">แก้ไข</span>
-        </div>
-        <div class="tooltip tooltip-xs tooltip-right">
-          <button class="btn btn-sm btn-danger wm-small-btn" (click)="remove(unit)">
-            <clr-icon shape="trash"></clr-icon>
-          </button>
-          <span class="tooltip-content center">ลบ</span>
-        </div>
+        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="unit.is_primary === 'Y'" (click)="setEditable(unit.unit_id)">
+          <clr-icon shape="note"></clr-icon>
+        </button>
+        <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(unit)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
       </div>
     </clr-dg-cell>
   </clr-dg-row>

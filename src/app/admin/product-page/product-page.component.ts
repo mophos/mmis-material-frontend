@@ -46,7 +46,7 @@ export class ProductPageComponent implements OnInit {
 
   isSearch = false;
   query: string = null;
-  perPage = 20;
+  perPage = 15;
   total = 0;
   currentPage = 1;
 
