@@ -24,12 +24,13 @@ export class LabelerNewComponent implements OnInit {
   isMapDraggable = true;
   searchControl: FormControl;
   labelers: any = [];
-  openNew: boolean = false;
-  isSaving: boolean = false;
-  loading: boolean = false;
-  loadingRegister: boolean = false;
-  isUpdate: boolean = false;
-  openRegister: boolean = false;
+  openModalBank = false;
+  openNew = false;
+  isSaving = false;
+  loading = false;
+  loadingRegister = false;
+  isUpdate = false;
+  openRegister = false;
 
   labelerId: string;
   labelerName: string;
@@ -74,6 +75,17 @@ export class LabelerNewComponent implements OnInit {
   mophLabelers: any = [];
   selectedLabelerRegister: any;
 
+  banks = [];
+  isUpdateBank = false;
+  accountNo: any;
+  accountName: any;
+  bankName: any;
+  bankType: any;
+  bankBranch: any;
+  bankId: any;
+  isManufacturer = false;
+  isVendor = false;
+
   @ViewChild('map') myMap;
   @ViewChild('search') private searchElementRef: ElementRef;
   @ViewChild('loadingModal') private loadingModal: LoadingComponent;
@@ -91,22 +103,31 @@ export class LabelerNewComponent implements OnInit {
     this.route.queryParams
       .subscribe(params => {
         this.labelerId = params.labelerId;
-        if (this.labelerId) this.isUpdate = true;
-        else this.isUpdate = false;
+        if (this.labelerId) {
+          this.isUpdate = true;
+        } else {
+          this.isUpdate = false;
+        }
       });
   }
 
   async ngOnInit() {
     this.searchControl = new FormControl();
 
-    let rsStatus: any = await this.stdService.getLabelerStatus();
-    if (rsStatus.ok) this.labelerStatus = rsStatus.rows;
+    const rsStatus: any = await this.stdService.getLabelerStatus();
+    if (rsStatus.ok) {
+      this.labelerStatus = rsStatus.rows;
+    }
 
-    let rsLabelerType: any = await this.stdService.getLabelerTypes();
-    if (rsLabelerType.ok) this.labelerTypes = rsLabelerType.rows;
+    const rsLabelerType: any = await this.stdService.getLabelerTypes();
+    if (rsLabelerType.ok) {
+      this.labelerTypes = rsLabelerType.rows;
+    }
 
-    let rsProvince: any = await this.stdService.getChangwat();
-    if (rsProvince.ok) this.provinces = rsProvince.rows;
+    const rsProvince: any = await this.stdService.getChangwat();
+    if (rsProvince.ok) {
+      this.provinces = rsProvince.rows;
+    }
 
     await this.getCountries();
 
@@ -124,15 +145,12 @@ export class LabelerNewComponent implements OnInit {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {});
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
-
+          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
-
           this.orgLatitude = place.geometry.location.lat();
           this.orgLongitude = place.geometry.location.lng();
-
           this.lat = place.geometry.location.lat();
           this.lng = place.geometry.location.lng();
           this.mapZoom = 15;
@@ -144,7 +162,7 @@ export class LabelerNewComponent implements OnInit {
   private _initialData() {
     this.isSaving = false;
 
-    // clear form data 
+    // clear form data
     this.labelerId = null;
     this.labelerName = null;
     this.labelerShortCode = null;
@@ -176,7 +194,7 @@ export class LabelerNewComponent implements OnInit {
 
   save() {
 
-    let labeler: any = {
+    const labeler: any = {
       labelerName: this.labelerName,
       labelerShortCode: this.labelerShortCode,
       labelerId: this.labelerId,
@@ -199,7 +217,9 @@ export class LabelerNewComponent implements OnInit {
       orgFADNumber: this.orgFADNumber,
       orgLatitude: this.orgLatitude,
       orgLongitude: this.orgLongitude,
-      orgCountry: this.orgCountry
+      orgCountry: this.orgCountry,
+      isVendor: this.isVendor ? 'Y' : 'N',
+      isManufacturer: this.isManufacturer ? 'Y' : 'N'
     };
 
     if (!this.labelerName) {
@@ -207,8 +227,6 @@ export class LabelerNewComponent implements OnInit {
     } else {
 
       this.loadingModal.show();
-      // check cid with mod11
-      // if (this.helperService.isMOD11(labeler.labelerNin) && labeler.labelerNin.length === 13) {
       let promise;
       if (this.isUpdate) {
         promise = this.labelerService.updateLabeler(labeler);
@@ -231,9 +249,6 @@ export class LabelerNewComponent implements OnInit {
           this.loadingModal.hide();
           this.alertService.serverError();
         });
-      // } else {
-      //   this.alertService.error('เลขบัตรประจำตัวผู้เสียภาษีไม่ถูกต้อง');
-      // }
     }
 
   }
@@ -248,25 +263,8 @@ export class LabelerNewComponent implements OnInit {
     this.orgYearRegister = null;
   }
 
-  onTabSelected(event) {
-    // if (event.id === 'step4') {
-    //   if (this.labelerTypeId === '0') {
-    //     this.alertService.info('ข้อมูลนี้ไม่จำเป็นต้องบันทึก');
-    //     this.clearOrganizationInfo();
-    //   }
-    //   this.myMap.triggerResize();
-    // }
-    // if (event.id === 'step3') {
-    //   if (this.labelerTypeId === '0') {
-    //     this.alertService.info('ข้อมูลนี้ไม่จำเป็นต้องบันทึก');
-    //     this.clearOrganizationInfo();
-    //   }
-    // }
-  }
-
   mapClick(event) {
-    console.log(event);
-    let coords: any = event.coords;
+    const coords: any = event.coords;
     this.orgLatitude = coords.lat;
     this.orgLongitude = coords.lng;
     this.lat = coords.lat;
@@ -306,9 +304,8 @@ export class LabelerNewComponent implements OnInit {
   async getInfo(labelerId: any) {
     try {
       this.loadingModal.show();
-      let rs: any = await this.labelerService.info(labelerId);
+      const rs: any = await this.labelerService.info(labelerId);
       if (rs.ok) {
-        console.log(rs);
         this.labelerId = rs.labeler.labeler_id;
         this.labelerName = rs.labeler.labeler_name;
         this.labelerShortCode = rs.labeler.short_code;
@@ -316,14 +313,15 @@ export class LabelerNewComponent implements OnInit {
         this.labelerNin = rs.labeler.nin;
         this.labelerDisableDate = rs.labeler.disable_date ? moment(rs.labeler.disable_date).format('YYYY-MM-DD') : null;
         this.labelerAddress = rs.labeler.address;
-        let _labelerTambon = rs.labeler.tambon_code;
-        let _labelerAmpur = rs.labeler.ampur_code;
+        const _labelerTambon = rs.labeler.tambon_code;
+        const _labelerAmpur = rs.labeler.ampur_code;
         this.labelerProvince = rs.labeler.province_code;
 
         this.labelerTypeId = rs.labeler.labeler_type.toString();
         this.labelerStatusId = rs.labeler.labeler_status.toString();
-
-        let rsAmp: any = await this.stdService.getAmpur(this.labelerProvince);
+        this.isVendor = rs.labeler.is_vendor === 'Y' ? true : false;
+        this.isManufacturer = rs.labeler.is_manufacturer === 'Y' ? true : false;
+        const rsAmp: any = await this.stdService.getAmpur(this.labelerProvince);
         if (rsAmp.ok) {
           this.ampurs = rsAmp.rows;
           this.labelerAmpur = _labelerAmpur;
@@ -332,7 +330,7 @@ export class LabelerNewComponent implements OnInit {
         }
 
         // get tambon
-        let rsTambon: any = await this.stdService.getTambon(this.labelerProvince, _labelerAmpur);
+        const rsTambon: any = await this.stdService.getTambon(this.labelerProvince, _labelerAmpur);
         if (rsTambon.ok) {
           this.tambons = rsTambon.rows;
           this.labelerTambon = _labelerTambon;
@@ -356,7 +354,7 @@ export class LabelerNewComponent implements OnInit {
         if (this.orgLatitude && this.orgLongitude) {
           this.mapZoom = 15;
         }
-
+        this.getBank();
       } else {
         this.alertService.error(JSON.stringify(rs.error));
       }
@@ -576,4 +574,81 @@ export class LabelerNewComponent implements OnInit {
     this.orgLongitude = e.coords.lng;
   }
 
+  async getBank() {
+    this.loadingModal.show();
+    const rsBank: any = await this.labelerService.getBank(this.labelerId);
+    if (rsBank.ok) {
+      this.banks = rsBank.rows;
+    }
+    this.loadingModal.hide();
+  }
+
+  addBank() {
+    this.accountNo = '';
+    this.accountName = '';
+    this.bankName = '';
+    this.bankType = '';
+    this.bankBranch = '';
+    this.openModalBank = true;
+  }
+
+  async saveBank() {
+    try {
+      this.openModalBank = false;
+      this.loadingModal.show();
+      const data = {
+        account_no: this.accountNo,
+        account_name: this.accountName,
+        bank_name: this.bankName,
+        bank_type: this.bankType,
+        bank_branch: this.bankBranch,
+        labeler_id: this.labelerId
+      }
+      let rs: any;
+      if (!this.isUpdateBank) {
+        rs = await this.labelerService.saveBank(data);
+      } else {
+        rs = await this.labelerService.updateBank(this.bankId, data);
+      }
+      if (!rs.ok) {
+        this.alertService.error('ข้อมูลซ้ำ');
+      } else {
+        this.alertService.success();
+        this.getBank();
+      }
+      this.loadingModal.hide();
+
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
+
+  editBank(bank) {
+    this.isUpdateBank = true;
+    this.accountNo = bank.account_no;
+    this.accountName = bank.account_name;
+    this.bankName = bank.bank_name;
+    this.bankType = bank.bank_type;
+    this.bankBranch = bank.bank_branch;
+    this.bankId = bank.bank_id;
+    this.openModalBank = true;
+  }
+
+  async removeBank(bank) {
+    try {
+      this.alertService.confirm('คุณต้องการลบรายการนี้ใช่หรือไม่?')
+        .then(async (result) => {
+          this.loadingModal.show();
+          await this.labelerService.removeBank(bank.bank_id);
+          this.getBank();
+          this.loadingModal.hide();
+        }).catch((err) => {
+
+        });
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
 }
