@@ -22,12 +22,13 @@ export class UnitsMainComponent implements OnInit {
 
   unitCode: string;
   unitName: string;
+  unitEng: string;
   unitId: any;
   isActive = false;
   isPrimary = false;
 
   isUpdate = false;
-
+  query: any;
   constructor(
     private unitService: UnitsService,
     private alertService: AlertService,
@@ -202,6 +203,25 @@ export class UnitsMainComponent implements OnInit {
     } catch (error) {
       this.isSaving = false;
       this.alertService.error(error.message);
+    }
+  }
+  enterSearch(event) {
+    if (event.target.value === '') {
+      this.search();
+    }
+    if (event.keyCode === 13) {
+      this.search();
+    } else {
+      setTimeout(() => {
+        this.search();
+      }, 550);
+    }
+  }
+
+  async search() {
+    const rs: any = await this.unitService.search(this.query);
+    if (rs.ok) {
+      this.units = rs.rows;
     }
   }
 }
