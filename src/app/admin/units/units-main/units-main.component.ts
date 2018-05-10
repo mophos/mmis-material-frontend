@@ -38,6 +38,10 @@ export class UnitsMainComponent implements OnInit {
     this.getList();
   }
 
+  async addNew() {
+    this.opened = true;
+  }
+
   async getList() {
     try {
       this.loading = true;
@@ -63,6 +67,7 @@ export class UnitsMainComponent implements OnInit {
     this.unitCode = null;
     this.unitName = null;
     this.isUpdate = false;
+    this.opened = false;
   }
 
   async save() {
@@ -70,7 +75,7 @@ export class UnitsMainComponent implements OnInit {
       this.loading = true;
       const _isActive = this.isActive ? 'Y' : 'N';
       const _isPrimary = this.isPrimary ? 'Y' : 'N';
-      
+
       let resp;
       if (this.isUpdate) {
         resp = await this.unitService.update(this.unitId, this.unitCode, this.unitName, _isActive, _isPrimary);
