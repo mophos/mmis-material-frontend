@@ -11,7 +11,7 @@
   <clr-dg-row *clrDgItems="let t of groups" [clrDgItem]="t">
     <clr-dg-action-overflow>
       <button class="action-item" (click)="edit(t)">
-          <clr-icon shape="note" class="is-error"></clr-icon>แก้ไขข้อมูล</button>
+          <clr-icon shape="note" ></clr-icon>แก้ไขข้อมูล</button>
       <button class="action-item" (click)="remove(t)">
           <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
     </clr-dg-action-overflow>
@@ -26,20 +26,20 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มเวชภัณฑ์</h3>
+  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มเวชภัณฑ์ยา</h3>
   <div class="modal-body">
 
     <form>
       <section class="form-block">
         <div class="form-group row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label for="groupCode">รหัสกลุ่มเวชภัณฑ์</label>
+            <label for="groupCode">รหัสกลุ่มเวชภัณฑ์ยา</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="groupCode" [(ngModel)]="groupCode" placeholder="เว้นว่างเพื่อสร้างรหัสอัตโนมัติ">
           </div>
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="groupName">ชื่อกลุ่มเวชภัณฑ์</label>
+            <label class="required" for="groupName">ชื่อกลุ่มเวชภัณฑ์ยา</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="groupName" [(ngModel)]="groupName" placeholder="">
