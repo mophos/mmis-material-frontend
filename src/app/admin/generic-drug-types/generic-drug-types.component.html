@@ -9,8 +9,10 @@
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of types" [clrDgItem]="t">
     <clr-dg-action-overflow>
-      <button class="action-item" (click)="edit(t)">แก้ไขข้อมูล</button>
-      <button class="action-item" (click)="remove(t)">ลบข้อมูล</button>
+      <button class="action-item" (click)="edit(t)">
+          <clr-icon shape="note" class="is-error"></clr-icon>แก้ไขข้อมูล</button>
+      <button class="action-item" (click)="remove(t)">
+          <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
     </clr-dg-action-overflow>
     <clr-dg-cell>{{t.account_name}}</clr-dg-cell>
   </clr-dg-row>
@@ -22,15 +24,15 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข ชนิดเวชภัณฑ์</h3>
+  <h3 class="modal-title">เพิ่ม/แก้ไข ชนิดยาในบัญชี/นอกบัญชี</h3>
   <div class="modal-body">
 
     <form>
       <section class="form-block">
-        <label>ข้อมูล ชนิดเวชภัณฑ์</label>
+        <label>ข้อมูล ชนิดยาในบัญชี/นอกบัญชี</label>
         <div class="form-group row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="typeName">ชนิดเวชภัณฑ์</label>
+            <label class="required" for="typeName">ชนิดยาในบัญชี/นอกบัญชี</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="typeName" [(ngModel)]="typeName" placeholder="">

@@ -1,6 +1,6 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <span class="breadcrumb-item active">กลุ่มของเวชภัณฑ์</span>
+  <span class="breadcrumb-item active">กลุ่มเวชภัณฑ์ยา</span>
 </nav>
 
 <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
@@ -10,8 +10,10 @@
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of groups" [clrDgItem]="t">
     <clr-dg-action-overflow>
-      <button class="action-item" (click)="edit(t)">แก้ไขข้อมูล</button>
-      <button class="action-item" (click)="remove(t)">ลบข้อมูล</button>
+      <button class="action-item" (click)="edit(t)">
+          <clr-icon shape="note" class="is-error"></clr-icon>แก้ไขข้อมูล</button>
+      <button class="action-item" (click)="remove(t)">
+          <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
     </clr-dg-action-overflow>
     <clr-dg-cell>{{t.group_code}}</clr-dg-cell>
     <clr-dg-cell>{{t.group_name}}</clr-dg-cell>
@@ -37,7 +39,7 @@
             <input class="form-control" type="text" name="groupCode" [(ngModel)]="groupCode" placeholder="เว้นว่างเพื่อสร้างรหัสอัตโนมัติ">
           </div>
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="groupName">กลุ่มเวชภัณฑ์</label>
+            <label class="required" for="groupName">ชื่อกลุ่มเวชภัณฑ์</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="groupName" [(ngModel)]="groupName" placeholder="">
