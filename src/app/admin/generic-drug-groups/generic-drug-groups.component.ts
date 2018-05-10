@@ -1,6 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { GenericDrugGroupsService } from '../generic-drug-groups.service';
 import { AlertService } from '../alert.service';
+
+import { LoadingComponent } from 'app/loading/loading.component';
 @Component({
   selector: 'app-generic-drug-groups',
   templateUrl: './generic-drug-groups.component.html',
@@ -8,6 +10,7 @@ import { AlertService } from '../alert.service';
 })
 export class GenericDrugGroupsComponent implements OnInit {
 
+  @ViewChild('loadingModal') loadingModal: LoadingComponent;
   groups: any = [];
   groupId: string;
   groupName: string;
@@ -37,7 +40,7 @@ export class GenericDrugGroupsComponent implements OnInit {
 
   getList() {
     this.loading = true;
-    this.drugGroupService.all()
+    this.drugGroupService.list()
       .then((results: any) => {
         if (results.ok) {
           this.groups = results.rows;
@@ -48,6 +51,26 @@ export class GenericDrugGroupsComponent implements OnInit {
         }
       })
       .catch(() => {
+        this.alertService.serverError();
+      });
+  }
+
+  setisActive(active: any, id: any) {
+    const status = active.target.checked ? 'Y' : 'N';
+    this.loadingModal.show();
+    console.log(id, status);
+    
+    this.drugGroupService.isActive(id, status)
+      .then((result: any) => {
+        if (result.ok) {
+          this.alertService.success();
+        } else {
+          this.alertService.error('เกิดข้อผิดพลาด : ' + JSON.stringify(result.error));
+        }
+        this.loadingModal.hide();
+      })
+      .catch(() => {
+        this.loadingModal.hide();
         this.alertService.serverError();
       });
   }

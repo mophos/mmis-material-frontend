@@ -11,6 +11,30 @@ export class GenericDrugGroupsService {
     private authHttp: AuthHttp
   ) { }
 
+  async isActive(id: string, isActive: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.put(`${this.url}/drug-groups/active/${id}`, {
+        status: isActive
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+  list() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/drug-groups/all`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
   all() {
     return new Promise((resolve, reject) => {
       this.authHttp.get(`${this.url}/drug-groups`)
