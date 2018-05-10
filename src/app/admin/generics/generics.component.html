@@ -58,7 +58,7 @@
 
 <!-- new modal -->
 <clr-modal [(clrModalOpen)]="openNew" [clrModalClosable]="false" [clrModalSize]="'xl'">
-  <h3 class="modal-title">เพิ่ม Generic</h3>
+  <h3 class="modal-title">เพิ่ม ชื่อสามัญ (Generic Name)</h3>
   <div class="modal-body">
     <form>
       <section class="form-block">
@@ -125,7 +125,7 @@
             <div class="select form-control">
               <select name="slGroup" id="slGroup" [(ngModel)]="groupId">
                 <option value=""></option>
-                <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_name }}</option>
+                <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_code }} {{ t.group_name }}</option>
               </select>
             </div>
           </div>
