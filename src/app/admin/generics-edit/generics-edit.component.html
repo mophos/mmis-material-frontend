@@ -1,7 +1,7 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/generics">ข้อมูล Generics</a>
-  <span class="breadcrumb-item active">แก้ไขข้อมูล Generics</span>
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/generics">ชื่อสามัญ (Generic Name</a>
+  <span class="breadcrumb-item active">แก้ไขข้อมูลชื่อสามัญ (Generic Name)</span>
 </nav>
 <div class="progress loop" *ngIf="loading">
   <progress></progress>
@@ -9,7 +9,7 @@
 
 <clr-tabs>
   <clr-tab>
-    <button clrTabLink id="link1">ข้อมูล Generic</button>
+    <button clrTabLink id="link1">ข้อมูลชื่อสามัญ (Generic Name</button>
     <clr-tab-content id="content1" *clrIfActive>
       <form style="padding: 15px;">
 
@@ -22,7 +22,7 @@
                     </div> -->
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <clr-checkbox id="isActive" class="checkbox-inline" name="isActive" [(ngModel)]="isActive" (change)="keytype()">
-                    เปิดใช้งาน
+                    ใช้งาน
                   </clr-checkbox>
                 </div>
                 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
@@ -39,7 +39,7 @@
                   <input class="form-control" type="text" disabled name="txtWorkingCode" [(ngModel)]="workingCode" placeholder="">
                 </div> -->
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <label class="required" for="txtGenericName">ชื่อ</label>
+                  <label class="required" for="txtGenericName">Generic Name</label>
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                   <input class="form-control" type="text" (keyup)="keytype()" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
