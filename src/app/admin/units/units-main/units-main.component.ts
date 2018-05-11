@@ -137,6 +137,7 @@ export class UnitsMainComponent implements OnInit {
     this.unitName = unit.unit_name;
     this.unitCode = unit.unit_code;
     this.unitId = unit.unit_id;
+    this.isActive = unit.is_active;
 
     this.isUpdate = true;
   }
