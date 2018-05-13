@@ -3,12 +3,12 @@
   <span class="breadcrumb-item active">ข้อมูลผู้ประกอบการ</span>
 </nav>
 
-<button type="button" class="btn btn-sm btn-success" routerLink='/admin/labeler/new'>+ เพิ่มรายการใหม่</button>
+<button type="button" class="btn btn-sm btn-success" routerLink='/admin/labeler/new'>+ เพิ่มรายการ</button>
 <clr-datagrid>
   <!-- <clr-dg-column [clrDgField]="'labeler_id'">รหัสผู้ประกอบการ</clr-dg-column> -->
   <clr-dg-column [clrDgField]="'labeler_name'">ชื่อผู้ประกอบการ</clr-dg-column>
   <clr-dg-column style="width: 150px;" [clrDgField]="'short_code'">keywords</clr-dg-column>
-  <clr-dg-column style="width: 250px;" [clrDgField]="'type_name'">ประเภท</clr-dg-column>
+  <clr-dg-column style="width: 250px;" [clrDgField]="'type_name'">ประเภทผู้ประกอบการ</clr-dg-column>
   <clr-dg-column style="width: 150px;" [clrDgField]="'status_name'">สถานะ</clr-dg-column>
   <clr-dg-column style="width: 150px;">#</clr-dg-column>
 
@@ -24,10 +24,10 @@
     <clr-dg-cell>{{labeler.status_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group">
-        <button class="btn btn-sm btn-icon btn-success" [routerLink]="['/admin/labeler/edit']" [queryParams]="{labelerId: labeler.labeler_id}">
+        <button class="btn btn-sm btn-icon btn-success" title="แก้ไข" [routerLink]="['/admin/labeler/edit']" [queryParams]="{labelerId: labeler.labeler_id}">
         <clr-icon shape="note"></clr-icon>
         </button>
-        <button class="btn btn-sm btn-icon btn-danger" (click)="removeLabeler(labeler)">
+        <button class="btn btn-sm btn-icon btn-danger" title="ลบ" (click)="removeLabeler(labeler)">
         <clr-icon shape="trash"></clr-icon>
         </button>
       </div>
@@ -40,7 +40,7 @@
 
   <clr-dg-footer>
     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
-    <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+    <clr-dg-pagination #pagination [clrDgPageSize]="15"></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
 

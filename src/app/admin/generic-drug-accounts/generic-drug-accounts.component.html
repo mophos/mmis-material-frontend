@@ -5,14 +5,27 @@
 
 <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-  <clr-dg-column [clrDgField]="'name'">ประเภทยา</clr-dg-column>
+  <clr-dg-column [style.width.%]="90" [clrDgField]="'name'">ประเภทยา</clr-dg-column>
+  <clr-dg-column ></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of accounts" [clrDgItem]="t">
-    <clr-dg-action-overflow>
-      <button class="action-item" (click)="edit(t)">แก้ไขข้อมูล</button>
-      <button class="action-item" (click)="remove(t)">ลบข้อมูล</button>
-    </clr-dg-action-overflow>
+    <!-- <clr-dg-action-overflow>
+      <button class="action-item" (click)="edit(t)">
+          <clr-icon shape="note"></clr-icon>แก้ไขข้อมูล</button>
+      <button class="action-item" (click)="remove(t)">
+          <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
+    </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.name}}</clr-dg-cell>
+    <clr-dg-cell>
+        <div class="btn-group btn-primary">
+          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+            <clr-icon shape="note"></clr-icon>
+          </button>
+          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+            <clr-icon shape="trash"></clr-icon>
+          </button>
+        </div>
+      </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
@@ -22,17 +35,17 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข ประเภทเวชภัณฑ์ยา</h3>
+  <h3 class="modal-title">เพิ่ม/แก้ไข ประเภทยา</h3>
   <div class="modal-body">
 
     <form>
       <section class="form-block">
-        <label>ข้อมูล ประเภทเวชภัณฑ์ยา</label>
+        <label>ข้อมูล ประเภทยา</label>
         <div class="form-group row">
-          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="drugAccountName">ประเภท</label>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="drugAccountName">ประเภทยา</label>
           </div>
-          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="drugAccountName" [(ngModel)]="drugAccountName" placeholder="">
           </div>
         </div>

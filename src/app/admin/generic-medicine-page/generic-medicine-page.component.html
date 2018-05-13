@@ -3,7 +3,7 @@
   <span class="breadcrumb-item active">ชื่อสามัญ (Generics)</span>
 </nav>
 
-<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการใหม่</button>
+<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
   <clr-dg-column [clrDgField]="'generic_id'">รหัสเวชภัณฑ์</clr-dg-column>
   <clr-dg-column [clrDgField]="'generic_name'">ชื่อสามัญ</clr-dg-column>
@@ -140,7 +140,7 @@
       บันทึก
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="openNew = false">
-      ปิดหน้าต่าง
+      ปิด
     </button>
   </div>
 </clr-modal>

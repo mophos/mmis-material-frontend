@@ -17,17 +17,18 @@ export class UnitsMainComponent implements OnInit {
   isFocus = false;
   isNew = false;
 
-  @ViewChild('inputUnitCode') private inputUnitCode: any;
+  // @ViewChild('inputUnitCode') private inputUnitCode: any;
   @ViewChild('myGridDetail') private myGridDetail: any;
 
   unitCode: string;
   unitName: string;
+  // unitEng: string;
   unitId: any;
   isActive = false;
   isPrimary = false;
 
   isUpdate = false;
-
+  query: any;
   constructor(
     private unitService: UnitsService,
     private alertService: AlertService,
@@ -36,6 +37,10 @@ export class UnitsMainComponent implements OnInit {
 
   ngOnInit() {
     this.getList();
+  }
+
+  async addNew() {
+    this.opened = true;
   }
 
   async getList() {
@@ -63,6 +68,7 @@ export class UnitsMainComponent implements OnInit {
     this.unitCode = null;
     this.unitName = null;
     this.isUpdate = false;
+    this.opened = false;
   }
 
   async save() {
@@ -70,7 +76,7 @@ export class UnitsMainComponent implements OnInit {
       this.loading = true;
       const _isActive = this.isActive ? 'Y' : 'N';
       const _isPrimary = this.isPrimary ? 'Y' : 'N';
-      
+
       let resp;
       if (this.isUpdate) {
         resp = await this.unitService.update(this.unitId, this.unitCode, this.unitName, _isActive, _isPrimary);
@@ -83,7 +89,9 @@ export class UnitsMainComponent implements OnInit {
         this.getList();
         this._clearForm();
       } else {
-        this.alertService.error(resp.error);
+        // this.alertService.error(resp.error);
+        console.log(resp.error);
+        this.alertService.error('ข้อมูลซ้ำ');
       }
       this.loading = false;
     } catch (error) {
@@ -110,21 +118,28 @@ export class UnitsMainComponent implements OnInit {
       });
   }
 
-  setEditable(unitId: any) {
-    this.inputUnitCode.nativeElement.focus();
-    this.units.forEach(v => {
-      if (v.unit_id === unitId) {
-        v.is_edit = 'Y';
-        this.unitName = v.unit_name;
-        this.unitId = v.unit_id;
-        this.unitCode = v.unit_code;
-        this.isActive = v.is_active === 'Y' ? true : false;
-        this.isPrimary = v.is_primary === 'Y' ? true : false;
-        this.isUpdate = true;
-      } else {
-        v.is_edit = 'N';
-      }
-    });
+  setEditable(unit: any) {
+    // this.inputUnitCode.nativeElement.focus();
+    // this.units.forEach(v => {
+    //   if (v.unit_id === unitId) {
+    //     v.is_edit = 'Y';
+    //     this.unitName = v.unit_name;
+    //     this.unitId = v.unit_id;
+    //     this.unitCode = v.unit_code;
+    //     this.isActive = v.is_active === 'Y' ? true : false;
+    //     this.isPrimary = v.is_primary === 'Y' ? true : false;
+    //     this.isUpdate = true;
+    //   } else {
+    //     v.is_edit = 'N';
+    //   }
+    // });
+    this.opened = true;
+    this.unitName = unit.unit_name;
+    this.unitCode = unit.unit_code;
+    this.unitId = unit.unit_id;
+    this.isActive = unit.is_active;
+
+    this.isUpdate = true;
   }
 
   cancelEdit() {
@@ -143,9 +158,9 @@ export class UnitsMainComponent implements OnInit {
     this.units[idx].unit_name = unitName;
   }
 
-  changeUnitEng(idx, unitEng) {
-    this.units[idx].unit_eng = unitEng;
-  }
+  // changeUnitEng(idx, unitEng) {
+  //   this.units[idx].unit_eng = unitEng;
+  // }
 
   changeIsPrimary(idx, isPrimary) {
     console.log(isPrimary);
@@ -177,7 +192,6 @@ export class UnitsMainComponent implements OnInit {
   }
 
   async doSaveNew(unit: any) {
-    console.log(unit);
     try {
       if (unit.unit_code && unit.unit_name) {
         this.isSaving = true;
@@ -187,7 +201,8 @@ export class UnitsMainComponent implements OnInit {
           this.alertService.success();
           this.cancelEdit();
         } else {
-          this.alertService.error(resp.error);
+          console.log(resp.error);
+          this.alertService.error('ข้อมูลซ้ำ');
         }
         this.isSaving = false;
       } else {
@@ -197,6 +212,25 @@ export class UnitsMainComponent implements OnInit {
     } catch (error) {
       this.isSaving = false;
       this.alertService.error(error.message);
+    }
+  }
+  enterSearch(event) {
+    if (event.target.value === '') {
+      this.search();
+    }
+    if (event.keyCode === 13) {
+      this.search();
+    } else {
+      setTimeout(() => {
+        this.search();
+      }, 550);
+    }
+  }
+
+  async search() {
+    const rs: any = await this.unitService.search(this.query);
+    if (rs.ok) {
+      this.units = rs.rows;
     }
   }
 }

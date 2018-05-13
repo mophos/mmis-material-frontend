@@ -3,16 +3,29 @@
   <span class="breadcrumb-item active">ชนิดรายการสินค้า</span>
 </nav>
 
-<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการใหม่</button>
+<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-  <clr-dg-column [clrDgField]="'generic_type_name'">ชนิดรายการสินค้า</clr-dg-column>
+  <clr-dg-column [clrDgField]="'generic_type_name'" [style.width.%]="90">ชนิดรายการสินค้า</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of types" [clrDgItem]="t">
-    <clr-dg-action-overflow>
-      <button class="action-item" (click)="edit(t)">แก้ไขข้อมูล</button>
-      <button class="action-item" (click)="remove(t)">ลบข้อมูล</button>
-    </clr-dg-action-overflow>
+    <!-- <clr-dg-action-overflow>
+      <button class="action-item" (click)="edit(t)">
+        <clr-icon shape="note"></clr-icon>แก้ไขข้อมูล</button>
+      <button class="action-item" (click)="remove(t)">
+        <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
+    </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.generic_type_name}}</clr-dg-cell>
+    <clr-dg-cell>
+        <div class="btn-group btn-primary">
+          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+            <clr-icon shape="note"></clr-icon>
+          </button>
+          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+            <clr-icon shape="trash"></clr-icon>
+          </button>
+        </div>
+      </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
@@ -22,15 +35,15 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข ชนิดเวชภัณฑ์</h3>
+  <h3 class="modal-title">เพิ่ม/แก้ไข ชนิดรายการสินค้า</h3>
   <div class="modal-body">
 
     <form>
       <section class="form-block">
-        <label>ข้อมูล ชนิดเวชภัณฑ์</label>
+        <label>ข้อมูล ชนิดรายการสินค้า</label>
         <div class="form-group row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="typeName">ชนิดเวชภัณฑ์</label>
+            <label class="required" for="typeName">ชนิดรายการสินค้า</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="typeName" [(ngModel)]="typeName" placeholder="">
@@ -43,10 +56,10 @@
   <div class="modal-footer">
 
     <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!typeName">
-            บันทึก
-        </button>
+      บันทึก
+    </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
-            ปิด
-        </button>
+      ปิด
+    </button>
   </div>
 </clr-modal>

@@ -9,10 +9,18 @@ export class GenericDrugDosagesService {
     @Inject('API_URL') private url: string,
     private authHttp: AuthHttp
   ) { }
+  async isActive(id: any, isActive: any) {
+    
+    let res = await this.authHttp.post(`${this.url}/drug-dosages/isactive`, {
+      id: id,
+      isActive: isActive
+    }).toPromise();
+    return res.json();
+  }
 
   all() {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-dosages`)
+      this.authHttp.get(`${this.url}/drug-dosages/all`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);

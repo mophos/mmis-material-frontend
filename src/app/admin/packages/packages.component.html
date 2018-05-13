@@ -3,7 +3,7 @@
   <span class="breadcrumb-item active">ข้อมูล Packages</span>
 </nav>
 
-<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการใหม่</button>
+<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.px]="450">
   <!--<clr-dg-column [clrDgField]="'package_id'">รหัส</clr-dg-column>-->
   <clr-dg-column [clrDgField]="'large_unit'">ชื่อหน่วยใหญ่</clr-dg-column>
@@ -72,10 +72,10 @@
   <div class="modal-footer">
 
     <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!largeUnit || !smallUnit || !largeQty || !smallQty">
-            บันทึก
-        </button>
+      บันทึก
+    </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
-            ปิด
-        </button>
+      ปิด
+    </button>
   </div>
 </clr-modal>

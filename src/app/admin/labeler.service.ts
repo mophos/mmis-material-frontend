@@ -40,6 +40,59 @@ export class LabelerService {
     });
   }
 
+  getBank(labelerId: any) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/labelers/bank?labelerId=${labelerId}`, {
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  saveBank(data) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`${this.url}/labelers/bank`, {
+        data: data
+      })
+        .map(res => res.json())
+        .subscribe(d => {
+          resolve(d);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+  updateBank(bankId: any, data) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.put(`${this.url}/labelers/bank?bankId=${bankId}`, {
+        data: data
+      })
+        .map(res => res.json())
+        .subscribe(d => {
+          resolve(d);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+  removeBank(bankId: any) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.delete(`${this.url}/labelers/bank?bankId=${bankId}`, {
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+
   mcdSendRegister(labeler: any) {
     return new Promise((resolve, reject) => {
       this.authHttp.post(`${this.mcdUrl}/api/save-labeler`, labeler)

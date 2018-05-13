@@ -42,20 +42,20 @@ export class ProductPageComponent implements OnInit {
   loading = false;
 
   groups: any = [];
-  groupId: any;
+  groupId = 'all';
 
-  isSearch: boolean = false;
+  isSearch = false;
   query: string = null;
-  perPage: number = 20;
-  total: number = 0;
+  perPage = 15;
+  total = 0;
   currentPage = 1;
 
-  isSaving: boolean = false;
+  isSaving = false;
 
   primaryUnits = [];
 
   // new modal
-  mdlNew: boolean = false;
+  mdlNew = false;
 
   genericTypeIds: any = [];
   jwtHelper: JwtHelper = new JwtHelper();
@@ -69,9 +69,8 @@ export class ProductPageComponent implements OnInit {
     @Inject('API_URL') private url: string,
   ) {
     const token = sessionStorage.getItem('token');
-    let decoded = this.jwtHelper.decodeToken(token);
+    const decoded = this.jwtHelper.decodeToken(token);
     this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
-    
     this.currentPage = +sessionStorage.getItem('productCurrentPage') ? +sessionStorage.getItem('productCurrentPage') : 1;
   }
 
@@ -112,7 +111,8 @@ export class ProductPageComponent implements OnInit {
             });
           });
 
-          this.groupId = sessionStorage.getItem('productGroupId') ? sessionStorage.getItem('productGroupId') : 'all';
+          this.groupId = 'all';
+          sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
         }
       } else {
         this.alertService.error(JSON.stringify(rs.error));
@@ -180,7 +180,6 @@ export class ProductPageComponent implements OnInit {
       } else {
         this.alertService.error('ข้อมูลซ้ำ');
         console.log(resp.error);
-        
       }
       this.mdlNew = false;
       this.isSaving = false;
@@ -211,9 +210,12 @@ export class ProductPageComponent implements OnInit {
       this.loadingModal.show();
       this.loading = true;
       this.isSearch = true;
-      console.log(this.groupId);
-      
-      const results: any = await this.productService.search(this.query || '', this.perPage, 0, this.groupId);
+      let results: any;
+      if (this.groupId === 'all') {
+        results = await this.productService.search(this.query || '', this.perPage, 0, this.genericTypeIds);
+      } else {
+        results = await this.productService.search(this.query || '', this.perPage, 0, this.groupId);
+      }
       this.loading = false;
       this.loadingModal.hide();
       if (results.ok) {
@@ -230,26 +232,6 @@ export class ProductPageComponent implements OnInit {
     }
   }
 
-  async getAllProducts() {
-
-    try {
-      this.loadingModal.show();
-      const results: any = await this.productService.all(this.perPage, 0, this.groupId);
-      // this.loading = false;
-      this.loadingModal.hide();
-      if (results.ok) {
-        this.products = results.rows;
-        this.total = +results.total;
-      } else {
-        this.alertService.error(JSON.stringify(results.error));
-      }
-    } catch (error) {
-      this.alertService.error(JSON.stringify(error));
-      this.loadingModal.hide();
-      console.log(error);
-    }
-  }
-
   markDeleted(idx: any, productId: any) {
     this.alertService.confirm('ต้องการลบรายการ ใช่หรือไม่?')
       .then(() => {
@@ -258,7 +240,6 @@ export class ProductPageComponent implements OnInit {
           .then((rs: any) => {
             this.loadingModal.hide();
             if (rs.ok) {
-              // this.getAllProducts();
               this.products.splice(idx, 1);
             } else {
               this.alertService.error(rs.error);
@@ -267,7 +248,7 @@ export class ProductPageComponent implements OnInit {
             this.loadingModal.hide();
             this.alertService.error(error.message)
           });
-      }).catch(() => { 
+      }).catch(() => {
         this.loadingModal.hide();
       });
   }
@@ -294,16 +275,21 @@ export class ProductPageComponent implements OnInit {
       if (this.query) {
         this.searchProduct();
       } else {
-        this.loadingModal.show();
 
-        sessionStorage.setItem('productGroupId', this.groupId);
-        
-        const results: any = await this.productService.all(this.perPage, 0, this.groupId);
-        // this.loading = false;
+        this.loadingModal.show();
+        let results: any;
+        if (this.groupId === 'all') {
+          results = await this.productService.all(this.perPage, 0, this.genericTypeIds);
+          sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
+        } else {
+          results = await this.productService.all(this.perPage, 0, this.groupId);
+          sessionStorage.setItem('productGroupId', JSON.stringify(this.groupId));
+        }
         this.loadingModal.hide();
         if (results.ok) {
           this.products = results.rows;
           this.total = +results.total;
+          this.currentPage = 1;
         } else {
           this.alertService.error(JSON.stringify(results.error));
         }
@@ -315,27 +301,9 @@ export class ProductPageComponent implements OnInit {
     }
   }
 
-  async getAllProductsList() {
-    try {
-      this.query = null;
-      this.loadingModal.show();
-      const results: any = await this.productService.all(this.perPage, 0, this.groupId);
-      this.loadingModal.hide();
-      if (results.ok) {
-        this.products = results.rows;
-        this.total = +results.total;
-      } else {
-        this.alertService.error(JSON.stringify(results.error));
-      }
-    } catch (error) {
-      this.loadingModal.hide();
-      this.alertService.serverError();
-    }
-  }
-
   async refresh(state: State) {
-    let offset = +state.page.from;
-    let limit = this.perPage;
+    const offset = +state.page.from;
+    const limit = this.perPage;
 
     if (!this.currentPage) {
       this.currentPage = this.pagination.currentPage;
@@ -344,9 +312,9 @@ export class ProductPageComponent implements OnInit {
     }
 
     sessionStorage.setItem('productCurrentPage', this.pagination.currentPage);
-    // console.log(this.pagination);
 
-    let _groupId = sessionStorage.getItem('productGroupId') ? sessionStorage.getItem('productGroupId') : this.genericTypeIds[0];
+    let _groupId = [];
+    _groupId = sessionStorage.getItem('productGroupId') ? JSON.parse(sessionStorage.getItem('productGroupId')) : this.genericTypeIds;
     this.loadingModal.show();
 
     if (this.isSearch) {
