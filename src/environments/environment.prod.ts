@@ -7,11 +7,11 @@ export const environment = {
   docUrl: '/api/document',
   productImagePrefix: 'PMG',
 
-  purchasingUrl: '/purchasing',
-  planningUrl: '/planning',
-  inventoryUrl: '/inventory',
-  materialsUrl: '/',
-  umUrl: '/um',
-  contractsUrl: '/contracts',
-  reportUrl: '/reports',
+  purchasingUrl: '/purchasing/#/',
+  planningUrl: '/planning/#/',
+  inventoryUrl: '/inventory/#/',
+  materialsUrl: '/#/',
+  umUrl: '/um/#/',
+  contractsUrl: '/contracts/#/',
+  reportUrl: '/reports/#/',
 };
