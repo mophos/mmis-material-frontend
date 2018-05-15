@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  homeUrl: '/',
+  homeUrl: '/#/',
   apiUrl: '/api/material',
   mcdUrl: 'http://api.mmis.moph.go.th/mophmcd',
   loginUrl: '/api/um',
