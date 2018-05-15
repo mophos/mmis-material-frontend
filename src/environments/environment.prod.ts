@@ -10,7 +10,7 @@ export const environment = {
   purchasingUrl: '/purchasing/#/',
   planningUrl: '/planning/#/',
   inventoryUrl: '/inventory/#/',
-  materialsUrl: '/#/',
+  materialsUrl: '#',
   umUrl: '/um/#/',
   contractsUrl: '/contracts/#/',
   reportUrl: '/reports/#/',
