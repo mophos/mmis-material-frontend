@@ -11,7 +11,7 @@ export class StandardService {
     private authHttp: AuthHttp
   ) { }
 
-    getLabelerTypes() {
+  getLabelerTypes() {
     return new Promise((resolve, reject) => {
       this.authHttp.get(`${this.url}/std/labeler-types`)
         .map(res => res.json())
@@ -111,21 +111,21 @@ export class StandardService {
   }
 
   async getGenericAccount() {
-    let rs: any = await this.authHttp.get(`${this.url}/std/generic-accounts`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/std/generic-accounts`).toPromise();
     return rs.json();
   }
-  
+
   async getProductTypes() {
-    let rs: any = await this.authHttp.get(`${this.url}/std/type-product`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/std/type-product`).toPromise();
     return rs.json();
   }
-  
+
 
   async getBidTypes() {
-    let rs: any = await this.authHttp.get(`${this.url}/std/bid-types`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/std/bid-types`).toPromise();
     return rs.json();
   }
-  
+
   getGenericGroups() {
     return new Promise((resolve, reject) => {
       this.authHttp.get(`${this.url}/std/generic-groups`)
