@@ -36,7 +36,7 @@ export class GenericsComponent implements OnInit {
   isUpdate = false;
 
   dosageId: string;
-  groupId: string;
+  // groupId: string;
   typeId: string;
   genericTypeId: string;
   genericName: string;
@@ -164,7 +164,7 @@ export class GenericsComponent implements OnInit {
   async getGenericGroups() {
     this.loadingModal.show();
     try {
-      const rs: any = await this.standardService.getGenericGroups();
+      const rs: any = await this.standardService.getGenericGroups1(); // แก้
       this.loadingModal.hide();
       if (rs.ok) {
         this.loadingModal.hide();
@@ -201,7 +201,7 @@ export class GenericsComponent implements OnInit {
     this.typeId = null;
     this.genericTypeId = null;
     this.expired = 270;
-    this.groupId = null;
+    // this.groupId = null;
     this.dosageId = null;
     this.drugAccountId = null;
     this.openNew = true;
@@ -250,7 +250,7 @@ export class GenericsComponent implements OnInit {
         genericName: this.genericName,
         typeId: this.typeId,
         genericTypeId: this.genericTypeId,
-        groupId: this.groupId,
+        // groupId: this.groupId,
         dosageId: this.dosageId,
         drugAccountId: this.drugAccountId,
         workingCode: this.workingCode

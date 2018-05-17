@@ -66,7 +66,7 @@ export class GenericMedicinePageComponent implements OnInit {
   }
 
   getGenericGroups() {
-    this.standardService.getGenericGroups()
+    this.standardService.getGenericGroups1()//แก้
       .then((results: any) => {
         this.genericGroups = results.rows;
       });
