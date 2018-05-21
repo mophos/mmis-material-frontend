@@ -1,66 +1,223 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <span class="breadcrumb-item active">กลุ่มเวชภัณฑ์ยา</span>
+  <span class="breadcrumb-item active">กลุ่มบัญชียาหลัก</span>
 </nav>
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 1</button>
+    <clr-tab-content *clrIfActive>
+      <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup1()">+ เพิ่มรายการ</button>
+      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+        <clr-dg-column [clrDgField]="'group_code_1'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
+        <clr-dg-column [clrDgField]="'group_name_1'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
+        <clr-dg-column>ใช้งาน</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *clrDgItems="let t of listGroup1;let idx = index" [clrDgItem]="t">
+          <clr-dg-cell>{{t.group_code_1}}</clr-dg-cell>
+          <clr-dg-cell>{{t.group_name_1}}</clr-dg-cell>
+          <clr-dg-cell>
+            <div class="toggle-switch">
+              <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_actived==='Y'" (change)="setisActiveGroup1($event, t.group_code_1)">
+              <!-- " -->
+              <label for="chk-{{idx}}"></label>
+            </div>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <div class="btn-group btn-primary">
+              <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup1(t)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup1(t)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
 
-<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
-<clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-  <clr-dg-column [clrDgField]="'group_code'" [style.width.%]="15">รหัสกลุ่มเวชภัณฑ์</clr-dg-column>
-  <clr-dg-column [clrDgField]="'group_name'" [style.width.%]="65">กลุ่มเวชภัณฑ์</clr-dg-column>
-  <clr-dg-column>ใช้งาน</clr-dg-column>
-  <clr-dg-column></clr-dg-column>
-  <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
-  <clr-dg-row *clrDgItems="let t of groups ; let idx = index;" [clrDgItem]="t">
-    <!-- <clr-dg-action-overflow>
-      <button class="action-item" (click)="edit(t)">
-          <clr-icon shape="note" ></clr-icon>แก้ไขข้อมูล</button>
-      <button class="action-item" (click)="remove(t)">
-          <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
-    </clr-dg-action-overflow> -->
-    <clr-dg-cell>{{t.group_code}}</clr-dg-cell>
-    <clr-dg-cell>{{t.group_name}}</clr-dg-cell>
-    <clr-dg-cell>
-      <div class="toggle-switch">
-        <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_active==='Y'" (change)="setisActive($event, t.group_id)">
-        <!-- " -->
-        <label for="chk-{{idx}}"></label>
-      </div>
-    </clr-dg-cell>
-    <clr-dg-cell>
-        <div class="btn-group btn-primary">
-          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
-            <clr-icon shape="note"></clr-icon>
-          </button>
-          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
-            <clr-icon shape="trash"></clr-icon>
-          </button>
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 2</button>
+    <clr-tab-content *clrIfActive>
+      <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup2()">+ เพิ่มรายการ</button>
+      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+        <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
+        <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
+        <clr-dg-column>ใช้งาน</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *clrDgItems="let t of listGroup2;let idx = index" [clrDgItem]="t">
+          <clr-dg-cell>{{t.group_code_1}}{{t.group_code_2}}</clr-dg-cell>
+          <clr-dg-cell>
+            <span>{{t.group_name_2}}</span>
+            <span class="text-small">
+              <br>{{t.group_name_1}} - {{t.group_name_2}}</span>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <div class="toggle-switch">
+              <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_actived==='Y'" (change)="setisActiveGroup2($event, t)">
+              <label for="chk-{{idx}}"></label>
+            </div>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <div class="btn-group btn-primary">
+              <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup2(t)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup2(t)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 3</button>
+    <clr-tab-content *clrIfActive>
+
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 4</button>
+    <clr-tab-content *clrIfActive>
+
+    </clr-tab-content>
+  </clr-tab>
+</clr-tabs>
+
+
+<clr-modal [(clrModalOpen)]="openModalGroup1" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มบัญชียาหลัก</h3>
+  <div class="modal-body">
+    <form>
+      <section class="form-block">
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label for="groupCode">รหัสกลุ่มบัญชียาหลัก</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal1GroupCode1" [(ngModel)]="modal1GroupCode1" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="modal1GroupName1" [(ngModel)]="modal1GroupName1" placeholder="">
+          </div>
         </div>
-      </clr-dg-cell>
-  </clr-dg-row>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
 
-  <clr-dg-footer>
-    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-    <clr-dg-pagination #pagination [clrDgPageSize]="50"></clr-dg-pagination>
-  </clr-dg-footer>
-</clr-datagrid>
+    <button type="button" class="btn btn-primary" (click)="saveGroup1()" [disabled]="!modal1GroupName1 || modal1GroupCode1.length != 2">
+      บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="openModalGroup1 = false">
+      ปิด
+    </button>
+  </div>
+</clr-modal>
 
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มเวชภัณฑ์ยา</h3>
+<clr-modal [(clrModalOpen)]="openModalGroup2" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มบัญชียาหลัก</h3>
+  <div class="modal-body">
+    <form>
+      <section class="form-block">
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 1</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" readonly type="text" name="modal2GroupCode1" [(ngModel)]="modal2GroupCode1" placeholder="">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="select">
+              <select [disabled]="isUpdate" [(ngModel)]="modal2GroupCode1" name="modal2GroupCode1" (change)="selectGroupName1Modal2($event)">
+                <option *ngFor="let item of listGroup1" [value]="item.group_code_1">{{item.group_name_1}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal2GroupCode2" [(ngModel)]="modal2GroupCode2" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="modal2GroupName2" [(ngModel)]="modal2GroupName2" placeholder="">
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-primary" (click)="saveGroup2()" [disabled]="!modal2GroupName2 || modal2GroupCode2.length != 2 || !modal2GroupCode1 || !modal2GroupName1">
+      บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="openModalGroup2 = false">
+      ปิด
+    </button>
+  </div>
+</clr-modal>
+
+
+
+<!-- <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มบัญชียาหลัก</h3>
   <div class="modal-body">
 
     <form>
       <section class="form-block">
         <div class="form-group row">
-          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label for="groupCode">รหัสกลุ่มเวชภัณฑ์ยา</label>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label for="groupCode">รหัสกลุ่มบัญชียาหลัก</label>
           </div>
-          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-            <input class="form-control" type="text" name="groupCode" [(ngModel)]="groupCode" placeholder="เว้นว่างเพื่อสร้างรหัสอัตโนมัติ">
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="groupCode" [(ngModel)]="groupCode" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
-          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="groupName">ชื่อกลุ่มเวชภัณฑ์ยา</label>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
           </div>
-          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="groupName" [(ngModel)]="groupName" placeholder="">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="groupName" [(ngModel)]="groupName" placeholder="">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 3</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="groupName" [(ngModel)]="groupName" placeholder="">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 4</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="groupName" [(ngModel)]="groupName" placeholder="">
           </div>
         </div>
@@ -71,12 +228,11 @@
   <div class="modal-footer">
 
     <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!groupName">
-            บันทึก
-        </button>
+      บันทึก
+    </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
-            ปิด
-        </button>
+      ปิด
+    </button>
   </div>
-</clr-modal>
-
+</clr-modal> -->
 <wm-loading #loadingModal></wm-loading>
