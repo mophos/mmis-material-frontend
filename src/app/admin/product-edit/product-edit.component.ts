@@ -57,8 +57,8 @@ export class ProductEditComponent implements OnInit {
   genericId = null;
   purchasePrice = 0;
   keywords = null;
-  productGroupsId = null;
-  productGroupOldId = null;
+  // productGroupsId = null;
+  // productGroupOldId = null;
 
   files: any = [];
   filesToUpload: Array<File>;
@@ -99,7 +99,7 @@ export class ProductEditComponent implements OnInit {
 
   async getInfo() {
     await this.getFilesList();
-    await this.getProductGroups();
+    // await this.getProductGroups();
     await this.getProductDetail();
     await this.getPrimaryUnits();
     await this.getUnits();
@@ -159,21 +159,21 @@ export class ProductEditComponent implements OnInit {
     }
   }
 
-  async getProductGroups() {
-    this.loadingModal.show();
-    try {
-      const resp: any = await this.productService.getProductGroups();
-      this.loadingModal.hide();
-      if (resp.ok) {
-        this.productGroups = resp.rows;
-      } else {
-        this.alertService.error(resp.error);
-      }
-    } catch (error) {
-      this.loadingModal.hide();
-      this.alertService.error(error.message);
-    }
-  }
+  // async getProductGroups() {
+  //   this.loadingModal.show();
+  //   try {
+  //     const resp: any = await this.productService.getProductGroups();
+  //     this.loadingModal.hide();
+  //     if (resp.ok) {
+  //       this.productGroups = resp.rows;
+  //     } else {
+  //       this.alertService.error(resp.error);
+  //     }
+  //   } catch (error) {
+  //     this.loadingModal.hide();
+  //     this.alertService.error(error.message);
+  //   }
+  // }
 
   clearManufacture() {
     this.selectedM = null;
@@ -251,8 +251,8 @@ export class ProductEditComponent implements OnInit {
         this.selectedGenericName = resp.detail.generic_name;
         this.pickingRuleId = resp.detail.picking_rule_id;
         this.keywords = resp.detail.keywords;
-        this.productGroupsId = resp.detail.product_group_id;
-        this.productGroupOldId = resp.detail.product_group_id;
+        // this.productGroupsId = resp.detail.product_group_id;
+        // this.productGroupOldId = resp.detail.product_group_id;
         this.isActive = resp.detail.is_active === 'Y' ? true : false;
         this.isRawMaterial = resp.detail.is_raw_material === 'Y' ? true : false;
         this.isLotControl = resp.detail.is_lot_control === 'Y' ? true : false;
@@ -283,8 +283,8 @@ export class ProductEditComponent implements OnInit {
     data.reg_no = this.reg_no;
     data.purchasePrice = this.purchasePrice;
     data.keywords = this.keywords;
-    data.productGroupId = this.productGroupsId;
-    data.productGroupOldId = this.productGroupOldId;
+    // data.productGroupId = this.productGroupsId;
+    // data.productGroupOldId = this.productGroupOldId;
     // data.minQty = this.minQty || 0;
     // data.maxQty = this.maxQty || 0;
     // data.planningMethod = this.planningMethod;

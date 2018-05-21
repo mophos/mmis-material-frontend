@@ -126,9 +126,44 @@ export class StandardService {
     return rs.json();
   }
 
-  getGenericGroups() {
+  getGenericGroups1() {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/std/generic-groups`)
+      this.authHttp.get(`${this.url}/std/generic-groups/1`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericGroups2(groupCode1: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-groups/2?groupCode1=${groupCode1}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericGroups3(groupCode1: string, groupCode2: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-groups/3?groupCode1=${groupCode1}&groupCode2=${groupCode2}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+  getGenericGroups4(groupCode1: string, groupCode2: string, groupCode3: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-groups/4?groupCode1=${groupCode1}&groupCode2=${groupCode2}&groupCode3=${groupCode3}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);

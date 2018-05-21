@@ -59,6 +59,14 @@ export class GenericsEditComponent implements OnInit {
   bidTypeId = null;
 
   isType = false;
+  genericGroup1 = [];
+  genericGroup2 = [];
+  genericGroup3 = [];
+  genericGroup4 = [];
+  groupId1: any;
+  groupId2: any;
+  groupId3: any;
+  groupId4: any;
   constructor(
     private standardService: StandardService,
     private genericService: GenericService,
@@ -80,7 +88,6 @@ export class GenericsEditComponent implements OnInit {
     await this.getPrimaryUnits();
     await this.getBidTypes();
     await this.getConversions();
-
     await this.getDetail();
   }
 
@@ -150,7 +157,10 @@ export class GenericsEditComponent implements OnInit {
         this.typeOldId = rs.detail.generic_type_id;
         this.dosageId = rs.detail.dosage_id;
         this.pTypeId = rs.detail.generic_hosp_id;
-        this.groupId = rs.detail.group_id;
+        this.groupId1 = rs.detail.group_code_1;
+        this.groupId2 = rs.detail.group_code_2;
+        this.groupId3 = rs.detail.group_code_3;
+        this.groupId4 = rs.detail.group_code_4;
         this.description = rs.detail.description;
         this.standardCost = +rs.detail.standard_cost;
         this.primaryUnitId = rs.detail.primary_unit_id;
@@ -164,6 +174,15 @@ export class GenericsEditComponent implements OnInit {
         this.bidTypeId = this.bidTypeId ? this.bidTypes[0].bid_id : rs.detail.purchasing_method;
         this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
         this.keyword = rs.detail.keywords;
+        if (this.groupId2) {
+          this.getGenericGroup2();
+        }
+        if (this.groupId3) {
+          this.getGenericGroup3();
+        }
+        if (this.groupId4) {
+          this.getGenericGroup4();
+        }
         // console.log(this.genericId);
       }
     } catch (error) {
@@ -223,12 +242,81 @@ export class GenericsEditComponent implements OnInit {
   }
 
   async getGenericGroups() {
+    // this.loadingModal.show();
+    // try {
+    //   const rs: any = await this.standardService.getGenericGroups();
+    //   this.loadingModal.hide();
+    //   if (rs.ok) {
+    //     this.genericGroups = rs.rows;
+    //   } else {
+    //     this.alertService.error(rs.error);
+    //   }
+    // } catch (error) {
+    //   this.loadingModal.hide();
+    //   this.alertService.error(JSON.stringify(error));
+    //   console.log(error.message);
+    // }
+    this.getGenericGroup1();
+  }
+
+  async getGenericGroup1() {
     this.loadingModal.show();
     try {
-      const rs: any = await this.standardService.getGenericGroups();
+      const rs: any = await this.standardService.getGenericGroups1();
       this.loadingModal.hide();
       if (rs.ok) {
-        this.genericGroups = rs.rows;
+        this.genericGroup1 = rs.rows;
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
+
+  async getGenericGroup2() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getGenericGroups2(this.groupId1);
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.genericGroup2 = rs.rows;
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
+
+  async getGenericGroup3() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getGenericGroups3(this.groupId1, this.groupId2);
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.genericGroup3 = rs.rows;
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
+
+  async getGenericGroup4() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getGenericGroups4(this.groupId1, this.groupId2, this.groupId3);
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.genericGroup4 = rs.rows;
       } else {
         this.alertService.error(rs.error);
       }
@@ -264,7 +352,10 @@ export class GenericsEditComponent implements OnInit {
         genericName: this.genericName,
         typeId: this.typeId,
         typeOldId: this.typeOldId,
-        groupId: this.groupId,
+        groupId1: this.groupId1 === 'null' ? null : this.groupId1,
+        groupId2: this.groupId2 === 'null' ? null : this.groupId2,
+        groupId3: this.groupId3 === 'null' ? null : this.groupId3,
+        groupId4: this.groupId4 === 'null' ? null : this.groupId4,
         dosageId: this.dosageId,
         pTypeId: this.pTypeId,
         description: this.description,
