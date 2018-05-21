@@ -144,7 +144,7 @@ export class GenericDrugGroupsComponent implements OnInit {
     this.openModalGroup2 = true;
   }
 
-  selectGroupName1Modal2(e, modal2GroupName1) {
+  selectGroupName1Modal2(e) {
     // this.modal2GroupCode1 = e.target.value;
     const idx = _.findIndex(this.listGroup1, { 'group_code_1': this.modal2GroupCode1 });
     this.modal2GroupName1 = this.listGroup1[idx];
