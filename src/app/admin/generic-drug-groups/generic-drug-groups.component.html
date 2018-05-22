@@ -87,26 +87,98 @@
   <clr-tab>
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 3</button>
     <clr-tab-content *clrIfActive>
+      <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup3()">+ เพิ่มรายการ</button>
+      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+        <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
+        <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
+        <clr-dg-column>ใช้งาน</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *clrDgItems="let t of listGroup3;let idx = index" [clrDgItem]="t">
+          <clr-dg-cell>{{t.group_code_1}}{{t.group_code_2}}{{t.group_code_3}}</clr-dg-cell>
+          <clr-dg-cell>
+            <span>{{t.group_name_3}}</span>
+            <span class="text-small">
+              <br>{{t.group_name_1}} - {{t.group_name_2}} - {{t.group_name_3}}</span>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <div class="toggle-switch">
+              <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_actived==='Y'" (change)="setisActiveGroup3($event, t)">
+              <label for="chk-{{idx}}"></label>
+            </div>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <div class="btn-group btn-primary">
+              <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup3(t)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup3(t)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
 
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
     </clr-tab-content>
   </clr-tab>
   <clr-tab>
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 4</button>
     <clr-tab-content *clrIfActive>
+      <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup4()">+ เพิ่มรายการ</button>
+      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+        <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
+        <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
+        <clr-dg-column>ใช้งาน</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *clrDgItems="let t of listGroup4;let idx = index" [clrDgItem]="t">
+          <clr-dg-cell>{{t.group_code_1}}{{t.group_code_2}}{{t.group_code_3}}{{t.group_code_4}}</clr-dg-cell>
+          <clr-dg-cell>
+            <span>{{t.group_name_4}}</span>
+            <span class="text-small">
+              <br>{{t.group_name_1}} - {{t.group_name_2}} - {{t.group_name_3}} - {{t.group_name_4}}</span>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <div class="toggle-switch">
+              <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_actived==='Y'" (change)="setisActiveGroup4($event, t)">
+              <label for="chk-{{idx}}"></label>
+            </div>
+          </clr-dg-cell>
+          <clr-dg-cell>
+            <div class="btn-group btn-primary">
+              <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup4(t)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup4(t)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
 
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
     </clr-tab-content>
   </clr-tab>
 </clr-tabs>
 
 
-<clr-modal [(clrModalOpen)]="openModalGroup1" [clrModalClosable]="false">
+<clr-modal [(clrModalOpen)]="openModalGroup1" [clrModalClosable]="false" [clrModalSize]="'lg'">
   <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มบัญชียาหลัก</h3>
   <div class="modal-body">
     <form>
       <section class="form-block">
         <div class="form-group row">
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <label for="groupCode">รหัสกลุ่มบัญชียาหลัก</label>
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <input class="form-control" [disabled]="isUpdate" type="text" name="modal1GroupCode1" [(ngModel)]="modal1GroupCode1" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
@@ -132,14 +204,14 @@
   </div>
 </clr-modal>
 
-<clr-modal [(clrModalOpen)]="openModalGroup2" [clrModalClosable]="false">
+<clr-modal [(clrModalOpen)]="openModalGroup2" [clrModalClosable]="false" [clrModalSize]="'lg'">
   <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มบัญชียาหลัก</h3>
   <div class="modal-body">
     <form>
       <section class="form-block">
         <div class="form-group row">
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <label for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 1</label>
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 1</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <input class="form-control" readonly type="text" name="modal2GroupCode1" [(ngModel)]="modal2GroupCode1" placeholder="">
@@ -155,13 +227,13 @@
             </div>
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <label for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 2</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <input class="form-control" [disabled]="isUpdate" type="text" name="modal2GroupCode2" [(ngModel)]="modal2GroupCode2" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-            <label for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 2</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="modal2GroupName2" [(ngModel)]="modal2GroupName2" placeholder="">
@@ -181,7 +253,157 @@
   </div>
 </clr-modal>
 
+<clr-modal [(clrModalOpen)]="openModalGroup3" [clrModalClosable]="false" [clrModalSize]="'lg'">
+  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มบัญชียาหลัก</h3>
+  <div class="modal-body">
+    <form>
+      <section class="form-block">
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 1</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            {{modal3GroupCode1}}
+            <!-- <input class="form-control" readonly type="text" name="modal3GroupCode1" [(ngModel)]="modal3GroupCode1" placeholder=""> -->
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="select">
+              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal3GroupCode1" name="modal3GroupCode1" (change)="selectGroupName1Modal3($event)">
+                <option *ngFor="let item of listGroup1" [value]="item.group_code_1">{{item.group_name_1}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            {{modal3GroupCode2}}
+            <!-- <input class="form-control" readonly type="text" name="modal3GroupCode2" [(ngModel)]="modal3GroupCode2" placeholder=""> -->
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="select">
+              <select [disabled]="isUpdate" [(ngModel)]="modal3GroupCode2" name="modal3GroupCode2" (change)="selectGroupName2Modal3($event)">
+                <option *ngFor="let item of selectGroup2" [value]="item.group_code_2">{{item.group_name_2}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 3</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal3GroupCode3" [(ngModel)]="modal3GroupCode3" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 3</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="modal3GroupName3" [(ngModel)]="modal3GroupName3" placeholder="">
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
 
+    <button type="button" class="btn btn-primary" (click)="saveGroup3()" [disabled]="!modal3GroupName3 || modal3GroupCode3.length != 2 || !modal3GroupCode1 || !modal3GroupCode2">
+      บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="openModalGroup3 = false">
+      ปิด
+    </button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="openModalGroup4" [clrModalClosable]="false" [clrModalSize]="'lg'">
+  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มบัญชียาหลัก</h3>
+  <div class="modal-body">
+    <form>
+      <section class="form-block">
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 1</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            {{modal4GroupCode1}}
+            <!-- <input class="form-control" readonly type="text" name="modal4GroupCode1" [(ngModel)]="modal4GroupCode1" placeholder=""> -->
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="select">
+              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal4GroupCode1" name="modal4GroupCode1" (change)="selectGroupName1Modal4($event)">
+                <option *ngFor="let item of listGroup1" [value]="item.group_code_1">{{item.group_name_1}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            {{modal4GroupCode2}}
+            <!-- <input class="form-control" readonly type="text" name="modal4GroupCode2" [(ngModel)]="modal4GroupCode2" placeholder=""> -->
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 2</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <div class="select">
+              <select [disabled]="isUpdate|| selectGroup2.length === 0" [(ngModel)]="modal4GroupCode2" name="modal4GroupCode2" (change)="selectGroupName2Modal4($event)">
+                <option *ngFor="let item of selectGroup2" [value]="item.group_code_2">{{item.group_name_2}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 3</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            {{modal4GroupCode3}}
+            <!-- <input class="form-control" [disabled]="isUpdate" type="text" name="modal4GroupCode3" [(ngModel)]="modal4GroupCode3" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก"> -->
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 3</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+              <div class="select">
+                  <select [disabled]="isUpdate || selectGroup3.length === 0" [(ngModel)]="modal4GroupCode3" name="modal4GroupCode3" (change)="selectGroupName3Modal4($event)">
+                    <option *ngFor="let item of selectGroup3" [value]="item.group_code_3">{{item.group_name_3}}</option>
+                  </select>
+                </div>
+            <!-- <input class="form-control" type="text" name="modal4GroupName3" [(ngModel)]="modal4GroupName3" placeholder=""> -->
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 4</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal4GroupCode4" [(ngModel)]="modal4GroupCode4" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 4</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="modal4GroupName4" [(ngModel)]="modal4GroupName4" placeholder="">
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-primary" (click)="saveGroup4()" [disabled]="!modal4GroupName4 || modal4GroupCode4.length != 2 || !modal4GroupCode1 || !modal4GroupCode2 || !modal4GroupCode3">
+      บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="openModalGroup4 = false">
+      ปิด
+    </button>
+  </div>
+</clr-modal>
 
 <!-- <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
   <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มบัญชียาหลัก</h3>

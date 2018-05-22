@@ -162,9 +162,157 @@ export class GenericDrugGroupsService {
     });
   }
 
-  removeGroup2(groupCode2: string) {
+  removeGroup2(groupCode1: string, groupCode2: string) {
     return new Promise((resolve, reject) => {
-      this.authHttp.delete(`${this.url}/drug-groups/group2?groupCode2=${groupCode2}`)
+      this.authHttp.delete(`${this.url}/drug-groups/group2?groupCode1=${groupCode1}&groupCode2=${groupCode2}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+  // ################################################
+  // ############## GROUP 3 #####################
+  async isActiveGroup3(groupCode1, groupCode2, groupCode3, isActive: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.put(`${this.url}/drug-groups/active/group3?groupCode1=${groupCode1}&groupCode2=${groupCode2}&groupCode3=${groupCode3}`, {
+        status: isActive
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericGroup3(isActived) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/drug-groups/group/3?isActived=${isActived}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  saveGroup3(groupCode1: string, groupCode2: string, groupCode3: string, groupName3: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`${this.url}/drug-groups/group3`, {
+        groupName3: groupName3,
+        groupCode3: groupCode3,
+        groupCode2: groupCode2,
+        groupCode1: groupCode1
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  updateGroup3(groupCode1: string, groupCode2: string, groupCode3: string, groupName3: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.put(`${this.url}/drug-groups/group3`, {
+        groupName3: groupName3,
+        groupCode3: groupCode3,
+        groupCode2: groupCode2,
+        groupCode1: groupCode1
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  removeGroup3(groupCode1: string, groupCode2: string, groupCode3: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.delete(`${this.url}/drug-groups/group3?groupCode1=${groupCode1}&groupCode2=${groupCode2}&groupCode3=${groupCode3}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+  // ################################################
+  // ############## GROUP 4 #####################
+  async isActiveGroup4(groupCode1, groupCode2, groupCode3, groupCode4, isActive: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.put(`${this.url}/drug-groups/active/group4?groupCode1=${groupCode1}&groupCode2=${groupCode2}&groupCode3=${groupCode3}&groupCode4=${groupCode4}`, {
+        status: isActive
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericGroup4(isActived) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/drug-groups/group/4?isActived=${isActived}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  saveGroup4(groupCode1: string, groupCode2: string, groupCode3: string, groupCode4: string, groupName4: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`${this.url}/drug-groups/group4`, {
+        groupName4: groupName4,
+        groupCode4: groupCode4,
+        groupCode3: groupCode3,
+        groupCode2: groupCode2,
+        groupCode1: groupCode1
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  updateGroup4(groupCode1: string, groupCode2: string, groupCode3: string, groupCode4: string, groupName4: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.put(`${this.url}/drug-groups/group4`, {
+        groupName4: groupName4,
+        groupCode4: groupCode4,
+        groupCode3: groupCode3,
+        groupCode2: groupCode2,
+        groupCode1: groupCode1
+      })
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  removeGroup4(groupCode1: string, groupCode2: string, groupCode3: string, groupCode4: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.delete(`${this.url}/drug-groups/group4?groupCode1=${groupCode1}&groupCode2=${groupCode2}&groupCode3=${groupCode3}&groupCode4=${groupCode4}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
