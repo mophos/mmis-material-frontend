@@ -372,7 +372,7 @@
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
               <div class="select">
-                  <select [disabled]="isUpdate || selectGroup3.length === 0" [(ngModel)]="modal4GroupCode3" name="modal4GroupCode3" (change)="selectGroupName3Modal4($event)">
+                  <select [disabled]="isUpdate || selectGroup3.length === 0" [(ngModel)]="modal4GroupCode3" name="modal4GroupCode3">
                     <option *ngFor="let item of selectGroup3" [value]="item.group_code_3">{{item.group_name_3}}</option>
                   </select>
                 </div>
