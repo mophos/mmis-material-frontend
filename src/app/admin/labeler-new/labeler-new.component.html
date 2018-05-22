@@ -9,17 +9,33 @@
     <button clrTabLink clrTabLinkId="link1">ข้อมูลทั่วไป</button>
     <clr-tab-content clrContentId="content1" *clrIfActive>
       <div class="card">
-        <div class="card-block">
+        <div class="card-block" style="height: 350px;">
           <div class="card-text">
             <form>
               <section class="form-block">
                 <label>ข้อมูลทั่วไปของผู้ประกอบการ</label>
                 <div class="form-group row">
                   <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                    <label class="required" for="gForm_1">รหัสผู้ประกอบการ</label>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <input class="form-control" [disabled]="isUpdate" type="text" name="txtLabelerCode" [(ngModel)]="labelerCode" placeholder="รหัสผู้ประกอบการ">
+                  </div>
+                  <div class="col-lg-6 col-md-6"></div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                     <label class="required" for="gForm_1">ชื่อผู้ประกอบการ</label>
                   </div>
-                  <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+                  <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
                     <input class="form-control" type="text" name="txtLabelerName" [(ngModel)]="labelerName" placeholder="ชื่อผู้ประกอบการ">
+                  </div>
+                  <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                      <clr-icon (click)="labelerNamePo=labelerName" title="คัดลอกไปยังชื่อผู้ประกอบการสำหรับออกใบสั่งซื้อ" shape="copy-to-clipboard"></clr-icon>
+                  </div>
+                  <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                    <label class="required" for="gForm_1">ชื่อผู้ประกอบการสำหรับออกใบสั่งซื้อ</label>
+                  </div>
+                  <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                    <input class="form-control" type="text" name="txtLabelerNamePo" [(ngModel)]="labelerNamePo" placeholder="ชื่อผู้ประกอบการสำหรับออกใบสั่งซื้อ">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -160,7 +176,7 @@
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-success" (click)="save()" [disabled]="!labelerName || isSaving || !labelerNin|| !labelerTypeId|| !labelerStatusId">
+      <button type="button" class="btn btn-success" (click)="save()" [disabled]="!labelerName ||!labelerCode||!labelerNamePo || isSaving || !labelerNin|| !labelerTypeId|| !labelerStatusId">
         บันทึก
       </button>
       <button type="button" class="btn btn-danger" routerLink="/admin/labeler">
