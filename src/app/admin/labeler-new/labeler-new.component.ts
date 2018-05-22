@@ -33,7 +33,9 @@ export class LabelerNewComponent implements OnInit {
   openRegister = false;
 
   labelerId: string;
+  labelerCode: string;
   labelerName: string;
+  labelerNamePo: string;
   labelerShortCode: string;
   labelerDescription: string;
   labelerNin: string;
@@ -163,8 +165,10 @@ export class LabelerNewComponent implements OnInit {
     this.isSaving = false;
 
     // clear form data
+    this.labelerCode = null;
     this.labelerId = null;
     this.labelerName = null;
+    this.labelerNamePo = null;
     this.labelerShortCode = null;
     this.labelerDescription = null;
     this.labelerNin = null;
@@ -196,6 +200,8 @@ export class LabelerNewComponent implements OnInit {
 
     const labeler: any = {
       labelerName: this.labelerName,
+      labelerCode: this.labelerCode,
+      labelerNamePo: this.labelerNamePo,
       labelerShortCode: this.labelerShortCode,
       labelerId: this.labelerId,
       labelerNin: this.labelerNin,
@@ -307,7 +313,9 @@ export class LabelerNewComponent implements OnInit {
       const rs: any = await this.labelerService.info(labelerId);
       if (rs.ok) {
         this.labelerId = rs.labeler.labeler_id;
+        this.labelerCode = rs.labeler.labeler_code;
         this.labelerName = rs.labeler.labeler_name;
+        this.labelerNamePo = rs.labeler.labeler_name_po;
         this.labelerShortCode = rs.labeler.short_code;
         this.labelerDescription = rs.labeler.description;
         this.labelerNin = rs.labeler.nin;
