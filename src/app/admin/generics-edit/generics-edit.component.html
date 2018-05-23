@@ -351,7 +351,12 @@
       <wm-generic-planning [genericId]="genericId"></wm-generic-planning>
     </clr-tab-content>
   </clr-tab>
-
+  <clr-tab>
+    <button clrTabLink >คลังรับสินค้า</button>
+    <clr-tab-content *clrIfActive>
+      <wm-receive-planning [genericId]="genericId"></wm-receive-planning>
+    </clr-tab-content>
+  </clr-tab>
 </clr-tabs>
 
 <wm-loading #loadingModal></wm-loading>

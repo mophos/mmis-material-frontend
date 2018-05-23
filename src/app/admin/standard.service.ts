@@ -184,5 +184,9 @@ export class StandardService {
         });
     });
   }
-
+  
+  async getWarehouses() {
+    const resp = await this.authHttp.get(`${this.url}/std/warehouses`).toPromise();
+    return resp.json();
+  }
 }

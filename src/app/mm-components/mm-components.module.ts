@@ -21,6 +21,8 @@ import { LoadingModule } from 'app/loading/loading.module';
 import { SearchGenericsBoxComponent } from './search-generics-box/search-generics-box.component';
 import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
 import { SearchLabelerBoxComponent } from 'app/mm-components/search-labeler-box/search-labeler-box.component';
+import { ReceivePlanningComponent } from './receive-planning/receive-planning.component';
+import { ReceivePlanningService } from './receive-planning.service';
 
 @NgModule({
   imports: [
@@ -32,7 +34,7 @@ import { SearchLabelerBoxComponent } from 'app/mm-components/search-labeler-box/
     TextMaskModule,
     LoadingModule
   ],
-  providers: [UomService, ProductPlanningService, OrderModifierService, LotService, DateService, GenericPlanningService],
+  providers: [UomService, ProductPlanningService, ReceivePlanningService, OrderModifierService, LotService, DateService, GenericPlanningService],
   declarations: [
     ToThaiDatePipe,
     ProductPlanningComponent,
@@ -41,7 +43,8 @@ import { SearchLabelerBoxComponent } from 'app/mm-components/search-labeler-box/
     LotsComponent,
     GenericPlanningComponent,
     SearchGenericsBoxComponent,
-    SearchLabelerBoxComponent
+    SearchLabelerBoxComponent,
+    ReceivePlanningComponent
   ],
   exports: [
     ProductPlanningComponent,
@@ -49,6 +52,7 @@ import { SearchLabelerBoxComponent } from 'app/mm-components/search-labeler-box/
     OrderModifiersComponent,
     LotsComponent,
     GenericPlanningComponent,
+    ReceivePlanningComponent,
     SearchGenericsBoxComponent,
     SearchLabelerBoxComponent
   ]
