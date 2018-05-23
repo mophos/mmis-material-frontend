@@ -42,7 +42,7 @@
                         <input type="text" disabled [value]="selectedGenericId">
                       </div>
                       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <mm-search-generics-box [selectedName]="selectedGenericName" [clearOnChange]="true" (onChange)="clearOnChangeGeneric($event)" (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
+                        <mm-search-generics-box [selectedName]="selectedGenericName" [clearOnChange]="true" (change)="keytype()" (onChange)="clearOnChangeGeneric($event)" (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -61,7 +61,7 @@
                         <input type="text" disabled [value]="selectedM" >
                       </div>
                       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <mm-search-labeler-box [selectedName]="mLabelerName" [clearOnChange]="true" (onChange)="clearOnChangeManufacture($event)" (onSelect)="selectedManufacture($event)" labelerType="M"></mm-search-labeler-box>
+                        <mm-search-labeler-box [selectedName]="mLabelerName" [clearOnChange]="true" (change)="keytype()" (onChange)="clearOnChangeManufacture($event)" (onSelect)="selectedManufacture($event)" labelerType="M"></mm-search-labeler-box>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -72,7 +72,7 @@
                         <input type="text" disabled [value]="selectedV">
                       </div>
                       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <mm-search-labeler-box [selectedName]="vLabelerName" [clearOnChange]="true" (onChange)="clearOnChangeVendor($event)" labelerType="V" (onSelect)="selectedVendor($event)"></mm-search-labeler-box>
+                        <mm-search-labeler-box [selectedName]="vLabelerName" (change)="keytype()" [clearOnChange]="true" (onChange)="clearOnChangeVendor($event)" labelerType="V" (onSelect)="selectedVendor($event)"></mm-search-labeler-box>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -261,7 +261,7 @@
 
         </div>
         <div class="card-footer">
-          <button class="btn btn-sm btn-success" [disabled]="isLoading || !productName || !selectedM || !selectedV || !selectedGenericId || isSaving || !productGroupsId"
+          <button class="btn btn-sm btn-success" [disabled]="isLoading || !productName || !selectedM || !selectedV || !selectedGenericId || isSaving || !isType"
             (click)="saveProduct()" [clrLoading]="isSaving">บันทึก</button>
           <button class="btn btn-sm btn-danger" routerLink="/admin/products">กลับหน้าหลัก</button>
         </div>
