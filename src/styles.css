@@ -333,3 +333,7 @@ wm-loading .modal-backdrop {
 .text-small {
   font-size: 10px;
 }
+.bg-danger {
+  background-color: red;
+  color: white;
+}
