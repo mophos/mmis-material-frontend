@@ -15,6 +15,7 @@ export class ReceivePlanningComponent implements OnInit {
   warehouses = [];
   warehouseAll = [];
   warehouseId = '';
+  loading = false;
 
   constructor(
     private receivePlanningService: ReceivePlanningService,
@@ -31,33 +32,40 @@ export class ReceivePlanningComponent implements OnInit {
 
   async getList() {
     try {
+      this.loading = true;
       const rs: any = await this.receivePlanningService.getWarehouse(this.genericId);
       console.log(rs);
       if (rs.ok) {
         this.warehouses = rs.rows;
       } else {
         console.log(rs.error);
-
       }
+      this.loading = false;
     } catch (error) {
+      this.loading = false;
       console.log(error);
       this.alertService.error(error);
     }
   }
   async getWarehouses() {
     try {
+      this.loading = false;
       const rs: any = await this.standardService.getWarehouses();
       if (rs.ok) {
         this.warehouseAll = rs.rows;
       }
+      this.loading = false;
     } catch (error) {
+      this.loading = false;
       console.log(error);
       this.alertService.error(JSON.stringify(error));
     }
   }
   async save() {
     try {
+      this.loading = true;
       const rs: any = await this.receivePlanningService.save(this.genericId, this.warehouseId);
+      this.loading = false;
       if (rs.ok) {
         this.warehouseId = '';
         this.getList();
@@ -66,6 +74,7 @@ export class ReceivePlanningComponent implements OnInit {
         this.alertService.error(rs.error);
       }
     } catch (error) {
+      this.loading = false;
       this.alertService.error(JSON.stringify(error));
     }
   }
@@ -73,7 +82,9 @@ export class ReceivePlanningComponent implements OnInit {
     try {
       this.alertService.confirm()
         .then(async (result) => {
+          this.loading = true;
           const rs: any = await this.receivePlanningService.remove(w.generic_id, w.warehouse_id);
+          this.loading = false;
           if (rs.ok) {
             this.getList();
             this.alertService.success();
@@ -84,6 +95,7 @@ export class ReceivePlanningComponent implements OnInit {
 
         });
     } catch (error) {
+      this.loading = false;
       this.alertService.error(JSON.stringify(error));
     }
   }
