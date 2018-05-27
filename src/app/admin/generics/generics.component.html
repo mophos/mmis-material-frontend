@@ -27,7 +27,7 @@
   <clr-dg-column>Generic Name</clr-dg-column>
   <clr-dg-column>ประเภท</clr-dg-column>
   <clr-dg-column>Base Unit</clr-dg-column>
-  <clr-dg-column>ชนิด</clr-dg-column>
+  <clr-dg-column>หมวดสินค้า</clr-dg-column>
   <clr-dg-column></clr-dg-column>
 
   <clr-dg-row *ngFor="let g of generics">
@@ -106,7 +106,7 @@
             <input class="form-control" type="text" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-            <label for="txtGenericId" class="required">ชนิด</label>
+            <label for="txtGenericId" class="required">หมวดสินค้า</label>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
             <div class="select form-control">

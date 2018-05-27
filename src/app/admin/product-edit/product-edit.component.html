@@ -115,26 +115,25 @@
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <input type="number" name="purchasePrice" [(ngModel)]="purchasePrice">
                       </div> -->
-                    </div>
-                    <div class="form-group row">
+                    <!-- </div>
+                    <div class="form-group row"> -->
 
-                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                        <!-- <label class="required">หมวดสินค้า</label> -->
-                      </div>
-                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                        <!-- <div class="select">
+                      <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label class="required">หมวดสินค้า</label>
+                      </div> -->
+                      <!-- <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="select">
                           <select id="selects_4" name="productGroupId" [(ngModel)]="productGroupsId" (change)="keytype()" >
                             <option *ngFor="let p of productGroups" [value]="p.generic_type_id">{{p.generic_type_name}}</option>
                           </select>
-                        </div> -->
-                      </div>
+                        </div>
+                      </div> -->
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <label>รูปแบบการจ่าย</label>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="select">
                           <select id="selects_4" name="pickingRule" [(ngModel)]="pickingRuleId" (change)="keytype()">
-                            <option>รูปแบบ</option>
                             <option value="1">FEFO (First Expired First Out)</option>
                             <option value="2">FIFO (First In First Out)</option>
                           </select>
