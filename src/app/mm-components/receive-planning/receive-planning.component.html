@@ -1,0 +1,39 @@
+<!-- <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button> -->
+<clr-datagrid [clrDgLoading]="loading" [style.height.%]="80">
+  <clr-dg-column [style.width.%]="80" >ชื่อคลัง</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
+  <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+  <clr-dg-row class="newLine">
+    <clr-dg-cell>
+      <div class="select">
+        <select [(ngModel)]="warehouseId" style="background-color: #FFFCE8;">
+          <option value="">กรุณาเลือกคลังสินค้า</option>
+          <option *ngFor="let item of warehouseAll" [value]="item.warehouse_id">{{item.short_code}} - {{item.warehouse_name}}</option>
+        </select>
+      </div>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <button title="บันทึก" class="btn btn-sm btn-success wm-small-btn" (click)="save()" [disabled]="!warehouseId" >
+        <clr-icon shape="floppy"></clr-icon>
+      </button>
+      <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="warehouseId = ''">
+        <clr-icon shape="trash"></clr-icon>
+      </button>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-row *ngFor="let w of warehouses" [clrDgItem]="t">
+    <clr-dg-cell>{{w.short_code}} - {{w.warehouse_name}}</clr-dg-cell>
+    <clr-dg-cell>
+      <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(w)">
+        <clr-icon shape="trash"></clr-icon>
+      </button>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+    <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+<span>หมายเหตุ คลังสำหรับรับสินค้าจากหน่วยงานภายนอก</span>

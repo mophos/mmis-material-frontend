@@ -11,7 +11,7 @@ export class StandardService {
     private authHttp: AuthHttp
   ) { }
 
-    getLabelerTypes() {
+  getLabelerTypes() {
     return new Promise((resolve, reject) => {
       this.authHttp.get(`${this.url}/std/labeler-types`)
         .map(res => res.json())
@@ -111,24 +111,59 @@ export class StandardService {
   }
 
   async getGenericAccount() {
-    let rs: any = await this.authHttp.get(`${this.url}/std/generic-accounts`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/std/generic-accounts`).toPromise();
     return rs.json();
   }
-  
+
   async getProductTypes() {
-    let rs: any = await this.authHttp.get(`${this.url}/std/type-product`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/std/type-product`).toPromise();
     return rs.json();
   }
-  
+
 
   async getBidTypes() {
-    let rs: any = await this.authHttp.get(`${this.url}/std/bid-types`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/std/bid-types`).toPromise();
     return rs.json();
   }
-  
-  getGenericGroups() {
+
+  getGenericGroups1() {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/std/generic-groups`)
+      this.authHttp.get(`${this.url}/std/generic-groups/1`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericGroups2(groupCode1: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-groups/2?groupCode1=${groupCode1}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericGroups3(groupCode1: string, groupCode2: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-groups/3?groupCode1=${groupCode1}&groupCode2=${groupCode2}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+  getGenericGroups4(groupCode1: string, groupCode2: string, groupCode3: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-groups/4?groupCode1=${groupCode1}&groupCode2=${groupCode2}&groupCode3=${groupCode3}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -149,5 +184,9 @@ export class StandardService {
         });
     });
   }
-
+  
+  async getWarehouses() {
+    const resp = await this.authHttp.get(`${this.url}/std/warehouses`).toPromise();
+    return resp.json();
+  }
 }

@@ -23,7 +23,7 @@
     "@angular/platform-browser-dynamic": "5.2.3",
     "@angular/router": "5.2.3",
     "@clr/angular": "0.11.3",
-    "@clr/icons": "0.11.3",
+    "@clr/icons": "^0.11.18",
     "@clr/ui": "0.11.3",
     "@siteslave/agx-typeahead": "0.0.20",
     "@webcomponents/custom-elements": "^1.0.0-rc.3",

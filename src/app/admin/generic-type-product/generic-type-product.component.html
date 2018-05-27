@@ -1,11 +1,11 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <span class="breadcrumb-item active">ชนิดรายการสินค้า</span>
+  <span class="breadcrumb-item active">หมวดสินค้า</span>
 </nav>
 
 <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-  <clr-dg-column [clrDgField]="'generic_type_name'" [style.width.%]="90">ชนิดรายการสินค้า</clr-dg-column>
+  <clr-dg-column [clrDgField]="'generic_type_name'" [style.width.%]="90">หมวดสินค้า</clr-dg-column>
   <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of types" [clrDgItem]="t">
@@ -18,10 +18,10 @@
     <clr-dg-cell>{{t.generic_type_name}}</clr-dg-cell>
     <clr-dg-cell>
         <div class="btn-group btn-primary">
-          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+          <button [disabled]="t.is_edit === 'N'" title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
             <clr-icon shape="note"></clr-icon>
           </button>
-          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+          <button [disabled]="t.is_edit === 'N'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
             <clr-icon shape="trash"></clr-icon>
           </button>
         </div>
@@ -35,15 +35,15 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข ชนิดรายการสินค้า</h3>
+  <h3 class="modal-title">เพิ่ม/แก้ไข หมวดสินค้า</h3>
   <div class="modal-body">
 
     <form>
       <section class="form-block">
-        <label>ข้อมูล ชนิดรายการสินค้า</label>
+        <label>ข้อมูล หมวดสินค้า</label>
         <div class="form-group row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="typeName">ชนิดรายการสินค้า</label>
+            <label class="required" for="typeName">หมวดสินค้า</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="typeName" [(ngModel)]="typeName" placeholder="">

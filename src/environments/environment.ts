@@ -1,8 +1,8 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:3001',
+  apiUrl: 'http://localhost:4005',
   mcdUrl: 'http://api.mmis.moph.go.th/mophmcd',
-  loginUrl: 'http://203.157.156.69/api/um',
+  loginUrl: 'http://localhost:4013',
   docUrl: 'http://api.mmis.moph.go.th/document',
   productImagePrefix: 'PMG',
 

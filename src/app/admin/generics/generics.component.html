@@ -27,7 +27,7 @@
   <clr-dg-column>Generic Name</clr-dg-column>
   <clr-dg-column>ประเภท</clr-dg-column>
   <clr-dg-column>Base Unit</clr-dg-column>
-  <clr-dg-column>ชนิด</clr-dg-column>
+  <clr-dg-column>หมวดสินค้า</clr-dg-column>
   <clr-dg-column></clr-dg-column>
 
   <clr-dg-row *ngFor="let g of generics">
@@ -106,7 +106,7 @@
             <input class="form-control" type="text" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-            <label for="txtGenericId" class="required">ชนิด</label>
+            <label for="txtGenericId" class="required">หมวดสินค้า</label>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
             <div class="select form-control">
@@ -116,14 +116,14 @@
               </select>
             </div>
           </div>
-          <div class="col-lg-1 col-md-3 col-sm-12 col-xs-12">
-            <label for="slGroup">กลุ่ม</label>
+          <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+            <label for="txtPackage">รูปแบบ</label>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <div class="select form-control">
-              <select name="slGroup" id="slGroup" [(ngModel)]="groupId">
+              <select name="slPackage" id="slPackage" [(ngModel)]="dosageId">
                 <option value=""></option>
-                <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_code }} {{ t.group_name }}</option>
+                <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
               </select>
             </div>
           </div>
@@ -140,7 +140,7 @@
             วัน
           </div>
 
-          <div class="col-lg-2 push-lg-3 col-md-2 col-sm-12 col-xs-12">
+          <!-- <div class="col-lg-2 push-lg-3 col-md-2 col-sm-12 col-xs-12">
             <label for="txtPackage">รูปแบบ</label>
           </div>
           <div class="col-lg-2 push-lg-3 col-md-4 col-sm-12 col-xs-12">
@@ -150,7 +150,7 @@
                 <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
               </select>
             </div>
-          </div>
+          </div> -->
         </div>
       </section>
     </form>
