@@ -18,10 +18,10 @@
     <clr-dg-cell>{{t.account_name}}</clr-dg-cell>
     <clr-dg-cell>
         <div class="btn-group btn-primary">
-          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+          <button [disabled]="t.is_edit === 'N'" title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
             <clr-icon shape="note"></clr-icon>
           </button>
-          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+          <button [disabled]="t.is_edit === 'N'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
             <clr-icon shape="trash"></clr-icon>
           </button>
         </div>
