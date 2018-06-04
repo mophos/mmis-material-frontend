@@ -14,8 +14,8 @@
 </div>
 
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="88">
-  <clr-dg-column>รหัส</clr-dg-column>
-  <clr-dg-column>หน่วยสินค้า</clr-dg-column>
+  <clr-dg-column [clrDgField]="'unit_code'">รหัส</clr-dg-column>
+  <clr-dg-column [clrDgField]="'unit_name'" >หน่วยสินค้า</clr-dg-column>
   <clr-dg-column [style.width.px]="50">Base Unit</clr-dg-column>
   <clr-dg-column [style.width.px]="50">ใช้งาน</clr-dg-column>
   <clr-dg-column></clr-dg-column>
@@ -50,7 +50,7 @@
       </div>
     </clr-dg-cell>
   </clr-dg-row> -->
-  <clr-dg-row *ngFor="let unit of units; let idx = index" [clrDgItem]="unit" [class.editLine]="unit.is_edit === 'Y'">
+  <clr-dg-row *clrDgItems="let unit of units; let idx = index" [clrDgItem]="unit" [class.editLine]="unit.is_edit === 'Y'">
     <clr-dg-cell style="text-align: center;">{{unit.unit_code}}</clr-dg-cell>
     <clr-dg-cell>{{unit.unit_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
