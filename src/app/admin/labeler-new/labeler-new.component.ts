@@ -8,6 +8,7 @@ import { HelperService } from 'app/admin/helper.service';
 import { ILabeler, IOrganization } from 'app/models';
 
 import * as moment from 'moment';
+declare var google;
 import { LoadingComponent } from '../../loading/loading.component';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -147,7 +148,7 @@ export class LabelerNewComponent implements OnInit {
       const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {});
       autocomplete.addListener('place_changed', () => {
         this.ngZone.run(() => {
-          const place: google.maps.places.PlaceResult = autocomplete.getPlace();
+          const place = autocomplete.getPlace();
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
