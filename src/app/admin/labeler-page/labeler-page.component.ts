@@ -1,5 +1,3 @@
-import { } from '@types/googlemaps';
-
 import { Component, OnInit, NgZone, ViewChild, QueryList, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { LabelerService } from '../labeler.service';
 import { StandardService } from '../standard.service';
