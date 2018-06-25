@@ -30,41 +30,41 @@ export class GenericService {
   }
 
   async saveGeneric(drugs: any) {
-    let rs: any = await this.authHttp.post(`${this.url}/generics`, {
+    const rs: any = await this.authHttp.post(`${this.url}/generics`, {
       drugs: drugs
     }).toPromise();
     return rs.json();
   }
 
   async getDetail(genericId: any) {
-    let rs: any = await this.authHttp.get(`${this.url}/generics/detail/${genericId}`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/generics/detail/${genericId}`).toPromise();
     return rs.json();
   }
 
   async saveExpiredAlert(generic_id: any, expired: any) {
-    let rs: any = await this.authHttp.get(`${this.url}/generics/expired-alert/${generic_id}/${expired}`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/generics/expired-alert/${generic_id}/${expired}`).toPromise();
     return rs.json();
   }
 
   async getGenericType() {
-    let rs: any = await this.authHttp.get(`${this.url}/generics/generic-type`).toPromise();
+    const rs: any = await this.authHttp.get(`${this.url}/generics/generic-type`).toPromise();
     return rs.json();
   }
 
   async updateGeneric(genericId: string, generics: any) {
-    let rs: any = await this.authHttp.put(`${this.url}/generics/${genericId}`, {
+    const rs: any = await this.authHttp.put(`${this.url}/generics/${genericId}`, {
       generics: generics
     }).toPromise();
     return rs.json();
   }
 
   async removeGeneric(genericId: string) {
-    let rs: any = await this.authHttp.delete(`${this.url}/generics/${genericId}`).toPromise();
+    const rs: any = await this.authHttp.delete(`${this.url}/generics/${genericId}`).toPromise();
     return rs.json();
   }
 
   async getTypes() {
-    let rs: any = await this.authHttp.delete(`${this.url}/generics/types`).toPromise();
+    const rs: any = await this.authHttp.delete(`${this.url}/generics/types`).toPromise();
     return rs.json();
   }
 

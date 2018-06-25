@@ -291,6 +291,8 @@ export class GenericsComponent implements OnInit {
             if (idx > -1) {
               this.generics.splice(idx, 1);
             }
+          } else if (!rs.ok && rs.error === 'product') {
+            this.alertService.error('กรุณาลบ Trade ก่อนลบ Generic');
           } else {
             this.alertService.error(JSON.stringify(rs.error));
           }
