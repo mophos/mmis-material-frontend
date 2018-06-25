@@ -36,6 +36,7 @@ import { DenyComponent } from './deny/deny.component';
     AppRoutingModule,
   ],
   providers: [
+    { provide: 'HOME_URL', useValue: environment.homeUrl },
     { provide: 'API_URL', useValue: environment.apiUrl },
     { provide: 'MCD_URL', useValue: environment.mcdUrl },
     { provide: 'DOC_URL', useValue: environment.docUrl },

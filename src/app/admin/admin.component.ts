@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Inject } from '@angular/core';
 import { Router } from '@angular/router';
-import { tokenNotExpired, JwtHelper } from 'angular2-jwt';
+import { JwtHelper } from 'angular2-jwt';
 import { AlertService } from './alert.service';
 import { UsersService } from './users.service';
 import { environment } from '../../environments/environment';
@@ -15,11 +15,11 @@ export class AdminComponent implements OnInit {
   onlineOffline: boolean;
   status: string;
   fullname: string;
-  collapsible: boolean = true;
-  collapse: boolean = true;
+  collapsible = true;
+  collapse = true;
   ChangePasswordModal = false;
   jwtHelper: JwtHelper = new JwtHelper();
-  @Output("onSuccess") onSuccess = new EventEmitter<boolean>();
+  @Output('onSuccess') onSuccess = new EventEmitter<boolean>();
   public env: any;
   rights: any;
   Purchasing = false;
@@ -32,10 +32,11 @@ export class AdminComponent implements OnInit {
 
   password: any = '';
   password2: any;
-  open: boolean = false;
-  isSaving: boolean = false;
+  open = false;
+  isSaving = false;
 
   constructor(
+    @Inject('HOME_URL') private homeUrl: string,
     private router: Router,
     private userService: UsersService,
     private alertService: AlertService) {
@@ -69,8 +70,7 @@ export class AdminComponent implements OnInit {
 
   logout() {
     sessionStorage.removeItem('token');
-    sessionStorage.removeItem('fullname');
-    this.router.navigate(['login']);
+    location.href = this.homeUrl;
   }
 
   openChangePasswordModal() {
