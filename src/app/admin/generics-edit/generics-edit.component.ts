@@ -6,6 +6,7 @@ import { AlertService } from 'app/admin/alert.service';
 import { GenericDrugAccountsService } from 'app/admin/generic-drug-accounts.service';
 import { UomService } from 'app/mm-components/uom.service';
 import { LoadingComponent } from 'app/loading/loading.component';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'wm-generics-edit',
@@ -32,6 +33,7 @@ export class GenericsEditComponent implements OnInit {
   typeFilterId: string;
 
   genericName: string;
+  unitName: string;
   pName: string;
   genericId: string;
   shortName: string;
@@ -46,11 +48,16 @@ export class GenericsEditComponent implements OnInit {
   planningMethod = 1;
   planningUnitGenericId: null;
 
+  type: number = 2;
+
   minQty = 0;
   maxQty = 0;
   eoqQty = 0;
   orderingCost = 0;
   carryingCost = 0;
+
+  convers: number = 0;
+  packCost: number = 0;
 
   primaryUnits: any = [];
   primaryUnitId: any;
@@ -85,10 +92,10 @@ export class GenericsEditComponent implements OnInit {
     await this.getGenericTypes();
     await this.getProductTypes();
     await this.getAccounts();
-    await this.getPrimaryUnits();
     await this.getBidTypes();
     await this.getConversions();
     await this.getDetail();
+    await this.getPrimaryUnits();
   }
 
   async getConversions() {
@@ -114,6 +121,8 @@ export class GenericsEditComponent implements OnInit {
       this.loadingModal.hide();
       if (resp.ok) {
         this.primaryUnits = resp.rows;
+        let idx = _.findIndex(resp.rows, { "unit_id": this.primaryUnitId });
+        idx > -1 ? this.unitName = resp.rows[idx].unit_name : this.unitName = null;
       } else {
         console.error(resp.error);
         this.alertService.error(resp.error);
@@ -363,6 +372,8 @@ export class GenericsEditComponent implements OnInit {
         drugAccountId: this.drugAccountId,
         primaryUnitId: this.primaryUnitId,
         planningMethod: this.planningMethod,
+        convers: this.convers,
+        packCost: this.packCost,
         standardCost: this.standardCost,
         maxQty: this.maxQty,
         minQty: this.minQty,
@@ -401,7 +412,21 @@ export class GenericsEditComponent implements OnInit {
     }
   }
 
+  selectType() {
+      this.standardCost = 0;
+      this.packCost = 0;
+      this.convers = 0;
+  }
+
   keytype() {
     this.isType = true;
+    if (this.convers && this.packCost) {
+      this.standardCost = this.packCost / this.convers;
+    }
+  }
+
+  async selectBaseUnit() {
+    let idx = _.findIndex(this.primaryUnits, { "unit_id": +this.primaryUnitId });
+    idx > -1 ? this.unitName = this.primaryUnits[idx].unit_name : this.unitName = null;
   }
 }

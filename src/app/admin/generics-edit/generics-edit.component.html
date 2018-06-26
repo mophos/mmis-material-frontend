@@ -21,7 +21,7 @@
                       <label for="isActive">&nbsp;</label>
                     </div> -->
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <clr-checkbox id="isActive" class="checkbox-inline" name="isActive" [(ngModel)]="isActive" (change)="keytype()">
+                  <clr-checkbox id="isActive" class="checkbox-inline" name="isActive" [(ngModel)]="isActive">
                     ใช้งาน
                   </clr-checkbox>
                 </div>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select form-control">
-                    <select name="slType" id="slType" [(ngModel)]="typeId" (change)="keytype()">
+                    <select name="slType" id="slType" [(ngModel)]="typeId">
                       <!-- <option value="">ไม่ระบุ</option> -->
                       <option *ngFor="let t of genericTypes" [value]="t.generic_type_id">{{ t.generic_type_name }}</option>
                     </select>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select id="selects_4" name="primaryUnitId" [(ngModel)]="primaryUnitId" (change)="keytype()">
+                    <select id="selects_4" name="primaryUnitId" (change)="selectBaseUnit()" [(ngModel)]="primaryUnitId">
                       <!-- <option value="">ไม่ระบุ</option> -->
                       <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
                     </select>
@@ -80,7 +80,7 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select form-control">
-                    <select name="tProduct" id="tProduct" [(ngModel)]="pTypeId" (change)="keytype()">
+                    <select name="tProduct" id="tProduct" [(ngModel)]="pTypeId">
                       <!-- <option value="">ไม่ระบุ</option> -->
                       <option *ngFor="let t of typeProduct" [value]="t.id">{{ t.name }}</option>
                     </select>
@@ -91,19 +91,22 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select form-control">
-                    <select name="drugAccountId" id="drugAccountId" (change)="keytype()" [(ngModel)]="drugAccountId">
+                    <select name="drugAccountId" id="drugAccountId" [(ngModel)]="drugAccountId">
                       <!-- <option value="">ไม่ระบุ</option> -->
                       <option *ngFor="let t of drugAccounts" [value]="t.account_id">{{ t.account_name }}</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <label for="mLabelerName">ราคากลาง (Base Unit)
-                    <!-- <font size="1px"></font> -->
-                  </label>
+                  <label for="bidTypeId">รูปแบบจัดซื้อ</label>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <input type="number" style="width: 100%; text-align: right;" name="standardCost" (keyup)="keytype()" [(ngModel)]="standardCost">
+                  <div class="select">
+                    <select id="bidTypeId" name="bidTypeId" [(ngModel)]="bidTypeId">
+                      <!-- <option value="">ไม่ระบุ</option> -->
+                      <option [value]="b.bid_id" *ngFor="let b of bidTypes">{{ b.bid_name}}</option>
+                    </select>
+                  </div>
                 </div>
               </div>
               <div class="form-group row">
@@ -112,7 +115,7 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select form-control">
-                    <select name="slPackage" id="slPackage" [(ngModel)]="dosageId" (change)="keytype()">
+                    <select name="slPackage" id="slPackage" [(ngModel)]="dosageId">
                       <!-- <option value="">ไม่ระบุ</option> -->
                       <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
                     </select>
@@ -123,7 +126,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select form-control">
-                    <select name="slGroup" id="slGroup" [(ngModel)]="groupId" (change)="keytype()">
+                    <select name="slGroup" id="slGroup" [(ngModel)]="groupId">
                       <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_code }} {{ t.group_name }}</option>
                     </select>
                   </div>
@@ -133,7 +136,7 @@
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select id="planningUnitGenericId" name="planningUnitGenericId" (change)="keytype()" [(ngModel)]="planningUnitGenericId">
+                    <select id="planningUnitGenericId" name="planningUnitGenericId" [(ngModel)]="planningUnitGenericId">
                       <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
                     </select>
                   </div>
@@ -147,28 +150,38 @@
               </div>
               <div class="form-group row">
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <label for="bidTypeId">รูปแบบจัดซื้อ</label>
+                  <label for="rdoCost">ราคากลาง</label>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select id="bidTypeId" name="bidTypeId" [(ngModel)]="bidTypeId" (change)="keytype()">
-                      <!-- <option value="">ไม่ระบุ</option> -->
-                      <option [value]="b.bid_id" *ngFor="let b of bidTypes">{{ b.bid_name}}</option>
+                    <select [(ngModel)]="type" name="type" (change)="selectType()">
+                      <option [value]="1">(Pack)</option>
+                      <option [value]="2" selected>(Base Unit)</option>
                     </select>
                   </div>
                 </div>
-                <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <label for="planningUnitGenericId">UOM สำหรับจัดทำแผน</label>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                  <div class="select">
-                    <select id="planningUnitGenericId" name="planningUnitGenericId" (change)="keytype()" [(ngModel)]="planningUnitGenericId">
-                      <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
-                    </select>
+                <div *ngIf="type==1">
+                  <div class="form-group row">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                      <input type="number" style="width: 100%; text-align: right;" name="convers" [(ngModel)]="convers" placeholder="จำนวน/แพ็ค"
+                        (keyup)="keytype()">
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                      <input class="form-control" type="text" [disabled]="true" name="unitName" [(ngModel)]="unitName">
+                    </div>
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                      <input type="number" style="width: 100%; text-align: right;" name="packCost" [(ngModel)]="packCost" placeholder="ราคาต่อแพ็ค"
+                        (keyup)="keytype()">
+                    </div>
                   </div>
-                </div> -->
-
-
+                </div>
+                <div class="form-group row">
+                  <div *ngIf="type==2">
+                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 push-lg-1 push-md-1">
+                      <input type="number" style="width: 100%; text-align: right;" name="standardCost" [(ngModel)]="standardCost">
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -207,7 +220,7 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select [(ngModel)]="groupId4" name="groupId4" (change)="keytype()" [disabled]="!groupId3 || genericGroup4.length === 0">
+                    <select [(ngModel)]="groupId4" name="groupId4" [disabled]="!groupId3 || genericGroup4.length === 0">
                       <option *ngFor="let g of genericGroup4" [value]="g.group_code_4">{{g.group_code_4}} - {{g.group_name_4}}</option>
                       <option value="null"></option>
                     </select>
@@ -223,7 +236,7 @@
             <div class="card-text">
               <div class="form-group row">
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <clr-checkbox id="isPlanning" class="checkbox-inline" name="isPlanning" [(ngModel)]="isPlanning" (change)="keytype()">
+                  <clr-checkbox id="isPlanning" class="checkbox-inline" name="isPlanning" [(ngModel)]="isPlanning">
                     ใช้คำนวณแผน
                   </clr-checkbox>
                 </div>
@@ -234,7 +247,7 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select id="planningMethod" name="planningMethod" [(ngModel)]="planningMethod" (change)="keytype()">
+                    <select id="planningMethod" name="planningMethod" [(ngModel)]="planningMethod">
                       <!-- <option value="">ไม่ระบุ</option> -->
                       <option value="1">Min/Max</option>
                       <option value="2">EOQ</option>
@@ -352,7 +365,7 @@
     </clr-tab-content>
   </clr-tab>
   <clr-tab>
-    <button clrTabLink >คลังรับสินค้า</button>
+    <button clrTabLink>คลังรับสินค้า</button>
     <clr-tab-content *clrIfActive>
       <wm-receive-planning [genericId]="genericId"></wm-receive-planning>
     </clr-tab-content>
