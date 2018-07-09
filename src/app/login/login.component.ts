@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
   isLogging = false;
   isError = false;
   errorMessage: string;
-
+  warehouses = [];
+  warehouseId: any;
   jwtHelper: JwtHelper = new JwtHelper();
   token: string;
 
@@ -28,13 +29,13 @@ export class LoginComponent implements OnInit {
     private alertService: AlertService
   ) {
     this.token = sessionStorage.getItem('token');
-   }
+  }
 
   doLogin() {
     if (this.username && this.password) {
       this.isError = false;
       this.isLogging = true;
-      this.loginService.doLogin(this.username, this.password)
+      this.loginService.doLogin(this.username, this.password, this.warehouseId)
         .then((resp: any) => {
           this.isLogging = false;
           if (resp.ok) {
@@ -73,6 +74,17 @@ export class LoginComponent implements OnInit {
       } else {
         this.router.navigate(['login']);
       }
+    }
+  }
+
+  async selectWarehouse(event) {
+    const rs: any = await this.loginService.searchWarehouse(this.username);
+    if (rs.ok) {
+      this.warehouses = rs.rows;
+      this.warehouseId = rs.rows[0].warehouse_id;
+    } else {
+      this.warehouses = [];
+      this.warehouseId = null;
     }
   }
 
