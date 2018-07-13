@@ -5,8 +5,13 @@
         Material Management&#174;
       </label>
       <div class="login-group">
-        <input autocomplete="off" (keypress)="enterLogin($event)" class="username" [(ngModel)]="username" type="text" name="login_username" placeholder="Username">
+        <input autocomplete="off" (keypress)="enterLogin($event)" (keyup)="selectWarehouse($event)" class="username" [(ngModel)]="username" type="text" name="login_username" placeholder="Username">
         <input (keypress)="enterLogin($event)" class="password" [(ngModel)]="password" type="password" name="login_password" placeholder="Password">
+        <div class="select">
+          <select [(ngModel)]="warehouseId" name="warehouseId">
+              <option *ngFor="let w of warehouses" [value]="w.warehouse_id">{{w.warehouse_name}}</option>
+          </select>
+      </div>
         <div class="error active" *ngIf='isError'>
           {{ errorMessage }}
         </div>
@@ -18,7 +23,7 @@
             Logging in...
           </span>
         </div>
-        <button type="button" (click)="doLogin()" class="btn btn-primary" [disabled]="!username || !password || isLogging">LOG IN</button>
+        <button type="button" (click)="doLogin()" class="btn btn-primary" [disabled]="!warehouseId || !username || !password || isLogging">LOG IN</button>
       </div>
     </form>
   </div>
