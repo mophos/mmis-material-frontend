@@ -92,6 +92,7 @@ export class LabelerNewComponent implements OnInit {
   @ViewChild('map') myMap;
   @ViewChild('search') private searchElementRef: ElementRef;
   @ViewChild('loadingModal') private loadingModal: LoadingComponent;
+  isUpdateCode = false;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -364,6 +365,9 @@ export class LabelerNewComponent implements OnInit {
           this.mapZoom = 15;
         }
         this.getBank();
+        if(this.labelerCode.length > 0) {
+          this.isUpdateCode = true;
+        }
       } else {
         this.alertService.error(JSON.stringify(rs.error));
       }
