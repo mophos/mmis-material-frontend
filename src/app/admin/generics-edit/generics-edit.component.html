@@ -20,52 +20,57 @@
                 <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                       <label for="isActive">&nbsp;</label>
                     </div> -->
+
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <label class="required" for="txtGenericName">Generic Name</label>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                  <input class="form-control" type="text" (keyup)="keytype()" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                  <div style="float: left">Generic Code</div>
+                  <div style="float: left;font-size: 2em">&nbsp;{{workingCode}}</div>
+                </div>
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <clr-checkbox id="isActive" class="checkbox-inline" name="isActive" [(ngModel)]="isActive">
                     ใช้งาน
                   </clr-checkbox>
                 </div>
-                <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                  <div style="float: left;">Generic Code </div>
-                  <div style="font-size: 0.7rem;">&nbsp;{{workingCode}}</div>
-                </div>
+
 
               </div>
               <div class="form-group row">
-                <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <label for="txtWorkingCode" class="required">Generic Code</label>
-                </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <input class="form-control" type="text" disabled name="txtWorkingCode" [(ngModel)]="workingCode" placeholder="">
-                </div> -->
-                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <label class="required" for="txtGenericName">Generic Name</label>
-                </div>
-                <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                  <input class="form-control" type="text" (keyup)="keytype()" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
-                </div>
-                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <label class="required" for="slType">หมวดสินค้า</label>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select form-control">
                     <select name="slType" id="slType" [(ngModel)]="typeId">
-                      <!-- <option value="">ไม่ระบุ</option> -->
                       <option *ngFor="let t of genericTypes" [value]="t.generic_type_id">{{ t.generic_type_name }}</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <label class="required">Base Unit</label>
+                    <label class="required">Base Unit</label>
+                  </div>
+                  <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div class="select">
+                      <select id="selects_4" name="primaryUnitId" (change)="selectBaseUnit()" [(ngModel)]="primaryUnitId">
+                        <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
+                      </select>
+                    </div>
+                  </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                  <label for="slPackage">รูปแบบ</label>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <div class="select">
-                    <select id="selects_4" name="primaryUnitId" (change)="selectBaseUnit()" [(ngModel)]="primaryUnitId">
-                      <!-- <option value="">ไม่ระบุ</option> -->
-                      <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
+                  <div class="select form-control">
+                    <select name="slPackage" id="slPackage" [(ngModel)]="dosageId">
+                      <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
                     </select>
                   </div>
                 </div>
+                
               </div>
             </div>
           </div>
@@ -78,7 +83,7 @@
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <label for="tProduct">ประเภทยา</label>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select form-control">
                     <select name="tProduct" id="tProduct" [(ngModel)]="pTypeId">
                       <!-- <option value="">ไม่ระบุ</option> -->
@@ -86,18 +91,17 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <label for="drugAccountId">ยาบัญชียาหลักแห่งชาติ</label>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                </div> -->
+                <!-- <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select form-control">
                     <select name="drugAccountId" id="drugAccountId" [(ngModel)]="drugAccountId">
-                      <!-- <option value="">ไม่ระบุ</option> -->
                       <option *ngFor="let t of drugAccounts" [value]="t.account_id">{{ t.account_name }}</option>
                     </select>
                   </div>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                </div> -->
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <label for="bidTypeId">รูปแบบจัดซื้อ</label>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -108,29 +112,6 @@
                     </select>
                   </div>
                 </div>
-              </div>
-              <div class="form-group row">
-                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <label for="slPackage">รูปแบบ</label>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <div class="select form-control">
-                    <select name="slPackage" id="slPackage" [(ngModel)]="dosageId">
-                      <!-- <option value="">ไม่ระบุ</option> -->
-                      <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <label for="slGroup">กลุ่ม</label>
-                </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                  <div class="select form-control">
-                    <select name="slGroup" id="slGroup" [(ngModel)]="groupId">
-                      <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_code }} {{ t.group_name }}</option>
-                    </select>
-                  </div>
-                </div> -->
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <label for="planningUnitGenericId">UOM สำหรับจัดทำแผน</label>
                 </div>
@@ -141,14 +122,37 @@
                     </select>
                   </div>
                 </div>
+              </div>
+
+              <!-- <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                  <label for="slPackage">รูปแบบ</label>
+                </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <div class="select form-control">
+                    <select name="slPackage" id="slPackage" [(ngModel)]="dosageId">
+                      <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
+                    </select>
+                  </div>
+                </div> -->
+              <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <label for="slGroup">กลุ่ม</label>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                  <div class="select form-control">
+                    <select name="slGroup" id="slGroup" [(ngModel)]="groupId">
+                      <option *ngFor="let t of genericGroups" [value]="t.group_id">{{ t.group_code }} {{ t.group_name }}</option>
+                    </select>
+                  </div>
+                </div> -->
+
+
+              <div class="form-group row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <label for="mLabelerName">Keywords</label>
                 </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <input type="text" style="width: 100%; text-align: right;" name="keyword" (keyup)="keytype()" [(ngModel)]="keyword">
                 </div>
-              </div>
-              <div class="form-group row">
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <label for="rdoCost">ราคากลาง</label>
                 </div>
@@ -160,28 +164,26 @@
                     </select>
                   </div>
                 </div>
-                <div *ngIf="type==1">
-                  <div class="form-group row">
-                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                      <input type="number" style="width: 100%; text-align: right;" name="convers" [(ngModel)]="convers" placeholder="จำนวน/แพ็ค"
-                        (keyup)="keytype()">
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                      <input class="form-control" type="text" [disabled]="true" name="unitName" [(ngModel)]="unitName">
-                    </div>
-                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                      <input type="number" style="width: 100%; text-align: right;" name="packCost" [(ngModel)]="packCost" placeholder="ราคาต่อแพ็ค"
-                        (keyup)="keytype()">
-                    </div>
+                <!-- <div *ngIf="type==1"> -->
+                  <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="type==1">
+                    <input type="number" style="width: 100%; text-align: right;" name="convers" [(ngModel)]="convers" placeholder="จำนวน/แพ็ค"
+                      (keyup)="keytype()">
+                  </div>
+                  <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12" *ngIf="type==1">
+                    <input class="form-control" type="text" [disabled]="true" name="unitName" [(ngModel)]="unitName">
+                  </div>
+                  <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="type==1">
+                    <input type="number" style="width: 100%; text-align: right;" name="packCost" [(ngModel)]="packCost" placeholder="ราคาต่อแพ็ค"
+                      (keyup)="keytype()">
+                  </div>
+                <!-- </div> -->
+                <div *ngIf="type==2">
+                  <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <input type="number" style="width: 100%; text-align: right;" name="standardCost" [(ngModel)]="standardCost">
                   </div>
                 </div>
-                <div class="form-group row">
-                  <div *ngIf="type==2">
-                    <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 push-lg-1 push-md-1">
-                      <input type="number" style="width: 100%; text-align: right;" name="standardCost" [(ngModel)]="standardCost">
-                    </div>
-                  </div>
-                </div>
+
+                <!-- </div> -->
               </div>
             </div>
           </div>
@@ -190,6 +192,30 @@
         <div class="card">
           <div class="card-block">
             <div class="card-text">
+              <div class="form-group row">
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                  <label for="group">บัญชียาหลัก</label>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                  <div class="select form-control">
+                    <select name="drugAccountId" id="drugAccountId" [(ngModel)]="drugAccountId">
+                      <!-- <option value="">ไม่ระบุ</option> -->
+                      <option *ngFor="let t of drugAccounts" [value]="t.account_id">{{ t.account_name }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                  <label for="group">ED</label>
+                </div>
+                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+                  <div class="select">
+                    <select [(ngModel)]="edId" name="edId">
+                      <option *ngFor="let g of ed" [value]="g.ed_id">{{g.ed_name}}</option>
+                      <option value="null"></option>
+                    </select>
+                  </div>
+                </div>
+              </div>
               <div class="form-group row">
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <label for="group">กลุ่มยา</label>
@@ -226,6 +252,7 @@
                     </select>
                   </div>
                 </div>
+
               </div>
             </div>
           </div>

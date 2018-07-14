@@ -11,11 +11,13 @@
         <clr-icon shape="home"></clr-icon>
         <span class="tooltip-content">Home</span>
       </a>
-      <a href="{{env.purchasingUrl}}" *ngIf="Purchasing" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+      <a href="{{env.purchasingUrl}}" *ngIf="Purchasing" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
+        aria-haspopup="true">
         <clr-icon shape="shopping-cart"></clr-icon>
         <span class="tooltip-content">Purchasing</span>
       </a>
-      <a href="{{env.planningUrl}}" *ngIf="Planning" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+      <a href="{{env.planningUrl}}" *ngIf="Planning" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
+        aria-haspopup="true">
         <clr-icon shape="event"></clr-icon>
         <span class="tooltip-content">Planning</span>
       </a>
@@ -24,15 +26,18 @@
         <clr-icon shape="data-cluster"></clr-icon>
         <span class="tooltip-content">Inventory</span>
       </a>
-      <a routerLink="{{env.materialsUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+      <a routerLink="{{env.materialsUrl}}" routerLinkActive="active" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right"
+        role="tooltip" aria-haspopup="true">
         <clr-icon shape="storage"></clr-icon>
         <span class="tooltip-content">Materials</span>
       </a>
-      <a href="{{env.contractsUrl}}" *ngIf="Contracts" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+      <a href="{{env.contractsUrl}}" *ngIf="Contracts" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
+        aria-haspopup="true">
         <clr-icon shape="scroll"></clr-icon>
         <span class="tooltip-content">Contracts</span>
       </a>
-      <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip" aria-haspopup="true">
+      <a href="{{env.umUrl}}" *ngIf="Administrator" class=" nav-link nav-icon tooltip tooltip-md tooltip-bottom-right" role="tooltip"
+        aria-haspopup="true">
         <clr-icon shape="cog"></clr-icon>
         <span class="tooltip-content">Administrator</span>
       </a>
@@ -58,39 +63,73 @@
       <router-outlet></router-outlet>
     </div>
 
+
+
+
     <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapse">
-      <a title="รายการสินค้า (Trade Name)" clrVerticalNavLink routerLink="/admin/products" routerLinkActive="active">
-        <clr-icon clrVerticalNavIcon shape="folder"></clr-icon>
-        รายการสินค้า (Trade Name)
-      </a>
-      <a clrVerticalNavLink routerLink="/admin/generics" routerLinkActive="active" title="ชื่อสามัญ (Generic Name)">
-        <clr-icon shape="book" clrVerticalNavIcon></clr-icon> ชื่อสามัญ (Generic Name)
-      </a>
-      <a clrVerticalNavLink routerLink="/admin/labeler" routerLinkActive="active" title="รายชื่อผู้ประกอบการ">
-        <clr-icon shape="group" clrVerticalNavIcon></clr-icon> รายชื่อผู้ประกอบการ
-      </a>
-      <a clrVerticalNavLink routerLink="/admin/units" routerLinkActive="active" title="Unit of Measure">
-        <clr-icon shape="grid-view" clrVerticalNavIcon></clr-icon> Unit of Measure
-      </a>
-      <a clrVerticalNavLink routerLink="/admin/generic-dosages" routerLinkActive="active" title="รูปแบบรายการสินค้า">
-        <clr-icon shape="objects" clrVerticalNavIcon></clr-icon> รูปแบบรายการสินค้า (Dosage Form)
-      </a>
 
-      <a clrVerticalNavLink routerLink="/admin/generic-type-product" routerLinkActive="active" title="หมวดสินค้า">
-        <clr-icon shape="share" clrVerticalNavIcon></clr-icon> หมวดสินค้า
-      </a>
+      <clr-vertical-nav-group routerLinkActive="active">
+        <a clrVerticalNavLink href="javascript://">
+          <clr-icon shape="folder" clrVerticalNavIcon></clr-icon>
+          สินค้า (Trade)
+        </a>
+        <clr-vertical-nav-group-children *clrIfExpanded="true">
+          <a title="รายการสินค้า (Trade Name)" clrVerticalNavLink routerLink="/admin/products" routerLinkActive="active">
+            <clr-icon clrVerticalNavIcon shape="folder"></clr-icon>
+            รายการสินค้า (Trade Name)
+          </a>
+          <a clrVerticalNavLink routerLink="/admin/labeler" routerLinkActive="active" title="รายชื่อผู้ประกอบการ">
+            <clr-icon shape="group" clrVerticalNavIcon></clr-icon> รายชื่อผู้ประกอบการ
+          </a>
+          <a clrVerticalNavLink routerLink="/admin/product-groups" routerLinkActive="active" title="กลุ่มยา">
+            <clr-icon shape="folder-open" clrVerticalNavIcon></clr-icon> กลุ่มยา
+          </a>
+        </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group>
 
-      <a clrVerticalNavLink routerLink="/admin/generic-types" routerLinkActive="active" title="ชนิดยาในบัญชี/นอกบัญชี">
-        <clr-icon shape="file-settings" clrVerticalNavIcon></clr-icon> ชนิดยาในบัญชี/นอกบัญชี
-      </a>
+      <clr-vertical-nav-group routerLinkActive="active">
+        <a clrVerticalNavLink href="javascript://">
+          <clr-icon shape="book" clrVerticalNavIcon></clr-icon>
+          สามัญ (Generic)
+        </a>
+        <clr-vertical-nav-group-children *clrIfExpanded="true">
+          <a clrVerticalNavLink routerLink="/admin/generics" routerLinkActive="active" title="ชื่อสามัญ (Generic Name)">
+            <clr-icon shape="book" clrVerticalNavIcon></clr-icon> ชื่อสามัญ (Generic Name)
+          </a>
 
-      <a clrVerticalNavLink routerLink="/admin/generic-accounts" routerLinkActive="active" title="ประเภทยา">
-        <clr-icon shape="organization" clrVerticalNavIcon></clr-icon> ประเภทยา
-      </a>
+          <a clrVerticalNavLink routerLink="/admin/units" routerLinkActive="active" title="Unit of Measure">
+            <clr-icon shape="grid-view" clrVerticalNavIcon></clr-icon> Unit of Measure
+          </a>
+          <a clrVerticalNavLink routerLink="/admin/generic-dosages" routerLinkActive="active" title="รูปแบบรายการสินค้า">
+            <clr-icon shape="objects" clrVerticalNavIcon></clr-icon> รูปแบบรายการสินค้า (Dosage Form)
+          </a>
 
-      <a clrVerticalNavLink routerLink="/admin/generic-groups" routerLinkActive="active" title="กลุ่มเวชภัณฑ์ยา">
-        <clr-icon shape="folder-open" clrVerticalNavIcon></clr-icon> กลุ่มบัญชียาหลัก
-      </a>
+          <a clrVerticalNavLink routerLink="/admin/generic-type-product" routerLinkActive="active" title="หมวดสินค้า">
+            <clr-icon shape="share" clrVerticalNavIcon></clr-icon> หมวดสินค้า
+          </a>
+
+          <a clrVerticalNavLink routerLink="/admin/generic-types" routerLinkActive="active" title="ชนิดยาในบัญชี/นอกบัญชี">
+            <clr-icon shape="file-settings" clrVerticalNavIcon></clr-icon> ชนิดยาในบัญชี/นอกบัญชี
+          </a>
+
+          <a clrVerticalNavLink routerLink="/admin/generic-accounts" routerLinkActive="active" title="ประเภทยา">
+            <clr-icon shape="organization" clrVerticalNavIcon></clr-icon> ประเภทยา
+          </a>
+
+          <a clrVerticalNavLink routerLink="/admin/generic-groups" routerLinkActive="active" title="กลุ่มบัญชียาหลัก">
+            <clr-icon shape="folder-open" clrVerticalNavIcon></clr-icon> กลุ่มบัญชียาหลัก
+          </a>
+          <a clrVerticalNavLink routerLink="/admin/generic-group-ed" routerLinkActive="active" title="กลุ่มบัญชียาหลัก กขคง">
+            <clr-icon shape="folder-open" clrVerticalNavIcon></clr-icon> กลุ่มบัญชียาหลัก กขคง
+          </a>
+        </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group>
+
+
+
+
+
+
 
       <!-- <a clrVerticalNavLink routerLink="/admin/warehouses" routerLinkActive="active" title="จัดการคลังสินค้า">
         <clr-icon shape="store" clrVerticalNavIcon></clr-icon> จัดการคลังสินค้า
