@@ -1,3 +1,5 @@
+import { GenericGroupEDService } from './generic-group-ed.service';
+import { ProductGroupsService } from './product-groups.service';
 import { UsersService } from './users.service';
 import '@clr/icons';
 import '@clr/icons/shapes/all-shapes';
@@ -55,6 +57,8 @@ import { LoadingModule } from 'app/loading/loading.module';
 import { GenericTypeProductComponent } from './generic-type-product/generic-type-product.component';
 import { UpperCaseDirective } from './upper-case.directive';
 import { LabelerNewComponent } from './labeler-new/labeler-new.component';
+import { ProductGroupsComponent } from './product-groups/product-groups.component';
+import { GenericGroupEdComponent } from './generic-group-ed/generic-group-ed.component';
 
 @NgModule({
   imports: [
@@ -96,7 +100,9 @@ import { LabelerNewComponent } from './labeler-new/labeler-new.component';
     NumberOnly13Directive,
     GenericTypeProductComponent,
     UpperCaseDirective,
-    LabelerNewComponent
+    LabelerNewComponent,
+    ProductGroupsComponent,
+    GenericGroupEdComponent
   ],
   providers: [
     LabelerService,
@@ -115,6 +121,9 @@ import { LabelerNewComponent } from './labeler-new/labeler-new.component';
     HelperService,
     AuthGuard,
     UploadingService,
-    UsersService]
+    UsersService,
+    ProductGroupsService,
+    GenericGroupEDService
+  ]
 })
 export class AdminModule { }

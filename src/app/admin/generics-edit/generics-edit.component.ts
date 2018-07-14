@@ -21,6 +21,7 @@ export class GenericsEditComponent implements OnInit {
   drugAccounts: any = [];
   typeProduct: any = [];
   conversions: any = [];
+  ed: any = [];
 
   isSaving = false;
   loading = false;
@@ -31,7 +32,8 @@ export class GenericsEditComponent implements OnInit {
   typeId: string;
   typeOldId: string;
   typeFilterId: string;
-
+  
+  edId: any;
   genericName: string;
   unitName: string;
   pName: string;
@@ -48,7 +50,7 @@ export class GenericsEditComponent implements OnInit {
   planningMethod = 1;
   planningUnitGenericId: null;
 
-  type: number = 2;
+  type = 2;
 
   minQty = 0;
   maxQty = 0;
@@ -56,8 +58,8 @@ export class GenericsEditComponent implements OnInit {
   orderingCost = 0;
   carryingCost = 0;
 
-  convers: number = 0;
-  packCost: number = 0;
+  convers = 0;
+  packCost = 0;
 
   primaryUnits: any = [];
   primaryUnitId: any;
@@ -96,6 +98,7 @@ export class GenericsEditComponent implements OnInit {
     await this.getConversions();
     await this.getDetail();
     await this.getPrimaryUnits();
+    await this.getED();
   }
 
   async getConversions() {
@@ -353,6 +356,23 @@ export class GenericsEditComponent implements OnInit {
     }
   }
 
+  async getED() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getED();
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.ed = rs.rows;
+      } else {
+        this.alertService.error(JSON.stringify(rs.error));
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
+
   async save() {
 
     if (this.genericName && this.primaryUnitId && this.typeId && this.workingCode) {
@@ -413,9 +433,9 @@ export class GenericsEditComponent implements OnInit {
   }
 
   selectType() {
-      this.standardCost = 0;
-      this.packCost = 0;
-      this.convers = 0;
+    this.standardCost = 0;
+    this.packCost = 0;
+    this.convers = 0;
   }
 
   keytype() {

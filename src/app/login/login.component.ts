@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   errorMessage: string;
   warehouses = [];
   warehouseId: any;
+  userWarehouseId: any;
   jwtHelper: JwtHelper = new JwtHelper();
   token: string;
 
@@ -35,7 +36,7 @@ export class LoginComponent implements OnInit {
     if (this.username && this.password) {
       this.isError = false;
       this.isLogging = true;
-      this.loginService.doLogin(this.username, this.password, this.warehouseId)
+      this.loginService.doLogin(this.username, this.password, this.userWarehouseId)
         .then((resp: any) => {
           this.isLogging = false;
           if (resp.ok) {
@@ -58,7 +59,7 @@ export class LoginComponent implements OnInit {
   }
 
   enterLogin(event) {
-    if (event.charCode === 13) {
+    if (event.charCode === 13 && this.username && this.password && this.userWarehouseId) {
       this.doLogin();
     }
   }
@@ -81,10 +82,10 @@ export class LoginComponent implements OnInit {
     const rs: any = await this.loginService.searchWarehouse(this.username);
     if (rs.ok) {
       this.warehouses = rs.rows;
-      this.warehouseId = rs.rows[0].warehouse_id;
+      this.userWarehouseId = rs.rows[0].user_warehouse_id;
     } else {
       this.warehouses = [];
-      this.warehouseId = null;
+      this.userWarehouseId = null;
     }
   }
 
