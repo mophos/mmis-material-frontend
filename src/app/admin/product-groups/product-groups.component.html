@@ -1,0 +1,59 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <span class="breadcrumb-item active">กลุ่มยา</span>
+</nav>
+
+<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+<clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+  <clr-dg-column [style.width.%]="90" [clrDgField]="'name'">กลุ่มยา</clr-dg-column>
+  <clr-dg-column ></clr-dg-column>
+  <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+  <clr-dg-row *clrDgItems="let t of productGroups" [clrDgItem]="t">
+    <clr-dg-cell>{{t.product_group_name}}</clr-dg-cell>
+    <clr-dg-cell>
+        <div class="btn-group btn-primary">
+          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+            <clr-icon shape="note"></clr-icon>
+          </button>
+          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+            <clr-icon shape="trash"></clr-icon>
+          </button>
+        </div>
+      </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+    <clr-dg-pagination #pagination [clrDgPageSize]="50"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่ม/แก้ไข กลุ่มยา</h3>
+  <div class="modal-body">
+
+    <form>
+      <section class="form-block">
+        <label>ข้อมูล กลุ่มยา</label>
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="productGroupName">กลุ่มยา</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="productGroupName" [(ngModel)]="productGroupName" placeholder="">
+          </div>
+        </div>
+      </section>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!productGroupName">
+        บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="opened = false">
+        ปิด
+    </button>
+  </div>
+</clr-modal>

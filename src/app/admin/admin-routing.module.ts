@@ -1,3 +1,5 @@
+import { GenericGroupEdComponent } from './generic-group-ed/generic-group-ed.component';
+import { ProductGroupsComponent } from './product-groups/product-groups.component';
 import { WarehousesComponent } from './warehouses/warehouses.component';
 import { ProductEditComponent } from './product-edit/product-edit.component';
 import { UnitsMainComponent } from './units/units-main/units-main.component';
@@ -41,9 +43,11 @@ const routes: Routes = [
       { path: 'generic-accounts', component: GenericDrugAccountsComponent, pathMatch: 'full' },
       { path: 'generic-dosages', component: GenericDrugDosagesComponent, pathMatch: 'full' },
       { path: 'generic-groups', component: GenericDrugGroupsComponent, pathMatch: 'full' },
+      { path: 'generic-group-ed', component: GenericGroupEdComponent, pathMatch: 'full' },
       { path: 'generic-medicine-supplier', component: GenericMedicineSupplierPageComponent, pathMatch: 'full' },
       { path: 'generic-supplier-types', component: GenericSuppliesTypesComponent, pathMatch: 'full' },
       { path: 'products', component: ProductPageComponent, pathMatch: 'full' },
+      { path: 'product-groups', component: ProductGroupsComponent, pathMatch: 'full' },
       { path: 'products/:productId', component: ProductEditComponent, pathMatch: 'full' },
       { path: 'packages', component: PackagesComponent, pathMatch: 'full' },
       { path: 'units', component: UnitsMainComponent, pathMatch: 'full' },
