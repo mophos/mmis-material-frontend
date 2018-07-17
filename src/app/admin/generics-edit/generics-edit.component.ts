@@ -32,7 +32,7 @@ export class GenericsEditComponent implements OnInit {
   typeId: string;
   typeOldId: string;
   typeFilterId: string;
-  
+
   edId: any;
   genericName: string;
   unitName: string;
@@ -377,6 +377,9 @@ export class GenericsEditComponent implements OnInit {
 
     if (this.genericName && this.primaryUnitId && this.typeId && this.workingCode) {
       this.isSaving = true;
+      if (this.convers && this.packCost) {
+        this.standardCost = this.packCost / this.convers;
+      }
       const generics = {
         genericName: this.genericName,
         typeId: this.typeId,
@@ -440,13 +443,14 @@ export class GenericsEditComponent implements OnInit {
 
   keytype() {
     this.isType = true;
-    if (this.convers && this.packCost) {
-      this.standardCost = this.packCost / this.convers;
-    }
   }
 
   async selectBaseUnit() {
-    let idx = _.findIndex(this.primaryUnits, { "unit_id": +this.primaryUnitId });
-    idx > -1 ? this.unitName = this.primaryUnits[idx].unit_name : this.unitName = null;
+    const idx = _.findIndex(this.primaryUnits, { 'unit_id': +this.primaryUnitId });
+    if (idx > -1) {
+      this.unitName = this.primaryUnits[idx].unit_name;
+    } else {
+      this.unitName = null;
+    }
   }
 }
