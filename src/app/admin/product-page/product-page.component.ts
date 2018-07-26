@@ -99,7 +99,7 @@ export class ProductPageComponent implements OnInit {
   async getGroupList() {
     try {
       this.loadingModal.show();
-      const rs: any = await this.productService.getProductGroups();
+      const rs: any = await this.productService.getGenericTypes();
       this.loadingModal.hide();
       if (rs.ok) {
         if (rs.rows.length) {

@@ -71,12 +71,12 @@ export class ProductService {
 
   async search(query: any, limit: number, offset: number, groupId: any) {
     const rs = await this.authHttp.post(`${this.url}/products/search`,
-    {
-      query: query,
-      groupId: groupId,
-      limit: limit,
-      offset: offset
-    }).toPromise();
+      {
+        query: query,
+        groupId: groupId,
+        limit: limit,
+        offset: offset
+      }).toPromise();
     return rs.json();
   }
 
@@ -107,6 +107,18 @@ export class ProductService {
   getProductGroups() {
     return new Promise((resolve, reject) => {
       this.authHttp.get(`${this.url}/std/product-groups`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericTypes() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-types`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
