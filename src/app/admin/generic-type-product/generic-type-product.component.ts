@@ -11,10 +11,10 @@ export class GenericTypeProductComponent implements OnInit {
   types: any = [];
   typeId: string;
   typeName: string;
-
-  opened: boolean = false;
-  isUpdate: boolean = false;
-  loading: boolean = false;
+  prefixName: string;
+  opened = false;
+  isUpdate = false;
+  loading = false;
 
   constructor(
     private typeProduct: GenericTypesProductService,
@@ -51,8 +51,11 @@ export class GenericTypeProductComponent implements OnInit {
   }
 
   edit(p: any) {
+    console.log(p);
+
     this.typeId = p.generic_type_id;
     this.typeName = p.generic_type_name;
+    this.prefixName = p.prefix_name;
     this.isUpdate = true;
     this.opened = true;
   }
@@ -79,9 +82,9 @@ export class GenericTypeProductComponent implements OnInit {
     if (this.typeName) {
       let promise;
       if (this.isUpdate) {
-        promise = this.typeProduct.update(this.typeId, this.typeName);
+        promise = this.typeProduct.update(this.typeId, this.typeName, this.prefixName);
       } else {
-        promise = this.typeProduct.save(this.typeName);
+        promise = this.typeProduct.save(this.typeName, this.prefixName);
       }
 
       promise.then((results: any) => {
@@ -97,6 +100,14 @@ export class GenericTypeProductComponent implements OnInit {
         .catch(() => {
           this.alertService.serverError();
         });
+    }
+  }
+
+  checkPrefix() {
+    if (this.prefixName.length > 1) {
+      this.prefixName = this.prefixName[this.prefixName.length - 1].toUpperCase();
+    } else if (this.prefixName.length) {
+      this.prefixName = this.prefixName[0].toUpperCase();
     }
   }
 }

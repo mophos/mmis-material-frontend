@@ -22,10 +22,11 @@ export class GenericTypesProductService {
     });
   }
 
-  save(typeName: string) {
+  save(typeName: string, prefixName: string) {
     return new Promise((resolve, reject) => {
       this.authHttp.post(`${this.url}/type-product`, {
-        typeName: typeName
+        typeName: typeName,
+        prefixName: prefixName
       })
         .map(res => res.json())
         .subscribe(data => {
@@ -36,10 +37,11 @@ export class GenericTypesProductService {
     });
   }
 
-  update(typeId: string, typeName: string) {
+  update(typeId: string, typeName: string, prefixName: string) {
     return new Promise((resolve, reject) => {
       this.authHttp.put(`${this.url}/type-product/${typeId}`, {
-        typeName: typeName
+        typeName: typeName,
+        prefixName: prefixName
       })
         .map(res => res.json())
         .subscribe(data => {
