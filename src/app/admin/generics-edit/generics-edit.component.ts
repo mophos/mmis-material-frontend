@@ -96,9 +96,9 @@ export class GenericsEditComponent implements OnInit {
     await this.getAccounts();
     await this.getBidTypes();
     await this.getConversions();
-    await this.getDetail();
     await this.getPrimaryUnits();
     await this.getED();
+    await this.getDetail();
   }
 
   async getConversions() {
@@ -381,6 +381,7 @@ export class GenericsEditComponent implements OnInit {
         this.standardCost = this.packCost / this.convers;
       }
       const generics = {
+        workingCode: this.workingCode,
         genericName: this.genericName,
         typeId: this.typeId,
         typeOldId: this.typeOldId,
@@ -415,6 +416,7 @@ export class GenericsEditComponent implements OnInit {
         this.loadingModal.show();
         try {
           const rs: any = await this.genericService.updateGeneric(this.genericId, generics);
+          await this.getDetail();
           this.loadingModal.hide();
           if (rs.ok) {
             this.alertService.success();

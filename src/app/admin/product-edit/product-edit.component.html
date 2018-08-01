@@ -39,10 +39,10 @@
                         <label class="required" for="genericName">Generic</label>
                       </div>
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                        <input type="text" disabled [value]="selectedGenericId">
+                        <input type="text" disabled [value]="selectedGenericCode">
                       </div>
                       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <mm-search-generics-box [selectedName]="selectedGenericName" [clearOnChange]="true" (change)="keytype()" (onChange)="clearOnChangeGeneric($event)"
+                        <mm-search-generics-box disabled [selectedName]="selectedGenericName" [clearOnChange]="true" (change)="keytype()" (onChange)="clearOnChangeGeneric($event)"
                           (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
                       </div>
                     </div>

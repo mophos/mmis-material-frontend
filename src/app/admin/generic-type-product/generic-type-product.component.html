@@ -5,27 +5,23 @@
 
 <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-  <clr-dg-column [clrDgField]="'generic_type_name'" [style.width.%]="90">หมวดสินค้า</clr-dg-column>
+  <clr-dg-column [clrDgField]="'generic_type_name'" [style.width.%]="75">หมวดสินค้า</clr-dg-column>
+  <clr-dg-column>รหัสสินค้า</clr-dg-column>
   <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of types" [clrDgItem]="t">
-    <!-- <clr-dg-action-overflow>
-      <button class="action-item" (click)="edit(t)">
-        <clr-icon shape="note"></clr-icon>แก้ไขข้อมูล</button>
-      <button class="action-item" (click)="remove(t)">
-        <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
-    </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.generic_type_name}}</clr-dg-cell>
+    <clr-dg-cell>{{t.prefix_name}}</clr-dg-cell>
     <clr-dg-cell>
-        <div class="btn-group btn-primary">
-          <button [disabled]="t.is_edit === 'N'" title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
-            <clr-icon shape="note"></clr-icon>
-          </button>
-          <button [disabled]="t.is_edit === 'N'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
-            <clr-icon shape="trash"></clr-icon>
-          </button>
-        </div>
-      </clr-dg-cell>
+      <div class="btn-group btn-primary">
+        <button [disabled]="t.is_edit === 'N'" title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="edit(t)">
+          <clr-icon shape="note"></clr-icon>
+        </button>
+        <button [disabled]="t.is_edit === 'N'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
@@ -49,13 +45,21 @@
             <input class="form-control" type="text" name="typeName" [(ngModel)]="typeName" placeholder="">
           </div>
         </div>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required" for="prefixName">รหัสสินค้า(A-Z)</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" (keyup)="checkPrefix()" name="prefixName" [(ngModel)]="prefixName" placeholder="">
+          </div>
+        </div>
       </section>
     </form>
 
   </div>
   <div class="modal-footer">
 
-    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!typeName">
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!typeName|| !prefixName">
       บันทึก
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">

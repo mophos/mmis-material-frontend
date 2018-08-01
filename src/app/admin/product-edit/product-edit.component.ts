@@ -25,6 +25,7 @@ export class ProductEditComponent implements OnInit {
   mLabelerName: any = null;
   selectedGenericId: any = null;
   selectedGenericName: any = null;
+  selectedGenericCode: any = null;
   isRawMaterial = false;
   pickingRuleId = null;
   isActive = false;
@@ -175,6 +176,7 @@ export class ProductEditComponent implements OnInit {
     try {
       this.selectedGenericId = event.generic_id;
       this.selectedGenericName = event.generic_name;
+      this.selectedGenericCode = event.working_code
     } catch (error) {
       console.error(error.message);
     }
@@ -219,6 +221,7 @@ export class ProductEditComponent implements OnInit {
         this.productName = resp.detail.product_name;
         this.isRawMaterial = resp.detail.is_raw_material === 'Y' ? true : false;
         this.selectedGenericId = resp.detail.generic_id;
+        this.selectedGenericCode = resp.detail.generic_code;
         this.selectedGenericName = resp.detail.generic_name;
         this.vLabelerName = resp.detail.v_labeler;
         this.mLabelerName = resp.detail.m_labeler;

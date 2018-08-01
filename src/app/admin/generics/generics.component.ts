@@ -115,6 +115,8 @@ export class GenericsComponent implements OnInit {
     this.loadingModal.show();
     try {
       const rs: any = await this.standardService.getGenericTypes();
+      console.log(rs.rows);
+
       this.loadingModal.hide();
       if (rs.ok) {
         this.loadingModal.hide();
