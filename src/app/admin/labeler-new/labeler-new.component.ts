@@ -345,8 +345,6 @@ export class LabelerNewComponent implements OnInit {
           this.tambons = rsTambon.rows;
           this.labelerTambon = _labelerTambon;
         } else {
-          console.log(rsTambon.error);
-
           this.alertService.error(rsTambon.error);
         }
         //
