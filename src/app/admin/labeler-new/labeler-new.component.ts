@@ -365,7 +365,7 @@ export class LabelerNewComponent implements OnInit {
           this.mapZoom = 15;
         }
         this.getBank();
-        if(this.labelerCode.length > 0) {
+        if (this.labelerCode != null && this.labelerCode !== undefined && this.labelerCode !== '') {
           this.isUpdateCode = true;
         }
       } else {
@@ -374,6 +374,8 @@ export class LabelerNewComponent implements OnInit {
 
       this.loadingModal.hide();
     } catch (error) {
+      console.log(error);
+
       this.loadingModal.hide();
       this.alertService.error(JSON.stringify(error));
     }
