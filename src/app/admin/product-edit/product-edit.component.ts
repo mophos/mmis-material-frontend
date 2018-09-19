@@ -271,6 +271,7 @@ export class ProductEditComponent implements OnInit {
     data.purchasePrice = this.purchasePrice;
     data.keywords = this.keywords;
     data.productGroupId = this.productGroupsId;
+    this.isType = false;
     // data.productGroupOldId = this.productGroupOldId;
     // data.minQty = this.minQty || 0;
     // data.maxQty = this.maxQty || 0;
