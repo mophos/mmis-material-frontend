@@ -1,6 +1,6 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/generics">ชื่อสามัญ (Generic Name</a>
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/generics">ชื่อสามัญ (Generic Name)</a>
   <span class="breadcrumb-item active">แก้ไขข้อมูลชื่อสามัญ (Generic Name)</span>
 </nav>
 <div class="progress loop" *ngIf="loading">
@@ -9,7 +9,7 @@
 
 <clr-tabs>
   <clr-tab>
-    <button clrTabLink id="link1">ข้อมูลชื่อสามัญ (Generic Name</button>
+    <button clrTabLink id="link1" (click)='tapGeneric()' >ข้อมูลชื่อสามัญ (Generic Name)</button>
     <clr-tab-content id="content1" *clrIfActive>
       <form style="padding: 15px;">
 
