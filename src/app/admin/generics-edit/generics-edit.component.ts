@@ -117,6 +117,9 @@ export class GenericsEditComponent implements OnInit {
     }
   }
 
+  async tapGeneric(){
+    await this.getConversions()
+  }
   async getPrimaryUnits() {
     this.loadingModal.show();
     try {
