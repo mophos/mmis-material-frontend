@@ -284,7 +284,6 @@ export class ProductEditComponent implements OnInit {
       const resp: any = await this.productService.update(this.productId, data);
       this.loadingModal.hide();
       if (resp.ok) {
-        this.workingCode = resp.workingCode;
         this.alertService.success();
       } else {
         this.alertService.error(resp.error);
