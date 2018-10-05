@@ -40,7 +40,7 @@ export class GenericsEditComponent implements OnInit {
   genericId: string;
   shortName: string;
   description: string;
-  keyword: string;
+  keywords: string;
   drugAccountId: string;
   workingCode: any;
   shortCode: any;
@@ -172,6 +172,7 @@ export class GenericsEditComponent implements OnInit {
         this.typeOldId = rs.detail.generic_type_id;
         this.dosageId = rs.detail.dosage_id;
         this.pTypeId = rs.detail.generic_hosp_id;
+        this.edId = rs.detail.group_ed;
         this.groupId1 = rs.detail.group_code_1;
         this.groupId2 = rs.detail.group_code_2;
         this.groupId3 = rs.detail.group_code_3;
@@ -188,7 +189,7 @@ export class GenericsEditComponent implements OnInit {
         this.orderingCost = +rs.detail.ordering_cost;
         this.bidTypeId = this.bidTypeId ? this.bidTypes[0].bid_id : rs.detail.purchasing_method;
         this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
-        this.keyword = rs.detail.keywords;
+        this.keywords = rs.detail.keywords;
         if (this.groupId2) {
           this.getGenericGroup2();
         }
@@ -388,6 +389,7 @@ export class GenericsEditComponent implements OnInit {
         genericName: this.genericName,
         typeId: this.typeId,
         typeOldId: this.typeOldId,
+        groupEd: this.edId === 'null' ? null : this.edId,
         groupId1: this.groupId1 === 'null' ? null : this.groupId1,
         groupId2: this.groupId2 === 'null' ? null : this.groupId2,
         groupId3: this.groupId3 === 'null' ? null : this.groupId3,
@@ -395,7 +397,7 @@ export class GenericsEditComponent implements OnInit {
         dosageId: this.dosageId,
         pTypeId: this.pTypeId,
         description: this.description,
-        keywords: this.keyword,
+        keywords: this.keywords,
         drugAccountId: this.drugAccountId,
         primaryUnitId: this.primaryUnitId,
         planningMethod: this.planningMethod,
