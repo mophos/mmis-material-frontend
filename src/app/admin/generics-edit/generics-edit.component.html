@@ -118,7 +118,7 @@
                   <label for="mLabelerName">Keywords</label>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                  <input type="text" style="width: 100%; text-align: right;" name="keyword" (keyup)="keytype()" [(ngModel)]="keyword">
+                  <input type="text" style="width: 100%; text-align: right;" name="keyword" (keyup)="keytype()" [(ngModel)]="keywords">
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <label for="rdoCost">ราคากลาง</label>
@@ -178,7 +178,7 @@
                   <div class="select">
                     <select [(ngModel)]="edId" name="edId" (change)="keytype()">
                       <option *ngFor="let g of ed" [value]="g.ed_id">{{g.ed_name}}</option>
-                      <option value="null"></option>
+                      <option value="null">-</option>
                     </select>
                   </div>
                 </div>
