@@ -42,8 +42,8 @@
                         <input type="text" disabled [value]="selectedGenericCode">
                       </div>
                       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <mm-search-generics-box disabled [selectedName]="selectedGenericName" [clearOnChange]="true" (change)="keytype()" (onChange)="clearOnChangeGeneric($event)"
-                          (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
+                        <mm-search-generics-box disabled [selectedName]="selectedGenericName" [clearOnChange]="true"
+                          (change)="keytype()" (onChange)="clearOnChangeGeneric($event)" (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -51,7 +51,8 @@
                         <label class="required" for="productName">ชื่อทางการค้า</label>
                       </div>
                       <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                        <input class="form-control" type="text" name="productName" (keyup)="keytype()" [(ngModel)]="productName" placeholder="">
+                        <input class="form-control" type="text" name="productName" (keyup)="keytype()" [(ngModel)]="productName"
+                          placeholder="">
                       </div>
                     </div>
                     <div class="form-group row">
@@ -62,8 +63,9 @@
                         <input type="text" disabled [value]="selectedM">
                       </div> -->
                       <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                        <mm-search-labeler-box [selectedName]="mLabelerName" [clearOnChange]="true" (change)="keytype()" (onChange)="clearOnChangeManufacture($event)"
-                          (onSelect)="selectedManufacture($event)" labelerType="M"></mm-search-labeler-box>
+                        <mm-search-labeler-box [selectedName]="mLabelerName" [clearOnChange]="true" (change)="keytype()"
+                          (onChange)="clearOnChangeManufacture($event)" (onSelect)="selectedManufacture($event)"
+                          labelerType="M"></mm-search-labeler-box>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -74,8 +76,8 @@
                         <input type="text" disabled [value]="selectedV">
                       </div> -->
                       <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                        <mm-search-labeler-box [selectedName]="vLabelerName" (change)="keytype()" [clearOnChange]="true" (onChange)="clearOnChangeVendor($event)"
-                          labelerType="V" (onSelect)="selectedVendor($event)"></mm-search-labeler-box>
+                        <mm-search-labeler-box [selectedName]="vLabelerName" (change)="keytype()" [clearOnChange]="true"
+                          (onChange)="clearOnChangeVendor($event)" labelerType="V" (onSelect)="selectedVendor($event)"></mm-search-labeler-box>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -85,7 +87,8 @@
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="select">
                           <select id="selects_4" name="purchaseUnitId" (change)="keytype()" [(ngModel)]="purchaseUnitId">
-                            <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
+                            <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x
+                              {{u.qty}} {{u.to_unit_name}}</option>
                           </select>
                         </div>
                       </div>
@@ -96,7 +99,8 @@
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="select">
                           <select id="selects_4" name="issueUnitId" [(ngModel)]="issueUnitId" (change)="keytype()">
-                            <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
+                            <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x
+                              {{u.qty}} {{u.to_unit_name}}</option>
                           </select>
                         </div>
                       </div>
@@ -249,14 +253,15 @@
               </div>
               <div class="col-md-3">
                 <!-- <h4>ภาพสินค้า</h/4> -->
-                <a href="javascript://" (dblclick)="openFile()" class="card clickable">
+                <a href="javascript://" (click)="openFile()" class="card clickable">
                   <div class="card-img">
                     <img *ngIf="!imageUrl" src="http://via.placeholder.com/350x450">
                     <img *ngIf="imageUrl" [src]="imageUrl" style="width: 250px; height: 330px;">
                   </div>
                   <div class="card-footer">
                     <label class="btn btn-sm btn-success" style="margin: 0px;">
-                      <input type="file" #file accept="image/*" class="hidden" (change)="fileChangeEvent($event)"> เลือก.. ({{filesToUpload.length}})
+                      <input type="file" #file accept="image/*" class="hidden" (change)="fileChangeEvent($event)">
+                      เลือก.. ({{filesToUpload.length}})
                     </label>
                     <button class="btn btn-sm btn-danger" (click)="upload()" [disabled]="!filesToUpload.length">อัปโหลด</button>
                     <span class="spinner spinner-inline" *ngIf="isUploading">
@@ -305,5 +310,13 @@
     </clr-tab-content>
   </clr-tab> -->
 </clr-tabs>
+
+<clr-modal [(clrModalOpen)]="modalPicture" [clrModalSize]="'xl'">
+  <div class="modal-body" style="text-align: center">
+    <img *ngIf="!imageUrl" src="http://via.placeholder.com/350x450">
+    <img *ngIf="imageUrl" [src]="imageUrl" style="width: 80%;">
+  </div>
+</clr-modal>
+
 
 <wm-loading #loadingModal></wm-loading>
