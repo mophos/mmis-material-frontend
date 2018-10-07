@@ -70,7 +70,7 @@ export class ProductEditComponent implements OnInit {
 
   purchaseUnitProductId: null;
   issueUnitProductId: null;
-
+  modalPicture = false;
   constructor(
     private completerService: CompleterService,
     private productService: ProductService,
@@ -320,11 +320,14 @@ export class ProductEditComponent implements OnInit {
   }
 
   openFile() {
-    if (this.imageUrl) {
-      window.open(this.imageUrl, '_blank');
-    } else {
-      this.alertService.error('ไม่พบไฟล์ที่ต้องการ');
-    }
+    // if (this.imageUrl) {
+    //   window.open(this.imageUrl, '_blank');
+    // } else {
+    //   this.alertService.error('ไม่พบไฟล์ที่ต้องการ');
+    // }
+    this.modalPicture = true;
+    // console.log('open file');
+
   }
 
   getFilesList() {
