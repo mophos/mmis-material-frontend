@@ -253,10 +253,10 @@
               </div>
               <div class="col-md-3">
                 <!-- <h4>ภาพสินค้า</h/4> -->
-                <a href="javascript://" (click)="openFile()" class="card clickable">
+                <a href="javascript://" class="card clickable">
                   <div class="card-img">
                     <img *ngIf="!imageUrl" src="http://via.placeholder.com/350x450">
-                    <img *ngIf="imageUrl" [src]="imageUrl" style="width: 250px; height: 330px;">
+                    <img *ngIf="imageUrl" (click)="openFile()" [src]="imageUrl" style="width: 250px; height: 330px;">
                   </div>
                   <div class="card-footer">
                     <label class="btn btn-sm btn-success" style="margin: 0px;">
