@@ -8,10 +8,11 @@ import { CompleterService, CompleterData, RemoteData } from 'ag2-completer';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
 import { LoadingComponent } from 'app/loading/loading.component';
-
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 @Component({
   selector: 'wm-product-edit',
-  templateUrl: './product-edit.component.html'
+  templateUrl: './product-edit.component.html',
+  styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
   @ViewChild('planning') planning: any;
@@ -71,6 +72,9 @@ export class ProductEditComponent implements OnInit {
   purchaseUnitProductId: null;
   issueUnitProductId: null;
   modalPicture = false;
+
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[] = [];
   constructor(
     private completerService: CompleterService,
     private productService: ProductService,
@@ -95,8 +99,24 @@ export class ProductEditComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.galleryOptions = [
+      {
+        'previewZoom': true,
+        'previewRotate': true,
+        'previewCloseOnClick': true,
+        'previewCloseOnEsc': true,
+        'width': '400px',
+        'height': '380px',
+      },
+      { 'breakpoint': 480, 'width': '300px', 'height': '300px', 'thumbnailsColumns': 3 },
+      { 'breakpoint': 400, 'width': '100%', 'height': '200px', 'thumbnailsColumns': 2 }
+    ];
+
+
     this.getInfo();
+
   }
+
 
   async getInfo() {
     await this.getFilesList();
@@ -300,14 +320,15 @@ export class ProductEditComponent implements OnInit {
     this.filesToUpload = <Array<File>>fileInput.target.files;
   }
 
-  upload() {
+  async upload() {
     const documentCode = `${this.productImagePrefix}-${this.productId}`;
     this.isUploading = true;
     this.uploadingService.makeFileRequest(documentCode, this.filesToUpload)
-      .then((result: any) => {
+      .then(async (result: any) => {
         this.isUploading = false;
         if (result.ok) {
           this.filesToUpload = [];
+          await this.getFilesList();
           this.alertService.success();
           // this.getFilesList();
         } else {
@@ -332,17 +353,39 @@ export class ProductEditComponent implements OnInit {
 
   getFilesList() {
     this.files = [];
+    this.galleryImages = [];
     const file = `${this.productImagePrefix}-${this.productId}`;
     try {
       this.uploadingService.getFiles(file)
         .then((result: any) => {
           if (result.ok) {
             this.files = result.rows;
-            const lastImage: any = this.files[0];
+            // const lastImage: any = this.files[0];
             // console.log(lastImage);
-            const documentId = lastImage.document_id ? lastImage.document_id : null;
-            const url = `${this.docUrl}/uploads/files/${documentId}`;
-            this.imageUrl = url;
+            // const documentId = lastImage.document_id ? lastImage.document_id : null;
+            // const url = `${this.docUrl}/uploads/files/${documentId}`;
+
+            // preview //
+            if (result.rows.length) {
+              result.rows.forEach(v => {
+                const url = `${this.docUrl}/uploads/files/${v.document_id}`;
+                const obj: any = {
+                  small: url,
+                  medium: url,
+                  big: url
+
+                };
+                this.galleryImages.push(obj);
+              });
+            } else {
+              this.galleryImages.push({
+                small: 'http://via.placeholder.com/400x285',
+                medium: 'http://via.placeholder.com/400x285',
+                big: 'http://via.placeholder.com/400x285'
+              })
+            }
+            /////////////
+            // this.imageUrl = url;
           } else {
             this.alertService.error(JSON.stringify(result.error));
           }
