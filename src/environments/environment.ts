@@ -3,7 +3,7 @@ export const environment = {
   apiUrl: 'http://localhost:4005',
   mcdUrl: 'http://api.mmis.moph.go.th/mophmcd',
   loginUrl: 'http://localhost:4013',
-  docUrl: 'http://api.mmis.moph.go.th/document',
+  docUrl: 'http://localhost:4011',
   productImagePrefix: 'PMG',
 
   homeUrl: '/',

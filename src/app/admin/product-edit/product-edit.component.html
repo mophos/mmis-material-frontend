@@ -3,7 +3,6 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin/products">สินค้า (Products)</a>
   <span class="breadcrumb-item active">{{productName}} ({{selectedGenericName}})</span>
 </nav>
-
 <clr-tabs>
   <clr-tab>
     <button clrTabLink clrTabLinkId="link1" (click)="getInfo()">Product detail</button>
@@ -12,7 +11,7 @@
         <div class="card-block">
           <div class="card-text">
             <div class="row">
-              <div class="col-md-9">
+              <div class="col-md-8">
                 <form>
                   <section class="form-block">
                     <div class="form-group row">
@@ -251,9 +250,20 @@
                   </section>
                 </form>
               </div>
-              <div class="col-md-3">
-                <!-- <h4>ภาพสินค้า</h/4> -->
-                <a href="javascript://" class="card clickable">
+              <div class="col-md-4">
+                <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+                <label class="btn btn-sm btn-success" style="margin: 0px;">
+                  <input type="file" #file accept="image/*" class="hidden" (change)="fileChangeEvent($event)">
+                  เลือก.. ({{filesToUpload.length}})
+                </label>
+                <button class="btn btn-sm btn-danger" (click)="upload()" [disabled]="!filesToUpload.length">อัปโหลด</button>
+                <span class="spinner spinner-inline" *ngIf="isUploading">
+                  Uploading...
+                </span>
+                <span *ngIf="isUploading">
+                  Uploading...
+                </span>
+                <!-- <a href="javascript://" class="card clickable">
                   <div class="card-img">
                     <img *ngIf="!imageUrl" src="http://via.placeholder.com/350x450">
                     <img *ngIf="imageUrl" (click)="openFile()" [src]="imageUrl" style="width: 250px; height: 330px;">
@@ -271,7 +281,7 @@
                       Uploading...
                     </span>
                   </div>
-                </a>
+                </a> -->
               </div>
             </div>
           </div>

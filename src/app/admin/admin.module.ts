@@ -59,7 +59,7 @@ import { UpperCaseDirective } from './upper-case.directive';
 import { LabelerNewComponent } from './labeler-new/labeler-new.component';
 import { ProductGroupsComponent } from './product-groups/product-groups.component';
 import { GenericGroupEdComponent } from './generic-group-ed/generic-group-ed.component';
-
+import { NgxGalleryModule } from 'ngx-gallery';
 @NgModule({
   imports: [
     CommonModule,
@@ -77,6 +77,7 @@ import { GenericGroupEdComponent } from './generic-group-ed/generic-group-ed.com
     MmComponentsModule,
     LoadingModule,
     AdminRoutingModule,
+    NgxGalleryModule
   ],
   declarations: [
     AdminComponent,
