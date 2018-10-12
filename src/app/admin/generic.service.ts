@@ -36,6 +36,11 @@ export class GenericService {
     return rs.json();
   }
 
+  async searchDC24(q: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/generics/search/dc24?q=${q}`).toPromise();
+    return rs.json();
+  }
+
   async getDetail(genericId: any) {
     const rs: any = await this.authHttp.get(`${this.url}/generics/detail/${genericId}`).toPromise();
     return rs.json();

@@ -1,3 +1,4 @@
+import { UomService } from './../../mm-components/uom.service';
 import { GenericDrugAccountsService } from './../generic-drug-accounts.service';
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
@@ -28,7 +29,7 @@ export class GenericsComponent implements OnInit {
   genericType: any = [];
   genericDosages: any = [];
   drugAccounts: any = [];
-
+  primaryUnits: any = [];
   loading = false;
 
   query: any;
@@ -58,11 +59,17 @@ export class GenericsComponent implements OnInit {
 
   currentPage = 1;
   genericCodeAuto: any;
+  modalSearch = false;
+  genericNameSearch: any;
+  listdc24 = [];
+  unitName: any;
+  primaryUnitId: any;
   constructor(
     private standardService: StandardService,
     private genericService: GenericService,
     private alertService: AlertService,
     private accountService: GenericDrugAccountsService,
+    private uomService: UomService,
     private router: Router
   ) {
     const token = sessionStorage.getItem('token');
@@ -73,12 +80,42 @@ export class GenericsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.getPrimaryUnits();
     this.getGenericGroups();
     this.getGenericTypes();
     this.getGenericDosages();
     this.getAccounts();
     this.getGenericType();
   }
+
+  async getPrimaryUnits() {
+    this.loadingModal.show();
+    try {
+      const resp: any = await this.uomService.getPrimaryUnits();
+      this.loadingModal.hide();
+      if (resp.ok) {
+        this.primaryUnits = resp.rows;
+        // const idx = _.findIndex(resp.rows, { 'unit_id': this.primaryUnitId });
+        // idx > -1 ? this.unitName = resp.rows[idx].unit_name : this.unitName = null;
+      } else {
+        console.error(resp.error);
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      console.log(error.message);
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
+
+  // async selectBaseUnit() {
+  //   const idx = _.findIndex(this.primaryUnits, { 'unit_id': +this.primaryUnitId });
+  //   if (idx > -1) {
+  //     this.unitName = this.primaryUnits[idx].unit_name;
+  //   } else {
+  //     this.unitName = null;
+  //   }
+  // }
 
   async searchGeneric() {
     this.loadingModal.show();
@@ -129,7 +166,6 @@ export class GenericsComponent implements OnInit {
               }
             });
           });
-
           // this.typeFilterId = sessionStorage.getItem('genericGroupId') ? sessionStorage.getItem('genericGroupId') : this.genericTypeIds;
           if (this.typeFilterId === 'all') {
             sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
@@ -198,9 +234,12 @@ export class GenericsComponent implements OnInit {
   }
 
   addNew() {
+    // this.router.navigate(['/admin/generic-new']);
     this.workingCode = null;
     this.genericName = null;
-    this.typeId = null;
+    // this.typeId = null;
+    this.typeId = this.genericTypes[0].generic_type_id;
+    this.primaryUnitId = this.primaryUnits[0].unit_id;
     this.genericTypeId = null;
     this.expired = 270;
     // this.groupId = null;
@@ -209,6 +248,41 @@ export class GenericsComponent implements OnInit {
     this.openNew = true;
   }
 
+  async search() {
+    this.genericNameSearch = this.genericName;
+    this.openNew = false;
+    this.modalSearch = true;
+    await this.searchDC24();
+  }
+
+  async searchDC24() {
+    try {
+      this.loadingModal.show();
+      const rs: any = await this.genericService.searchDC24(this.genericNameSearch);
+      if (rs.ok) {
+        this.listdc24 = rs.rows;
+        console.log(this.listdc24);
+
+      } else {
+        this.alertService.error(rs.error);
+      }
+      this.loadingModal.hide();
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(error);
+    }
+  }
+
+  selectDC(g) {
+    this.genericName = g.generic_name;
+    this.modalSearch = false;
+    this.openNew = true;
+  }
+
+  closeDC() {
+    this.modalSearch = false;
+    this.openNew = true;
+  }
   async getListByTypes() {
     try {
       if (this.query) {
@@ -255,7 +329,8 @@ export class GenericsComponent implements OnInit {
         // groupId: this.groupId,
         dosageId: this.dosageId,
         drugAccountId: this.drugAccountId,
-        workingCode: this.workingCode
+        workingCode: this.workingCode,
+        primaryUnitId: this.primaryUnitId
       };
       try {
         const rs: any = await this.genericService.saveGeneric(drugs)
