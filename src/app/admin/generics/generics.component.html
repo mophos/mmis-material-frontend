@@ -8,7 +8,8 @@
     <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
   </div>
   <div class="col-md-7">
-    <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา Generic Code, Generic Name" style="width: 250px;" (keyup)="enterSearch($event)">
+    <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา Generic Code, Generic Name" style="width: 250px;"
+      (keyup)="enterSearch($event)">
     <button class="btn btn-primary btn-sm" [disabled]="!query" (click)="searchGeneric()">ค้นหา</button>
     <!-- <button class="btn btn-success btn-sm" (click)="getAll()">ทั้งหมด</button>     -->
   </div>
@@ -65,20 +66,22 @@
             <label for="workingCode" class="required">Generic Code </label>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12" *ngIf="!genericCodeAuto">
-            <input class="form-control" [disabled]="genericCodeAuto" type="text" name="workingCode" [(ngModel)]="workingCode" placeholder="Generic Code 7 หลัก ">
+            <input class="form-control" [disabled]="genericCodeAuto" type="text" name="workingCode" [(ngModel)]="workingCode"
+              placeholder="Generic Code 7 หลัก ">
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12" *ngIf="genericCodeAuto">
             <label for="workingCode" class="required">Generic Code </label>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12" *ngIf="genericCodeAuto">
-            <input class="form-control" [disabled]="true" type="text" name="workingCode" [(ngModel)]="workingCode" placeholder="อัตโนมัติ">
+            <input class="form-control" [disabled]="true" type="text" name="workingCode" [(ngModel)]="workingCode"
+              placeholder="อัตโนมัติ">
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-            <label for="slType">ชนิดยาในบัญชี/นอกบัญชี</label>
+            <label for="drugAccountId">ชนิดยาในบัญชี/นอกบัญชี</label>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
             <div class="select form-control">
-              <select name="slType" id="drugAccountId" [(ngModel)]="drugAccountId">
+              <select name="drugAccountId" id="drugAccountId" [(ngModel)]="drugAccountId">
                 <option value=""></option>
                 <option *ngFor="let t of drugAccounts" [value]="t.account_id">{{ t.account_name }}</option>
               </select>
@@ -103,15 +106,22 @@
             <label class="required" for="txtGenericName">Generic Name</label>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
-            <input class="form-control" type="text" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
+            <div class="row">
+              <div class="col-md-10">
+                <input class="form-control" type="text" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
+              </div>
+              <div class="col-md-2">
+                <clr-icon shape="search" (click)="search()"></clr-icon>
+              </div>
+            </div>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
             <label for="txtGenericId" class="required">หมวดสินค้า</label>
           </div>
           <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
             <div class="select form-control">
-              <select name="slType" id="slType" [(ngModel)]="typeId">
-                <option value=""></option>
+              <select name="typeId" id="typeId" [(ngModel)]="typeId">
+                <!-- <option value=""></option> -->
                 <option *ngFor="let t of genericTypes" [value]="t.generic_type_id">{{ t.generic_type_name }}</option>
               </select>
             </div>
@@ -130,15 +140,27 @@
         </div>
 
         <div class="form-group row wid99">
+          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            <label class="required">Base Unit</label>
+          </div>
+          <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+            <div class="select">
+              <select id="selects_4" name="primaryUnitId" [(ngModel)]="primaryUnitId">
+                <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
+              </select>
+            </div>
+          </div>
+
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
             <label for="workingCode" class="required">จำนวนวันแจ้งเตือนวันหมดอายุ</label>
           </div>
-          <div class="col-lg-1 col-md-3 col-sm-12 col-xs-12">
+          <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="expired" [(ngModel)]="expired">
           </div>
-          <div class="col-lg-1 col-md-3 col-sm-12 col-xs-12">
+          <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
             วัน
           </div>
+
 
           <!-- <div class="col-lg-2 push-lg-3 col-md-2 col-sm-12 col-xs-12">
             <label for="txtPackage">รูปแบบ</label>
@@ -162,7 +184,7 @@
     <span *ngIf="isSaving">
       &nbsp;กำลังบันทึก...
     </span> -->
-    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="isSaving || !genericName || !typeId || (!genericCodeAuto && !workingCode)">
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="isSaving || !genericName || !typeId || !primaryUnitId || (!genericCodeAuto && !workingCode)">
       บันทึก
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="openNew = false">
@@ -171,4 +193,60 @@
   </div>
 </clr-modal>
 
+<clr-modal [(clrModalOpen)]="modalSearch" [clrModalClosable]="false" [clrModalSize]="'xl'">
+  <h3 class="modal-title" style="padding: 0 0 0rem 0">ค้นหาชื่อสามัญจาก รหัสมาตราฐาน 24 หลัก</h3>
+  <div class="modal-body">
+    <!-- <form> -->
+    <div class="form-block">
+      <div class="row form-group">
+        <div class="col-md-2">
+          ค้นหา
+        </div>
+        <div class="col-md-6">
+          <input type="text" name="genericNameSearch" (keyup)="searchDC24()" [(ngModel)]="genericNameSearch"
+            placeholder="รหัส 24 หลัก หรือ ชื่อสามัญ">
+        </div>
+        <div class="col-md-4" style="float: right">
+          ** ข้อมูลยาจากฐานข้อมูล NMPCD
+        </div>
+        <div class="col-md-12">
+          <clr-datagrid style="height: 500px">
+            <clr-dg-column>DC24</clr-dg-column>
+            <clr-dg-column>Generic Name</clr-dg-column>
+            <clr-dg-column></clr-dg-column>
+
+            <clr-dg-row *clrDgItems="let g of listdc24">
+              <clr-dg-cell>{{g.id}}</clr-dg-cell>
+              <clr-dg-cell>{{g.generic_name}}</clr-dg-cell>
+              <clr-dg-cell>
+                <div class="btn-group">
+                  <button class="btn btn-success btn-sm wm-small-btn" title="เลือก" (click)="selectDC(g)">
+                    <!-- <clr-icon shape="note"></clr-icon> -->
+                    เลือก
+                  </button>
+                </div>
+              </clr-dg-cell>
+            </clr-dg-row>
+
+            <clr-dg-footer>
+              {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems | number}}
+              รายการ
+              <clr-dg-pagination #pagination clrDgPageSize="10" [clrDgTotalItems]="listdc24.length"></clr-dg-pagination>
+            </clr-dg-footer>
+          </clr-datagrid>
+
+        </div>
+      </div>
+    </div>
+    <!-- </form> -->
+  </div>
+  <div class="modal-footer">
+    <!-- <button type="button" class="btn btn-primary" (click)="save()" [disabled]="isSaving || !genericName || !typeId || (!genericCodeAuto && !workingCode)">
+      บันทึก
+    </button> -->
+    <button type="button" class="btn btn-danger-outline" (click)="closeDC()">
+      ปิด
+    </button>
+  </div>
+</clr-modal>
 <wm-loading #loadingModal></wm-loading>

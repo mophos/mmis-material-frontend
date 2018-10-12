@@ -1,0 +1,99 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/generics">ชื่อสามัญ (Generic Name)</a>
+  <span class="breadcrumb-item active">เพิ่มชื่อสามัญ (Generic Name)</span>
+</nav>
+
+<form>
+  <section class="form-block">
+    <div class="row form-group">
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="!genericCodeAuto">
+        <label for="workingCode" class="required">Generic Code </label>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="!genericCodeAuto">
+        <input class="form-control" [disabled]="genericCodeAuto" type="text" name="workingCode" [(ngModel)]="workingCode"
+          placeholder="Generic Code 7 หลัก ">
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="genericCodeAuto">
+        <label for="workingCode" class="required">Generic Code </label>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="genericCodeAuto">
+        <input class="form-control" [disabled]="true" type="text" name="workingCode" [(ngModel)]="workingCode"
+          placeholder="อัตโนมัติ">
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <label class="required" for="txtGenericName">Generic Name</label>
+      </div>
+      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+        <div class="row">
+          <div class="col-md-10">
+            <input class="form-control" type="text" name="txtGenericName" [(ngModel)]="genericName" placeholder="">
+          </div>
+          <div class="col-md-2">
+            <clr-icon shape="search"></clr-icon>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <label for="slType">ชนิดยาในบัญชี/นอกบัญชี</label>
+      </div>
+      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+        <div class="select form-control">
+          <select name="slType" id="drugAccountId" [(ngModel)]="drugAccountId">
+            <option value=""></option>
+            <option *ngFor="let t of drugAccounts" [value]="t.account_id">{{ t.account_name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <label for="txtGenericId">ประเภทยา</label>
+      </div>
+      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+        <div class="select form-control">
+          <select name="slType" id="slType" [(ngModel)]="genericTypeId">
+            <option value=""></option>
+            <option *ngFor="let t of genericType" [value]="t.id">{{ t.name }}</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <label for="txtGenericId" class="required">หมวดสินค้า</label>
+      </div>
+      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+        <div class="select form-control">
+          <select name="slType" id="slType" [(ngModel)]="typeId">
+            <option value=""></option>
+            <option *ngFor="let t of genericTypes" [value]="t.generic_type_id">{{ t.generic_type_name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <label for="txtPackage">รูปแบบ</label>
+      </div>
+      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+        <div class="select form-control">
+          <select name="slPackage" id="slPackage" [(ngModel)]="dosageId">
+            <option value=""></option>
+            <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+        <label for="workingCode" class="required">จำนวนวันแจ้งเตือนวันหมดอายุ</label>
+      </div>
+      <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+        <input class="form-control" type="text" name="expired" [(ngModel)]="expired">
+      </div>
+      <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
+        วัน
+      </div>
+    </div>
+  </section>
+</form>
+
+<wm-loading #loadingModal></wm-loading>
