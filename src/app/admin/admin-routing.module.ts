@@ -25,7 +25,6 @@ import { AuthGuard } from '../auth-guard.service';
 import { GenericsComponent } from 'app/admin/generics/generics.component';
 import { GenericsEditComponent } from 'app/admin/generics-edit/generics-edit.component';
 import { LabelerNewComponent } from './labeler-new/labeler-new.component';
-import { GenericNewComponent } from './generic-new/generic-new.component';
 
 const routes: Routes = [
   {
@@ -38,7 +37,6 @@ const routes: Routes = [
       { path: 'labeler/new', component: LabelerNewComponent, pathMatch: 'full' },
       { path: 'labeler/edit', component: LabelerNewComponent, pathMatch: 'full' },
       { path: 'generics', component: GenericsComponent, pathMatch: 'full' },
-      { path: 'generic-new', component: GenericNewComponent, pathMatch: 'full' },
       { path: 'generics/edit/:genericId', component: GenericsEditComponent, pathMatch: 'full' },
       { path: 'generic-types', component: GenericDrugTypesComponent, pathMatch: 'full' },
       { path: 'generic-type-product', component: GenericTypeProductComponent, pathMatch: 'full' },
