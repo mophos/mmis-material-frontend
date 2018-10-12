@@ -7,6 +7,7 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { CompleterService, CompleterData, RemoteData } from 'ag2-completer';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { LoadingComponent } from 'app/loading/loading.component';
 import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 @Component({
@@ -366,13 +367,24 @@ export class ProductEditComponent implements OnInit {
             // const url = `${this.docUrl}/uploads/files/${documentId}`;
 
             // preview //
+            console.log(result.rows);
+
             if (result.rows.length) {
               result.rows.forEach(v => {
                 const url = `${this.docUrl}/uploads/files/${v.document_id}`;
+                const timestamp = v.uploaded_at / 100;
+                let date;
+                if (moment(timestamp, 'x').isValid()) {
+                  moment.locale('th');
+                  date = moment(v.uploaded_at, 'x').format('DD MMMM ') + (moment(v.uploaded_at, 'x').get('year') + 543)
+                } else {
+                  date = '';
+                }
                 const obj: any = {
                   small: url,
                   medium: url,
-                  big: url
+                  big: url,
+                  description: date
 
                 };
                 this.galleryImages.push(obj);
