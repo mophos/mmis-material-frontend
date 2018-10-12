@@ -59,7 +59,6 @@ import { UpperCaseDirective } from './upper-case.directive';
 import { LabelerNewComponent } from './labeler-new/labeler-new.component';
 import { ProductGroupsComponent } from './product-groups/product-groups.component';
 import { GenericGroupEdComponent } from './generic-group-ed/generic-group-ed.component';
-import { GenericNewComponent } from './generic-new/generic-new.component';
 import { NgxGalleryModule } from 'ngx-gallery';
 @NgModule({
   imports: [
@@ -104,8 +103,7 @@ import { NgxGalleryModule } from 'ngx-gallery';
     UpperCaseDirective,
     LabelerNewComponent,
     ProductGroupsComponent,
-    GenericGroupEdComponent,
-    GenericNewComponent
+    GenericGroupEdComponent
   ],
   providers: [
     LabelerService,
