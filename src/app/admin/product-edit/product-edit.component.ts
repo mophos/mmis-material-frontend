@@ -367,8 +367,6 @@ export class ProductEditComponent implements OnInit {
             // const url = `${this.docUrl}/uploads/files/${documentId}`;
 
             // preview //
-            console.log(result.rows);
-
             if (result.rows.length) {
               result.rows.forEach(v => {
                 const url = `${this.docUrl}/uploads/files/${v.document_id}`;
