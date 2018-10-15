@@ -36,13 +36,30 @@ export class UomService {
     return resp.json();
   }
 
-  async updateConversion(unitGenericId: any, genericId: any, fromUnitId: any, toUnitId: any, qty: number, isActive: any, cost: any) {
-    const resp = await this.authHttp.put(`${this.url}/units/conversion/${unitGenericId}/${genericId}`, {
+  async saveActive(unitGenericId: any, status: any) {
+    const resp = await this.authHttp.put(`${this.url}/units/conversion/active`, {
+      unitGenericId: unitGenericId,
+      status: status
+    }).toPromise();
+    return resp.json();
+  }
+
+  async updateConversion(genericId: any, unitGenericId: any, fromUnitId: any, toUnitId: any, qty: number, cost: any) {
+    const resp = await this.authHttp.put(`${this.url}/units/conversion`, {
+      genericId: genericId,
+      unitGenericId: unitGenericId,
       fromUnitId: fromUnitId,
       toUnitId: toUnitId,
       qty: qty,
-      isActive: isActive,
       cost: cost
+    }).toPromise();
+    return resp.json();
+  }
+
+  async updateConversionPlanning(genericId: any, unitGenericId: any) {
+    const resp = await this.authHttp.put(`${this.url}/units/conversion/planning`, {
+      genericId: genericId,
+      unitGenericId: unitGenericId
     }).toPromise();
     return resp.json();
   }

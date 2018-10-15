@@ -117,7 +117,7 @@ export class GenericsEditComponent implements OnInit {
     }
   }
 
-  async tapGeneric(){
+  async tapGeneric() {
     await this.getConversions()
   }
   async getPrimaryUnits() {
@@ -188,7 +188,7 @@ export class GenericsEditComponent implements OnInit {
         this.carryingCost = +rs.detail.carrying_cost;
         this.orderingCost = +rs.detail.ordering_cost;
         this.bidTypeId = this.bidTypeId ? this.bidTypes[0].bid_id : rs.detail.purchasing_method;
-        this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
+        // this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
         this.keywords = rs.detail.keywords;
         if (this.groupId2) {
           this.getGenericGroup2();
@@ -412,7 +412,7 @@ export class GenericsEditComponent implements OnInit {
         isActive: this.isActive ? 'Y' : 'N',
         isPlanning: this.isPlanning ? 'Y' : 'N',
         purchasingMethod: this.bidTypeId,
-        planningUnitGenericId: this.planningUnitGenericId
+        // planningUnitGenericId: this.planningUnitGenericId
       };
       if (!this.genericId) {
         this.alertService.error('ไม่พบรหัสยาที่ต้องการแก้ไข');
