@@ -7,7 +7,7 @@ import { GenericDrugAccountsService } from 'app/admin/generic-drug-accounts.serv
 import { UomService } from 'app/mm-components/uom.service';
 import { LoadingComponent } from 'app/loading/loading.component';
 import * as _ from 'lodash';
-
+import { JwtHelper } from 'angular2-jwt';
 @Component({
   selector: 'wm-generics-edit',
   templateUrl: './generics-edit.component.html',
@@ -76,6 +76,8 @@ export class GenericsEditComponent implements OnInit {
   groupId2: any;
   groupId3: any;
   groupId4: any;
+  genericTypeIds = [];
+  jwtHelper: JwtHelper = new JwtHelper();
   constructor(
     private standardService: StandardService,
     private genericService: GenericService,
@@ -85,7 +87,9 @@ export class GenericsEditComponent implements OnInit {
     private uomService: UomService
   ) {
     this.genericId = this.router.snapshot.params.genericId;
-
+    const token = sessionStorage.getItem('token');
+    const decoded = this.jwtHelper.decodeToken(token);
+    this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
   }
 
   async ngOnInit() {
@@ -213,9 +217,16 @@ export class GenericsEditComponent implements OnInit {
       const rs: any = await this.standardService.getGenericTypes();
       this.loadingModal.hide();
       if (rs.ok) {
-        this.genericTypes = rs.rows;
-      } else {
-        this.alertService.error(rs.error);
+        this.loadingModal.hide();
+        if (rs.rows.length) {
+          rs.rows.forEach(v => {
+            this.genericTypeIds.forEach(x => {
+              if (+x === +v.generic_type_id) {
+                this.genericTypes.push(v);
+              }
+            });
+          });
+        }
       }
     } catch (error) {
       this.loadingModal.hide();
