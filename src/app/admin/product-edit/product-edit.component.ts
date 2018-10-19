@@ -283,7 +283,7 @@ export class ProductEditComponent implements OnInit {
     data.pickingRuleId = this.pickingRuleId;
     data.isActive = this.isActive ? 'Y' : 'N';
     data.isLotControl = this.isLotControl ? 'Y' : 'N';
-    data.discription = this.description;
+    data.description = this.description;
     data.purchaseUnitId = this.purchaseUnitId;
     data.issueUnitId = this.issueUnitId;
     data.primaryUnitId = this.primaryUnitId;
