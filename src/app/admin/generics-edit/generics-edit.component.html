@@ -164,8 +164,8 @@
           <div class="card-block">
             <div class="card-text">
               <div class="form-group row">
-                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <label for="group">บัญชียาหลัก</label>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <label for="group">ชนิดยาในบัญชี/นอกบัญชี</label>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select form-control">
@@ -188,8 +188,8 @@
                 </div>
               </div>
               <div class="form-group row">
-                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <label for="group">กลุ่มยา</label>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                  <label for="group">กลุ่มบัญชียาหลัก</label>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select">
@@ -209,7 +209,7 @@
                     </select>
                   </div>
                 </div>
-                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
                     <select [(ngModel)]="groupId3" name="groupId3" (change)="getGenericGroup4();keytype();" [disabled]="!groupId2 || genericGroup3.length === 0">
                       <option *ngFor="let g of genericGroup3" [value]="g.group_code_3">{{g.group_code_3}} -
