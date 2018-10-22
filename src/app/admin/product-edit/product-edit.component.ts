@@ -239,6 +239,7 @@ export class ProductEditComponent implements OnInit {
       const resp: any = await this.productService.detail(this.productId);
       this.loadingModal.hide();
       if (resp.ok) {
+        this.description = resp.detail.description;
         this.productName = resp.detail.product_name;
         this.isRawMaterial = resp.detail.is_raw_material === 'Y' ? true : false;
         this.selectedGenericId = resp.detail.generic_id;
