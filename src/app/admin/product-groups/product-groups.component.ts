@@ -105,10 +105,11 @@ export class ProductGroupsComponent implements OnInit {
               if (idx > -1) {
                 this.productGroups[idx].is_deleted = 'N';
                 this.alertService.success();
-              } else {
-                this.alertService.error(JSON.stringify(results.error));
               }
-            })
+            } else {
+              this.alertService.error(JSON.stringify(results.error));
+            }
+          })
           .catch(() => {
             this.alertService.serverError();
           });
