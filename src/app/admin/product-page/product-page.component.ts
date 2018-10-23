@@ -82,6 +82,37 @@ export class ProductPageComponent implements OnInit {
     await this.getGroupList();
   }
 
+  async getProductList(event) {
+    try {
+      if (this.query) {
+        this.searchProduct();
+      } else {
+
+        this.loadingModal.show();
+        let results: any;
+        if (this.groupId === 'all') {
+          results = await this.productService.all(this.perPage, 0, this.genericTypeIds, this.btnDelete);
+          sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
+        } else {
+          results = await this.productService.all(this.perPage, 0, this.groupId, this.btnDelete);
+          sessionStorage.setItem('productGroupId', JSON.stringify(this.groupId));
+        }
+        this.loadingModal.hide();
+        if (results.ok) {
+          this.products = results.rows;
+          this.total = +results.total;
+          this.currentPage = 1;
+        } else {
+          this.alertService.error(JSON.stringify(results.error));
+        }
+      }
+    } catch (error) {
+      // this.loading = false;
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
+
   async returnDelete(productId) {
     this.loadingModal.show();
     try {
