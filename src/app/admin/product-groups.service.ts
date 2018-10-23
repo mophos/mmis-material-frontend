@@ -7,13 +7,21 @@ export class ProductGroupsService {
     @Inject('API_URL') private url: string,
     private authHttp: AuthHttp) { }
 
-  async list() {
-    const rs: any = await this.authHttp.get(`${this.url}/product-groups`).toPromise();
+  async list(deleted) {
+    const rs: any = await this.authHttp.get(`${this.url}/product-groups?deleted=${deleted}`).toPromise();
     return rs.json();
   }
 
   async remove(productGroupId) {
     const rs: any = await this.authHttp.delete(`${this.url}/product-groups?productGroupId=${productGroupId}`).toPromise();
+    return rs.json();
+  }
+
+  async return(productGroupId) {
+    const rs: any = await this.authHttp.post(`${this.url}/product-groups/return`,
+      {
+        productGroupId: productGroupId
+      }).toPromise();
     return rs.json();
   }
 

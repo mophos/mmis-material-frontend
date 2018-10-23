@@ -58,23 +58,25 @@ export class ProductService {
     });
   }
 
-  async all(limit: number = 15, offset: number = 0, groupId: any) {
+  async all(limit: number = 15, offset: number = 0, groupId: any, deleted: boolean) {
     const rs = await this.authHttp.post(`${this.url}/products`,
       {
         groupId: groupId,
         limit: limit,
-        offset: offset
+        offset: offset,
+        deleted: deleted
       }
     ).toPromise();
     return rs.json();
   }
 
-  async search(query: any, limit: number, offset: number, groupId: any) {
+  async search(query: any, limit: number, offset: number, groupId: any, deleted: boolean) {
     const rs = await this.authHttp.post(`${this.url}/products/search`,
       {
         query: query,
         groupId: groupId,
         limit: limit,
+        deleted: deleted,
         offset: offset
       }).toPromise();
     return rs.json();
@@ -130,6 +132,11 @@ export class ProductService {
 
   async markDeleted(productId: any) {
     const rs = await this.authHttp.delete(`${this.url}/products/mark-deleted/${productId}`, {}).toPromise();
+    return rs.json();
+  }
+
+  async returnDelete(productId: any) {
+    const rs = await this.authHttp.delete(`${this.url}/products/return-deleted/${productId}`, {}).toPromise();
     return rs.json();
   }
 

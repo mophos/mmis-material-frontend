@@ -2,24 +2,35 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">กลุ่มยา</span>
 </nav>
+<div class="row wid99">
+  <div class="col-md-10">
+    <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+  </div>
+  <div class="col-md-2" *ngIf="menuDelete">
+    <button class="btn btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+  </div>
+</div>
 
-<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-  <clr-dg-column [style.width.%]="90" [clrDgField]="'name'">กลุ่มยา</clr-dg-column>
-  <clr-dg-column ></clr-dg-column>
+  <clr-dg-column [style.width.%]="85" [clrDgField]="'name'">กลุ่มยา</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of productGroups" [clrDgItem]="t">
     <clr-dg-cell>{{t.product_group_name}}</clr-dg-cell>
     <clr-dg-cell>
-        <div class="btn-group btn-primary">
-          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
-            <clr-icon shape="note"></clr-icon>
-          </button>
-          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
-            <clr-icon shape="trash"></clr-icon>
-          </button>
-        </div>
-      </clr-dg-cell>
+      <div class="btn-group btn-primary">
+        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="t.is_deleted == 'Y'" (click)="edit(t)">
+          <clr-icon shape="note"></clr-icon>
+        </button>
+        <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" [disabled]="t.is_deleted == 'Y'" (click)="remove(t)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+        <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="t.is_deleted == 'N'" title="ยกเลิกลบ"
+          (click)="returnDelete(t)">
+          <clr-icon shape="undo"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
@@ -50,10 +61,10 @@
   <div class="modal-footer">
 
     <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!productGroupName">
-        บันทึก
+      บันทึก
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
-        ปิด
+      ปิด
     </button>
   </div>
 </clr-modal>

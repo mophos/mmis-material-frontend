@@ -2,8 +2,14 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">ข้อมูลผู้ประกอบการ</span>
 </nav>
-
-<button type="button" class="btn btn-sm btn-success" routerLink='/admin/labeler/new'>+ เพิ่มรายการ</button>
+<div class="row wid99">
+  <div class="col-md-10">
+    <button type="button" class="btn btn-sm btn-success" routerLink='/admin/labeler/new'>+ เพิ่มรายการ</button>
+  </div>
+  <div class="col-md-2" *ngIf="menuDelete">
+    <button class="btn btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+  </div>
+</div>
 <clr-datagrid>
   <!-- <clr-dg-column [clrDgField]="'labeler_id'">รหัสผู้ประกอบการ</clr-dg-column> -->
   <clr-dg-column [clrDgField]="'labeler_name'">ชื่อผู้ประกอบการ</clr-dg-column>
@@ -24,11 +30,17 @@
     <clr-dg-cell>{{labeler.status_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group">
-        <button class="btn btn-sm btn-icon btn-success" title="แก้ไข" [routerLink]="['/admin/labeler/edit']" [queryParams]="{labelerId: labeler.labeler_id}">
-        <clr-icon shape="note"></clr-icon>
+        <button class="btn btn-sm btn-icon btn-success" [disabled]="labeler.is_deleted == 'Y'" title="แก้ไข"
+          [routerLink]="['/admin/labeler/edit']" [queryParams]="{labelerId: labeler.labeler_id}">
+          <clr-icon shape="note"></clr-icon>
         </button>
-        <button class="btn btn-sm btn-icon btn-danger" title="ลบ" (click)="removeLabeler(labeler)">
-        <clr-icon shape="trash"></clr-icon>
+        <button class="btn btn-sm btn-icon btn-danger" [disabled]="labeler.is_deleted == 'Y'" title="ลบ" (click)="removeLabeler(labeler)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+
+        <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="labeler.is_deleted == 'N'" title="ยกเลิกลบ"
+          (click)="returnDelete(labeler)">
+          <clr-icon shape="undo"></clr-icon>
         </button>
       </div>
       <!-- <a href="javascript://" *ngIf="!labeler.moph_labeler_id" (click)="register(labeler)" class="label label-orange clickable">
