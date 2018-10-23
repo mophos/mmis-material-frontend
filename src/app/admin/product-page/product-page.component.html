@@ -3,9 +3,16 @@
   <span class="breadcrumb-item active">รายการสินค้า (Trade Name)</span>
 </nav>
 <div class="row" style="width:100%;">
-  <div class="col-md-10">
+  <div class="col-md-10" *ngIf="!menuDelete">
     <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา...." style="width: 250px;" (keyup)="enterSearch($event)">
     <button class="btn btn-primary btn-sm" (click)="searchProduct()" [disabled]="!query">ค้นหา</button>
+  </div>
+  <div class="col-md-8" *ngIf="menuDelete">
+    <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา...." style="width: 250px;" (keyup)="enterSearch($event)">
+    <button class="btn btn-primary btn-sm" (click)="searchProduct()" [disabled]="!query">ค้นหา</button>
+  </div>
+  <div class="col-md-2" *ngIf="menuDelete">
+    <button class="btn btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
   </div>
   <div class="col-md-2">
     <div class="select" style="padding-top: 10px;">
@@ -30,7 +37,8 @@
   <clr-dg-row class="newLine">
     <!-- <clr-dg-cell>&nbsp;</clr-dg-cell> -->
     <clr-dg-cell>
-      <input wmUpperCase placeholder="ระบุชื่อ Trade Name" type="text" style="background-color: #FFFCE8;" [(ngModel)]="newProductName" style="text-align: left; width: 100%;">
+      <input wmUpperCase placeholder="ระบุชื่อ Trade Name" type="text" style="background-color: #FFFCE8;" [(ngModel)]="newProductName"
+        style="text-align: left; width: 100%;">
     </clr-dg-cell>
     <clr-dg-cell>
       <mm-search-generics-box #selectGeneric (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
@@ -52,12 +60,12 @@
     </clr-dg-cell>
     <clr-dg-cell>
       <div class="btn-group">
-          <button class="btn btn-sm btn-success wm-small-btn" title="บันทึก" (click)="saveProduct()" [disabled]="!selectedGenericId || !selectedM || !selectedV || !newProductName || !primaryUnitId">
-            <clr-icon shape="floppy" size="16"></clr-icon>
-          </button>
-          <button class="btn btn-sm btn-danger wm-small-btn" title="ยกเลิก" (click)="clearForm()">
-            <clr-icon shape="refresh" size="16"></clr-icon>
-          </button>
+        <button class="btn btn-sm btn-success wm-small-btn" title="บันทึก" (click)="saveProduct()" [disabled]="!selectedGenericId || !selectedM || !selectedV || !newProductName || !primaryUnitId">
+          <clr-icon shape="floppy" size="16"></clr-icon>
+        </button>
+        <button class="btn btn-sm btn-danger wm-small-btn" title="ยกเลิก" (click)="clearForm()">
+          <clr-icon shape="refresh" size="16"></clr-icon>
+        </button>
       </div>
     </clr-dg-cell>
   </clr-dg-row>
@@ -70,18 +78,23 @@
     <clr-dg-cell>{{ p.v_labeler }}</clr-dg-cell>
     <clr-dg-cell>
       <div class="btn-group btn-primary">
-        <button class="btn btn-success btn-sm wm-small-btn" title="แก้ไข" [routerLink]="['/admin/products', p.product_id]">
+        <button class="btn btn-success btn-sm wm-small-btn" [disabled]="p.mark_deleted=='Y'" title="แก้ไข" [routerLink]="['/admin/products', p.product_id]">
           <clr-icon shape="note"></clr-icon>
         </button>
-        <button class="btn btn-danger btn-sm wm-small-btn"  title="ลบ" (click)="markDeleted(idx, p.product_id)">
+        <button class="btn btn-danger btn-sm wm-small-btn" [disabled]="p.mark_deleted=='Y'" title="ลบ" (click)="markDeleted(p.product_id)">
           <clr-icon shape="trash"></clr-icon>
+        </button>
+        <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="p.mark_deleted=='N'" title="ลบ"
+          (click)="returnDelete(p.product_id)">
+          <clr-icon shape="undo"></clr-icon>
         </button>
       </div>
     </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
-    {{pagination.firstItem + 1 | number}} - {{pagination.lastItem + 1 | number}} จาก {{pagination.totalItems | number}} รายการ
+    {{pagination.firstItem + 1 | number}} - {{pagination.lastItem + 1 | number}} จาก {{pagination.totalItems | number}}
+    รายการ
     <clr-dg-pagination #pagination [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="total"></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
