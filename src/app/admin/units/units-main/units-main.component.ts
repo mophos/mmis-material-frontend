@@ -2,6 +2,7 @@ import { AlertService } from './../../alert.service';
 import { UnitsService } from './../units.service';
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import * as _ from 'lodash';
+import { JwtHelper } from 'angular2-jwt';
 
 @Component({
   selector: 'wm-units-main',
@@ -28,15 +29,30 @@ export class UnitsMainComponent implements OnInit {
   isPrimary = false;
 
   isUpdate = false;
-  query: any;
+  query: any = '';
+
+  jwtHelper: JwtHelper = new JwtHelper();
+  menuDelete = false;
+  btnDelete = false;
   constructor(
     private unitService: UnitsService,
     private alertService: AlertService,
     private ref: ChangeDetectorRef
-  ) { }
+  ) {
+    const token = sessionStorage.getItem('token');
+    const decoded = this.jwtHelper.decodeToken(token);
+    const accessRight = decoded.accessRight.split(',');
+    this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
+  }
 
   ngOnInit() {
     this.getList();
+  }
+
+
+  manageDelete() {
+    this.btnDelete = !this.btnDelete;
+    this.search();
   }
 
   async addNew() {
@@ -47,7 +63,7 @@ export class UnitsMainComponent implements OnInit {
     try {
       this.loading = true;
       this.units = [];
-      const resp = await this.unitService.all();
+      const resp = await this.unitService.all(this.btnDelete);
       if (resp.ok) {
         this.units = resp.rows;
         this.cloneUnits = _.clone(resp.rows);
@@ -106,8 +122,14 @@ export class UnitsMainComponent implements OnInit {
         this.unitService.remove(unit.unit_id)
           .then((resp: any) => {
             if (resp.ok) {
-              this.alertService.success();
-              this.getList();
+              const idx = _.findIndex(this.units, { 'unit_id': unit.unit_id });
+              if (idx > -1) {
+                if (this.btnDelete) {
+                  this.units[idx].is_deleted = 'Y';
+                } else {
+                  this.units.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(resp.error);
             }
@@ -117,6 +139,27 @@ export class UnitsMainComponent implements OnInit {
           });
       });
   }
+
+  returnDelete(unit: any) {
+    this.alertService.confirm('ต้องการยกเลิกลบรายการนี้ ใช่หรือไม่?')
+      .then(() => {
+        this.unitService.remove(unit.unit_id)
+          .then((resp: any) => {
+            if (resp.ok) {
+              const idx = _.findIndex(this.units, { 'unit_id': unit.unit_id });
+              if (idx > -1) {
+                this.units[idx].is_deleted = 'N';
+              }
+            } else {
+              this.alertService.error(resp.error);
+            }
+          })
+          .catch((error: any) => {
+            this.alertService.error(error.message);
+          });
+      });
+  }
+
 
   setEditable(unit: any) {
     // this.inputUnitCode.nativeElement.focus();
@@ -228,9 +271,14 @@ export class UnitsMainComponent implements OnInit {
   }
 
   async search() {
-    const rs: any = await this.unitService.search(this.query);
-    if (rs.ok) {
-      this.units = rs.rows;
+    try {
+      const rs: any = await this.unitService.search(this.query, this.btnDelete);
+      if (rs.ok) {
+        this.units = rs.rows;
+      }
+    } catch (error) {
+      this.alertService.error(error);
     }
+
   }
 }
