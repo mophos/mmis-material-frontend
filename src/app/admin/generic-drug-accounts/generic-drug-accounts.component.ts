@@ -15,11 +15,11 @@ export class GenericDrugAccountsComponent implements OnInit {
   drugAccountId: string;
   drugAccountName: string;
 
-  opened: boolean = false;
-  isUpdate: boolean = false;
-  loading: boolean = false;
-  menuDelete = false;
+  opened = false;
+  isUpdate = false;
+  loading = false;
   jwtHelper: JwtHelper = new JwtHelper();
+  menuDelete = false;
   btnDelete = false;
 
   constructor(
