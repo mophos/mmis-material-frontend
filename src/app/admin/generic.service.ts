@@ -66,7 +66,7 @@ export class GenericService {
   }
 
   async removeGeneric(genericId: string) {
-    const rs: any = await this.authHttp.delete(`${this.url}/generics?=${genericId}`).toPromise();
+    const rs: any = await this.authHttp.delete(`${this.url}/generics?genericId=${genericId}`).toPromise();
     return rs.json();
   }
 
