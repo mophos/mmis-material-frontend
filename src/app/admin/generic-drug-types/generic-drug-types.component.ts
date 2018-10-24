@@ -15,11 +15,11 @@ export class GenericDrugTypesComponent implements OnInit {
   typeId: string;
   typeName: string;
 
-  opened: boolean = false;
-  isUpdate: boolean = false;
-  loading: boolean = false;
-  btnDelete: boolean = false;
-  menuDelete: boolean = false;
+  opened = false;
+  isUpdate = false;
+  loading = false;
+  btnDelete = false;
+  menuDelete = false;
   jwtHelper: JwtHelper = new JwtHelper();
   constructor(
     private drugTypeService: GenericDrugTypesService,
@@ -60,8 +60,7 @@ export class GenericDrugTypesComponent implements OnInit {
   }
   getList() {
     this.loading = true;
-    const btnD = this.btnDelete ? 'Y' : 'N';
-    this.drugTypeService.all(btnD)
+    this.drugTypeService.all(this.btnDelete)
       .then((results: any) => {
         if (results.ok) {
           this.types = results.rows;

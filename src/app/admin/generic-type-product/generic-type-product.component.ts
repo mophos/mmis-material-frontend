@@ -16,8 +16,8 @@ export class GenericTypeProductComponent implements OnInit {
   opened = false;
   isUpdate = false;
   loading = false;
-  btnDelete: boolean = false;
-  menuDelete: boolean = false;
+  btnDelete = false;
+  menuDelete = false;
   jwtHelper: JwtHelper = new JwtHelper();
   constructor(
     private typeProduct: GenericTypesProductService,
@@ -42,8 +42,7 @@ export class GenericTypeProductComponent implements OnInit {
 
   getList() {
     this.loading = true;
-    const btnD = this.btnDelete ? 'Y' : 'N';
-    this.typeProduct.all(btnD)
+    this.typeProduct.all(this.btnDelete)
       .then((results: any) => {
         if (results.ok) {
           this.types = results.rows;
