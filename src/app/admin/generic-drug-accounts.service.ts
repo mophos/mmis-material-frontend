@@ -10,9 +10,10 @@ export class GenericDrugAccountsService {
     private authHttp: AuthHttp
   ) { }
 
-  all() {
+  all(btnDelete:boolean) {
+    let btnD = btnDelete ? 'Y': 'N';
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-accounts`)
+      this.authHttp.get(`${this.url}/drug-accounts?btnD=${btnD}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -49,7 +50,10 @@ export class GenericDrugAccountsService {
         });
     });
   }
-
+  async returnDelete(id:any){
+    const rs:any = await this.authHttp.delete(`${this.url}/drug-accounts/re-deleted?id=${id}`).toPromise();
+    return rs.json();
+  }
   remove(drugAccountId: string) {
     return new Promise((resolve, reject) => {
       this.authHttp.delete(`${this.url}/drug-accounts/${drugAccountId}`)

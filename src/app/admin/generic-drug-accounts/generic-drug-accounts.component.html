@@ -2,10 +2,16 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">ประเภทยา</span>
 </nav>
-
-<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+<div class="row">
+  <div class="col-md-6">
+    <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+  </div>
+  <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+    <button class="btn btn-sm btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+  </div>
+</div>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-  <clr-dg-column [style.width.%]="90" [clrDgField]="'name'">ประเภทยา</clr-dg-column>
+  <clr-dg-column [style.width.%]="85" [clrDgField]="'name'">ประเภทยา</clr-dg-column>
   <clr-dg-column ></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of accounts" [clrDgItem]="t">
@@ -16,14 +22,18 @@
           <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
     </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.name}}</clr-dg-cell>
-    <clr-dg-cell>
-        <div class="btn-group btn-primary">
-          <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+    <clr-dg-cell style="text-align:center;">
+        <div  class="btn-group btn-primary">
+          <button title="แก้ไข" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
             <clr-icon shape="note"></clr-icon>
           </button>
-          <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+          <button title="ลบ" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
             <clr-icon shape="trash"></clr-icon>
           </button>
+          <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="t.is_deleted=='N'" title="ลบ"
+          (click)="returnDelete(t.id)">
+          <clr-icon shape="undo"></clr-icon>
+        </button>
         </div>
       </clr-dg-cell>
   </clr-dg-row>

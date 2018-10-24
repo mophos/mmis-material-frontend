@@ -10,9 +10,9 @@ export class GenericTypesProductService {
     private authHttp: AuthHttp
   ) { }
 
-  all() {
+  all(btnDelete:any) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/type-product`)
+      this.authHttp.get(`${this.url}/type-product?btnD=${btnDelete}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -21,7 +21,10 @@ export class GenericTypesProductService {
         });
     });
   }
-
+  async returnDelete(id:any){
+    const rs:any = await this.authHttp.delete(`${this.url}/type-product/re-deleted?id=${id}`).toPromise();
+    return rs.json();
+  }
   save(typeName: string, prefixName: string) {
     return new Promise((resolve, reject) => {
       this.authHttp.post(`${this.url}/type-product`, {
