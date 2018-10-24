@@ -2,27 +2,35 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">ชื่อสามัญ (Generic Name)</span>
 </nav>
+<form class="form-block">
+  <div class="row wid99 form-group">
+    <div class="col-md-2">
+      <button type="button" name="addnew" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+    </div>
+    <div class="col-md-4 ">
+      <input type="text" [(ngModel)]="query" name="query" class="form-control" placeholder="ระบุคำค้นหา Generic Code, Generic Name"
+        (keyup)="enterSearch($event)">
+      <!-- <button class="btn btn-success btn-sm" (click)="getAll()">ทั้งหมด</button>     -->
+    </div>
+    <div class="col-md-1">
+      <button name="search" class="btn btn-primary btn-sm" [disabled]="!query" (click)="searchGeneric()">ค้นหา</button>
+    </div>
 
-<div class="row wid99">
-  <div class="col-md-2">
-    <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="col-md-7">
-    <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา Generic Code, Generic Name" style="width: 250px;"
-      (keyup)="enterSearch($event)">
-    <button class="btn btn-primary btn-sm" [disabled]="!query" (click)="searchGeneric()">ค้นหา</button>
-    <!-- <button class="btn btn-success btn-sm" (click)="getAll()">ทั้งหมด</button>     -->
-  </div>
-  <div class="col-md-3">
-    <div class="select" style="padding-top: 10px;">
-      <select id="typeFilterId" style="width: 100%;" name="typeFilterId" [(ngModel)]="typeFilterId" (change)="getListByTypes()">
-        <option value="all">ทั้งหมด</option>
-        <option *ngFor="let g of genericTypes" [value]="g.generic_type_id">{{g.generic_type_name}}</option>
-      </select>
+    <div class="col-md-2" *ngIf="!menuDelete">
+    </div>
+    <div class="col-md-3">
+      <div class="select" style="padding-top: 10px;">
+        <select id="typeFilterId" style="width: 100%;" name="typeFilterId" [(ngModel)]="typeFilterId" (change)="getListByTypes()">
+          <option value="all">ทั้งหมด</option>
+          <option *ngFor="let g of genericTypes" [value]="g.generic_type_id">{{g.generic_type_name}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col-md-2" *ngIf="menuDelete">
+      <button name="manageDelete" class="btn btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
     </div>
   </div>
-</div>
-
+</form>
 <clr-datagrid (clrDgRefresh)="refresh($event)">
   <clr-dg-column>Generic Code</clr-dg-column>
   <clr-dg-column>Generic Name</clr-dg-column>
@@ -39,18 +47,23 @@
     <clr-dg-cell>{{g.generic_type_name}}</clr-dg-cell>
     <clr-dg-cell>
       <div class="btn-group">
-        <button class="btn btn-success btn-sm wm-small-btn" title="แก้ไข" [routerLink]="['/admin/generics/edit', g.generic_id]">
+        <button class="btn btn-success btn-sm wm-small-btn" title="แก้ไข" [disabled]="g.mark_deleted == 'Y'"
+          [routerLink]="['/admin/generics/edit', g.generic_id]">
           <clr-icon shape="note"></clr-icon>
         </button>
-        <button class="btn btn-sm btn-danger wm-small-btn" title="ลบ" (click)="markDeleted(g)">
+        <button class="btn btn-sm btn-danger wm-small-btn" title="ลบ" [disabled]="g.mark_deleted == 'Y'" (click)="markDeleted(g)">
           <clr-icon shape="trash"></clr-icon>
+        </button>
+        <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="g.mark_deleted == 'N'" title="ยกเลิกลบ"
+          (click)="returnDelete(g.generic_id)">
+          <clr-icon shape="undo"></clr-icon>
         </button>
       </div>
     </clr-dg-cell>
   </clr-dg-row>
 
   <clr-dg-footer>
-    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems | number}} รายการ
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{total}} รายการ
     <clr-dg-pagination #pagination [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="total"></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>

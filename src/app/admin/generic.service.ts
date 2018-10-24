@@ -10,21 +10,23 @@ export class GenericService {
     private authHttp: AuthHttp
   ) { }
 
-  async getListByTypes(typeFilterId: any, limit: number, offset: number) {
+  async getListByTypes(typeFilterId: any, limit: number, offset: number, deleted: boolean) {
     const rs: any = await this.authHttp.post(`${this.url}/generics/list-type`, {
       typeId: typeFilterId,
       limit: limit,
-      offset: offset
+      offset: offset,
+      deleted: deleted
     }).toPromise();
     return rs.json();
   }
 
-  async search(query: any, groupId: any, limit: number, offset: number) {
+  async search(query: any, groupId: any, limit: number, offset: number, deleted: boolean) {
     const rs: any = await this.authHttp.post(`${this.url}/generics/search`, {
       query: query,
       groupId: groupId,
       limit: limit,
-      offset: offset
+      offset: offset,
+      deleted: deleted
     }).toPromise();
     return rs.json();
   }
@@ -64,7 +66,15 @@ export class GenericService {
   }
 
   async removeGeneric(genericId: string) {
-    const rs: any = await this.authHttp.delete(`${this.url}/generics/${genericId}`).toPromise();
+    const rs: any = await this.authHttp.delete(`${this.url}/generics?=${genericId}`).toPromise();
+    return rs.json();
+  }
+
+  async returnDelete(genericId: string) {
+    const rs: any = await this.authHttp.post(`${this.url}/generics/return`,
+      {
+        genericId: genericId
+      }).toPromise();
     return rs.json();
   }
 

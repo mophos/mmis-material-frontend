@@ -55,7 +55,6 @@ export class GenericsComponent implements OnInit {
   typeFilterId: any = 'all';
 
   genericTypeIds: any = [];
-  jwtHelper: JwtHelper = new JwtHelper();
 
   currentPage = 1;
   genericCodeAuto: any;
@@ -64,6 +63,10 @@ export class GenericsComponent implements OnInit {
   listdc24 = [];
   unitName: any;
   primaryUnitId: any;
+
+  jwtHelper: JwtHelper = new JwtHelper();
+  menuDelete = false;
+  btnDelete = false;
   constructor(
     private standardService: StandardService,
     private genericService: GenericService,
@@ -74,6 +77,8 @@ export class GenericsComponent implements OnInit {
   ) {
     const token = sessionStorage.getItem('token');
     const decoded = this.jwtHelper.decodeToken(token);
+    const accessRight = decoded.accessRight.split(',');
+    this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
     this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
     this.genericCodeAuto = decoded.MM_GENERIC_CODE_AUTO === 'Y' ? true : false;
     this.currentPage = +sessionStorage.getItem('genericCurrentPage') ? +sessionStorage.getItem('genericCurrentPage') : 1;
@@ -86,6 +91,28 @@ export class GenericsComponent implements OnInit {
     this.getGenericDosages();
     this.getAccounts();
     this.getGenericType();
+  }
+
+  manageDelete() {
+    this.btnDelete = !this.btnDelete;
+    this.searchGeneric();
+  }
+
+  async returnDelete(genericId) {
+    this.loadingModal.show();
+    try {
+      const resp: any = await this.genericService.returnDelete(genericId);
+      this.loadingModal.hide();
+      if (resp.ok) {
+        const idx = _.findIndex(this.generics, { 'generic_id': genericId })
+        this.generics[idx].mark_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(error.message);
+    }
   }
 
   async getPrimaryUnits() {
@@ -121,7 +148,7 @@ export class GenericsComponent implements OnInit {
     this.loadingModal.show();
     try {
       const type = this.typeFilterId && this.typeFilterId !== 'all' ? this.typeFilterId : this.genericTypeIds;
-      const rs: any = await this.genericService.search(this.query, type, this.perPage, 0);
+      const rs: any = await this.genericService.search(this.query, type, this.perPage, 0, this.btnDelete);
       this.loadingModal.hide();
       if (rs.ok) {
         this.generics = rs.rows;
@@ -288,10 +315,10 @@ export class GenericsComponent implements OnInit {
         this.loadingModal.show();
         let results: any;
         if (this.typeFilterId === 'all') {
-          results = await this.genericService.getListByTypes(this.genericTypeIds, this.perPage, 0);
+          results = await this.genericService.getListByTypes(this.genericTypeIds, this.perPage, 0, this.btnDelete);
           sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
         } else {
-          results = await this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0);
+          results = await this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0, this.btnDelete);
           sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
         }
         console.log(JSON.parse(sessionStorage.getItem('genericGroupId')));
@@ -361,9 +388,13 @@ export class GenericsComponent implements OnInit {
           const rs: any = await this.genericService.removeGeneric(g.generic_id);
           if (rs.ok) {
             this.alertService.success();
-            const idx = _.findIndex(this.generics, { generic_id: g.generic_id });
+            const idx = _.findIndex(this.generics, { 'generic_id': g.generic_id });
             if (idx > -1) {
-              this.generics.splice(idx, 1);
+              if (this.btnDelete) {
+                this.generics[idx].mark_deleded = 'Y';
+              } else {
+                this.generics.splice(idx, 1);
+              }
             }
           } else if (!rs.ok && rs.error === 'product') {
             this.alertService.error('กรุณาลบ Trade ก่อนลบ Generic');
@@ -393,21 +424,21 @@ export class GenericsComponent implements OnInit {
     sessionStorage.setItem('genericCurrentPage', this.pagination.currentPage);
 
     const _groupId = sessionStorage.getItem('genericGroupId') ? JSON.parse(sessionStorage.getItem('genericGroupId')) : this.genericTypeIds;
-    console.log(_groupId);
-
     this.loadingModal.show();
     if (this.isSearch) {
-      const results: any = await this.genericService.search(this.query, _groupId, limit, offset);
+      const results: any = await this.genericService.search(this.query, _groupId, limit, offset, this.btnDelete);
       this.loadingModal.hide();
       if (results.ok) {
+        console.log(results.total);
+
         this.generics = results.rows;
-        this.total = results.total;
+        this.total = +results.total;
       } else {
         this.alertService.error(JSON.stringify(results.error));
       }
     } else {
       try {
-        const results: any = await this.genericService.getListByTypes(_groupId, limit, offset);
+        const results: any = await this.genericService.getListByTypes(_groupId, limit, offset, this.btnDelete);
         this.loadingModal.hide();
         if (results.ok) {
           this.generics = results.rows;
