@@ -66,7 +66,7 @@ export class UnitsMainComponent implements OnInit {
       const resp = await this.unitService.all(this.btnDelete);
       if (resp.ok) {
         this.units = resp.rows;
-        this.cloneUnits = _.clone(resp.rows);
+        // this.cloneUnits = _.clone(resp.rows);
         this.ref.detectChanges();
       } else {
         this.alertService.error(resp.error);
@@ -143,7 +143,7 @@ export class UnitsMainComponent implements OnInit {
   returnDelete(unit: any) {
     this.alertService.confirm('ต้องการยกเลิกลบรายการนี้ ใช่หรือไม่?')
       .then(() => {
-        this.unitService.remove(unit.unit_id)
+        this.unitService.returnDelete(unit.unit_id)
           .then((resp: any) => {
             if (resp.ok) {
               const idx = _.findIndex(this.units, { 'unit_id': unit.unit_id });

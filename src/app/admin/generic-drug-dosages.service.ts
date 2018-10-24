@@ -10,7 +10,7 @@ export class GenericDrugDosagesService {
     private authHttp: AuthHttp
   ) { }
   async isActive(id: any, isActive: any) {
-    
+
     let res = await this.authHttp.post(`${this.url}/drug-dosages/isactive`, {
       id: id,
       isActive: isActive
@@ -18,9 +18,9 @@ export class GenericDrugDosagesService {
     return res.json();
   }
 
-  all() {
+  all(deleted) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-dosages/all`)
+      this.authHttp.get(`${this.url}/drug-dosages/all?deleted=${deleted}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -61,6 +61,21 @@ export class GenericDrugDosagesService {
   remove(dosageId: string) {
     return new Promise((resolve, reject) => {
       this.authHttp.delete(`${this.url}/drug-dosages/${dosageId}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  returnRemove(dosageId: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`${this.url}/drug-dosages/return`,
+        {
+          dosageId: dosageId
+        })
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
