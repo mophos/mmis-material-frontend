@@ -7,49 +7,21 @@
   <div class="col-md-2">
     <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
   </div>
-  <div class="col-md-10">
+  <div class="col-md-8">
     <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา" style="width: 250px;" (keyup)="enterSearch($event)">
     <button class="btn btn-primary btn-sm" [disabled]="!query" (click)="search()">ค้นหา</button>
+  </div>
+  <div class="col-md-2" *ngIf="menuDelete">
+    <button name="manageDelete" class="btn btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
   </div>
 </div>
 
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="88">
   <clr-dg-column [clrDgField]="'unit_code'">รหัส</clr-dg-column>
-  <clr-dg-column [clrDgField]="'unit_name'" >หน่วยสินค้า</clr-dg-column>
+  <clr-dg-column [clrDgField]="'unit_name'">หน่วยสินค้า</clr-dg-column>
   <clr-dg-column [style.width.px]="50">Base Unit</clr-dg-column>
   <clr-dg-column [style.width.px]="50">ใช้งาน</clr-dg-column>
   <clr-dg-column></clr-dg-column>
-  <!-- <clr-dg-row class="newLine">
-    <clr-dg-cell>
-      <input #inputUnitCode type="text" [(ngModel)]="unitCode" placeholder="..." style="text-align: left; width: 100%;">
-    </clr-dg-cell>
-    <clr-dg-cell>
-      <input type="text" [(ngModel)]="unitName" placeholder="..." style="text-align: left; width: 100%;">
-    </clr-dg-cell>
-    <clr-dg-cell style="text-align: center;">
-        <clr-checkbox name="isPrimary" [(ngModel)]="isPrimary"></clr-checkbox>
-    </clr-dg-cell>
-    <clr-dg-cell style="text-align: center;">
-      <clr-checkbox name="isActive" [(ngModel)]="isActive"></clr-checkbox>
-    </clr-dg-cell>
-    <clr-dg-cell style="text-align: center;">
-      <div class="btn-group btn-primary">
-        <div class="tooltip tooltip-xs tooltip-left">
-          <button class="btn btn-sm btn-success wm-small-btn" (click)="save()"
-          [disabled]="!unitCode || !unitName || loading">
-            <clr-icon shape="floppy"></clr-icon>
-          </button>
-          <span class="tooltip-content center">แก้ไข</span>
-        </div>
-        <div class="tooltip tooltip-xs tooltip-right">
-          <button class="btn btn-sm btn-danger wm-small-btn" (click)="cancelEdit()">
-            <clr-icon shape="refresh"></clr-icon>
-          </button>
-          <span class="tooltip-content center">ยกเลิก</span>
-        </div>
-      </div>
-    </clr-dg-cell>
-  </clr-dg-row> -->
   <clr-dg-row *clrDgItems="let unit of units; let idx = index" [clrDgItem]="unit" [class.editLine]="unit.is_edit === 'Y'">
     <clr-dg-cell style="text-align: center;">{{unit.unit_code}}</clr-dg-cell>
     <clr-dg-cell>{{unit.unit_name}}</clr-dg-cell>
@@ -66,11 +38,16 @@
     </clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
-        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="unit.is_primary === 'Y'" (click)="setEditable(unit)">
+        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="unit.is_primary === 'Y' || unit.is_deleted == 'Y'"
+          (click)="setEditable(unit)">
           <clr-icon shape="note"></clr-icon>
         </button>
-        <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(unit)">
+        <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" [disabled]="unit.is_deleted == 'Y'" (click)="remove(unit)">
           <clr-icon shape="trash"></clr-icon>
+        </button>
+        <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="unit.is_deleted == 'N'" title="ยกเลิกลบ"
+          (click)="returnDelete(unit.unit_id)">
+          <clr-icon shape="undo"></clr-icon>
         </button>
       </div>
     </clr-dg-cell>
