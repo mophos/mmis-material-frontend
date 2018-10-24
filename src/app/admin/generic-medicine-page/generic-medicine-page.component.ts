@@ -59,7 +59,7 @@ export class GenericMedicinePageComponent implements OnInit {
   }
 
   getAccounts() {
-    this.accountService.all()
+    this.accountService.all(false)
       .then((results: any) => {
         this.drugAccounts = results.rows;
       });

@@ -1,7 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GenericDrugAccountsService } from '../generic-drug-accounts.service';
 import { AlertService } from '../alert.service';
-
+import { JwtHelper } from 'angular2-jwt';
+import * as _ from "lodash";
 @Component({
   selector: 'wm-generic-drug-accounts',
   templateUrl: './generic-drug-accounts.component.html',
@@ -17,6 +18,9 @@ export class GenericDrugAccountsComponent implements OnInit {
   opened: boolean = false;
   isUpdate: boolean = false;
   loading: boolean = false;
+  menuDelete = false;
+  jwtHelper: JwtHelper = new JwtHelper();
+  btnDelete = false;
 
   constructor(
     private drugAccountService: GenericDrugAccountsService,
@@ -25,6 +29,10 @@ export class GenericDrugAccountsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const token = sessionStorage.getItem('token');
+    const decoded = this.jwtHelper.decodeToken(token);
+    const accessRight = decoded.accessRight.split(',');
+    this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
     this.getList();
   }
 
@@ -37,7 +45,7 @@ export class GenericDrugAccountsComponent implements OnInit {
 
   getList() {
     this.loading = true;
-    this.drugAccountService.all()
+    this.drugAccountService.all(this.btnDelete)
       .then((results: any) => {
         if (results.ok) {
           this.accounts = results.rows;
@@ -51,7 +59,23 @@ export class GenericDrugAccountsComponent implements OnInit {
         this.alertService.serverError();
       });
   }
-
+  manageDelete() {
+    this.btnDelete = !this.btnDelete;
+    this.getList();
+  }
+  async returnDelete(productId) {
+    try {
+      const resp: any = await this.drugAccountService.returnDelete(productId);
+      if (resp.ok) {
+        const idx = _.findIndex(this.accounts, { 'id': productId })
+        this.accounts[idx].is_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.alertService.error(error.message);
+    }
+  }
   edit(p: any) {
     this.drugAccountId = p.id;
     this.drugAccountName = p.name;
