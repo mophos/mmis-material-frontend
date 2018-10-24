@@ -13,7 +13,7 @@ export class GenericDrugAccountsService {
   all(btnDelete:boolean) {
     let btnD = btnDelete ? 'Y': 'N';
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-accounts/${btnD}`)
+      this.authHttp.get(`${this.url}/drug-accounts?btnD=${btnD}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);

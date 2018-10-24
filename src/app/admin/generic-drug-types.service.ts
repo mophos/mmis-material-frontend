@@ -12,7 +12,7 @@ export class GenericDrugTypesService {
 
   all(btnD:any) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-types/${btnD}`)
+      this.authHttp.get(`${this.url}/drug-types?btnD=${btnD}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);

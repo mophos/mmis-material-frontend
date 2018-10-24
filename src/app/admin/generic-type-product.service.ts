@@ -12,7 +12,7 @@ export class GenericTypesProductService {
 
   all(btnDelete:any) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/type-product/${btnDelete}`)
+      this.authHttp.get(`${this.url}/type-product?btnD=${btnDelete}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
