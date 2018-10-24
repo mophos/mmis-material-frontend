@@ -25,10 +25,10 @@
     <clr-dg-cell>{{t.account_name}}</clr-dg-cell>
     <clr-dg-cell style="text-align:center;">
         <div class="btn-group btn-primary">
-          <button [disabled]="t.is_edit === 'N'" [disabled]="t.is_deleted=='Y'" title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+          <button [disabled]="t.is_edit === 'N' || t.is_deleted=='Y' "  title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
             <clr-icon shape="note"></clr-icon>
           </button>
-          <button [disabled]="t.is_edit === 'N'" [disabled]="t.is_deleted=='Y'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+          <button [disabled]="t.is_edit === 'N' || t.is_deleted=='Y'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
             <clr-icon shape="trash"></clr-icon>
           </button>
           <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="t.is_deleted=='N'" title="ลบ"

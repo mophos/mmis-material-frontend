@@ -90,7 +90,14 @@ export class GenericDrugAccountsComponent implements OnInit {
           .then((results: any) => {
             if (results.ok) {
               this.alertService.success();
-              this.getList();
+              const idx = _.findIndex(this.accounts, { 'id': p.id });
+              if (idx > -1) {
+                if (this.btnDelete) {
+                  this.accounts[idx].is_deleted = 'Y';
+                } else {
+                  this.accounts.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(JSON.stringify(results.error));
             }

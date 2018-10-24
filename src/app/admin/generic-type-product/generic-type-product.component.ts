@@ -75,7 +75,14 @@ export class GenericTypeProductComponent implements OnInit {
           .then((results: any) => {
             if (results.ok) {
               this.alertService.success();
-              this.getList();
+              const idx = _.findIndex(this.types, { 'generic_type_id': p.generic_type_id });
+              if (idx > -1) {
+                if (this.btnDelete) {
+                  this.types[idx].is_deleted = 'Y';
+                } else {
+                  this.types.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(JSON.stringify(results.error));
             }
