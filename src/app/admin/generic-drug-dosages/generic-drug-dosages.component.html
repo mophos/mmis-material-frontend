@@ -2,20 +2,20 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">รูปแบบรายการสินค้า (Dosage Form)</span>
 </nav>
-
-<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+<div class="row">
+  <div class="col-md-10">
+    <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+  </div>
+  <div class="col-md-2" *ngIf="menuDelete">
+    <button name="manageDelete" class="btn btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+  </div>
+</div>
 <clr-datagrid [clrDgLoading]="loading" [style.height.%]="83">
   <clr-dg-column [clrDgField]="'dosage_name'" [style.width.%]="80">รูปแบบรายการสินค้า (Dosage Form)</clr-dg-column>
   <clr-dg-column>ใช้งาน</clr-dg-column>
   <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
   <clr-dg-row *clrDgItems="let t of dosages;let idx = index;" [clrDgItem]="t">
-    <!-- <clr-dg-action-overflow>
-      <button class="action-item" (click)="edit(t)">
-        <clr-icon shape="note"></clr-icon>แก้ไขข้อมูล</button>
-      <button class="action-item" (click)="remove(t)">
-        <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
-    </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.dosage_name}}</clr-dg-cell>
     <clr-dg-cell>
       <div class="toggle-switch">
@@ -25,11 +25,15 @@
     </clr-dg-cell>
     <clr-dg-cell>
       <div class="btn-group btn-primary">
-        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="t.is_deleted == 'Y'" (click)="edit(t)">
           <clr-icon shape="note"></clr-icon>
         </button>
-        <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+        <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" [disabled]="t.is_deleted == 'Y'" (click)="remove(t)">
           <clr-icon shape="trash"></clr-icon>
+        </button>
+        <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="t.is_deleted == 'N'" title="ยกเลิกลบ"
+          (click)="returnRemove(t)">
+          <clr-icon shape="undo"></clr-icon>
         </button>
       </div>
     </clr-dg-cell>
