@@ -7,13 +7,20 @@ export class GenericGroupEDService {
     @Inject('API_URL') private url: string,
     private authHttp: AuthHttp) { }
 
-  async list() {
-    const rs: any = await this.authHttp.get(`${this.url}/generic-group-ed`).toPromise();
+  async list(deleted) {
+    const rs: any = await this.authHttp.get(`${this.url}/generic-group-ed?deleted=${deleted}`).toPromise();
     return rs.json();
   }
 
   async remove(genericGroupEDId) {
     const rs: any = await this.authHttp.delete(`${this.url}/generic-group-ed?genericGroupEDId=${genericGroupEDId}`).toPromise();
+    return rs.json();
+  }
+
+  async returnRemove(genericGroupEDId) {
+    const rs: any = await this.authHttp.post(`${this.url}/generic-group-ed/return`, {
+      genericGroupEDId: genericGroupEDId
+    }).toPromise();
     return rs.json();
   }
 

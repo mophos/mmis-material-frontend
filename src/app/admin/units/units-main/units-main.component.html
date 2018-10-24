@@ -46,7 +46,7 @@
           <clr-icon shape="trash"></clr-icon>
         </button>
         <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="unit.is_deleted == 'N'" title="ยกเลิกลบ"
-          (click)="returnDelete(unit.unit_id)">
+          (click)="returnDelete(unit)">
           <clr-icon shape="undo"></clr-icon>
         </button>
       </div>

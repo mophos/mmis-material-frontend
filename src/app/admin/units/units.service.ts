@@ -11,7 +11,7 @@ export class UnitsService {
   ) { }
 
   async all(deleted) {
-    const resp = await this.authHttp.get(`${this.url}/units?deteled=${deleted}`).toPromise();
+    const resp = await this.authHttp.get(`${this.url}/units?deleted=${deleted}`).toPromise();
     return resp.json();
   }
 
