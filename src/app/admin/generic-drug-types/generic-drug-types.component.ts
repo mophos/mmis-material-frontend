@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GenericDrugTypesService } from '../generic-drug-types.service';
 import { AlertService } from '../alert.service';
+import { JwtHelper } from 'angular2-jwt';
+import * as _ from 'lodash'
+
 @Component({
   selector: 'app-generic-drug-types',
   templateUrl: './generic-drug-types.component.html',
@@ -15,7 +18,9 @@ export class GenericDrugTypesComponent implements OnInit {
   opened: boolean = false;
   isUpdate: boolean = false;
   loading: boolean = false;
-
+  btnDelete: boolean = false;
+  menuDelete: boolean = false;
+  jwtHelper: JwtHelper = new JwtHelper();
   constructor(
     private drugTypeService: GenericDrugTypesService,
     private ref: ChangeDetectorRef,
@@ -23,6 +28,10 @@ export class GenericDrugTypesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const token = sessionStorage.getItem('token');
+    const decoded = this.jwtHelper.decodeToken(token);
+    const accessRight = decoded.accessRight.split(',');
+    this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
     this.getList();
   }
 
@@ -32,10 +41,27 @@ export class GenericDrugTypesComponent implements OnInit {
     this.isUpdate = false;
     this.opened = true;
   }
-
+  manageDelete() {
+    this.btnDelete = !this.btnDelete;
+    this.getList();
+  }
+  async returnDelete(productId) {
+    try {
+      const resp: any = await this.drugTypeService.returnDelete(productId);
+      if (resp.ok) {
+        const idx = _.findIndex(this.types, { 'account_id': productId })
+        this.types[idx].is_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.alertService.error(error.message);
+    }
+  }
   getList() {
     this.loading = true;
-    this.drugTypeService.all()
+    const btnD = this.btnDelete ? 'Y' : 'N';
+    this.drugTypeService.all(btnD)
       .then((results: any) => {
         if (results.ok) {
           this.types = results.rows;

@@ -51,7 +51,7 @@ export class GenericDrugAccountsService {
     });
   }
   async returnDelete(id:any){
-    const rs:any = await this.authHttp.delete(`${this.url}/drug-accounts/re-deleted/${id}`).toPromise();
+    const rs:any = await this.authHttp.delete(`${this.url}/drug-accounts/re-deleted?id=${id}`).toPromise();
     return rs.json();
   }
   remove(drugAccountId: string) {

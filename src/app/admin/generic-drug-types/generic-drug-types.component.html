@@ -3,8 +3,15 @@
   <span class="breadcrumb-item active">ชนิดยาในบัญชี/นอกบัญชี</span>
 </nav>
 
-<button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
-<clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+<div class="row">
+    <div class="col-md-6">
+      <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+    </div>
+    <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+      <button class="btn btn-sm btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+    </div>
+  </div>
+  <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
   <clr-dg-column [style.width.%]="90" [clrDgField]="'generic_type_name'">ชนิดยาในบัญชี/นอกบัญชี</clr-dg-column>
   <clr-dg-column ></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
@@ -16,14 +23,18 @@
           <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
     </clr-dg-action-overflow> -->
     <clr-dg-cell>{{t.account_name}}</clr-dg-cell>
-    <clr-dg-cell>
+    <clr-dg-cell style="text-align:center;">
         <div class="btn-group btn-primary">
-          <button [disabled]="t.is_edit === 'N'" title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
+          <button [disabled]="t.is_edit === 'N'" [disabled]="t.is_deleted=='Y'" title="แก้ไข" class="btn btn-sm btn-success wm-small-btn"  (click)="edit(t)">
             <clr-icon shape="note"></clr-icon>
           </button>
-          <button [disabled]="t.is_edit === 'N'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+          <button [disabled]="t.is_edit === 'N'" [disabled]="t.is_deleted=='Y'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
             <clr-icon shape="trash"></clr-icon>
           </button>
+          <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="t.is_deleted=='N'" title="ลบ"
+        (click)="returnDelete(t.account_id)">
+        <clr-icon shape="undo"></clr-icon>
+      </button>
         </div>
       </clr-dg-cell>
   </clr-dg-row>

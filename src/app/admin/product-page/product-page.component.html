@@ -7,7 +7,7 @@
     <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา...." style="width: 250px;" (keyup)="enterSearch($event)">
     <button class="btn btn-primary btn-sm" (click)="searchProduct()" [disabled]="!query">ค้นหา</button>
   </div>
-  <div class="col-md-8" *ngIf="menuDelete">
+  <div class="col-md-8">
     <input type="text" [(ngModel)]="query" placeholder="ระบุคำค้นหา...." style="width: 250px;" (keyup)="enterSearch($event)">
     <button class="btn btn-primary btn-sm" (click)="searchProduct()" [disabled]="!query">ค้นหา</button>
   </div>

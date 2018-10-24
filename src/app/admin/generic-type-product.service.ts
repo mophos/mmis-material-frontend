@@ -22,7 +22,7 @@ export class GenericTypesProductService {
     });
   }
   async returnDelete(id:any){
-    const rs:any = await this.authHttp.delete(`${this.url}/type-product/re-deleted/${id}`).toPromise();
+    const rs:any = await this.authHttp.delete(`${this.url}/type-product/re-deleted?id=${id}`).toPromise();
     return rs.json();
   }
   save(typeName: string, prefixName: string) {
