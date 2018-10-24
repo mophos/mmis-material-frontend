@@ -1,7 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GenericTypesProductService } from '../generic-type-product.service';
 import { AlertService } from '../alert.service';
-
+import * as _ from 'lodash'
+import { JwtHelper } from 'angular2-jwt';
 @Component({
   selector: 'wm-generic-type-product',
   templateUrl: './generic-type-product.component.html',
@@ -15,7 +16,9 @@ export class GenericTypeProductComponent implements OnInit {
   opened = false;
   isUpdate = false;
   loading = false;
-
+  btnDelete: boolean = false;
+  menuDelete: boolean = false;
+  jwtHelper: JwtHelper = new JwtHelper();
   constructor(
     private typeProduct: GenericTypesProductService,
     private ref: ChangeDetectorRef,
@@ -23,6 +26,10 @@ export class GenericTypeProductComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const token = sessionStorage.getItem('token');
+    const decoded = this.jwtHelper.decodeToken(token);
+    const accessRight = decoded.accessRight.split(',');
+    this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
     this.getList();
   }
 
@@ -35,7 +42,8 @@ export class GenericTypeProductComponent implements OnInit {
 
   getList() {
     this.loading = true;
-    this.typeProduct.all()
+    const btnD = this.btnDelete ? 'Y' : 'N';
+    this.typeProduct.all(btnD)
       .then((results: any) => {
         if (results.ok) {
           this.types = results.rows;
@@ -108,6 +116,24 @@ export class GenericTypeProductComponent implements OnInit {
       this.prefixName = this.prefixName[this.prefixName.length - 1].toUpperCase();
     } else if (this.prefixName.length) {
       this.prefixName = this.prefixName[0].toUpperCase();
+    }
+  }
+
+  manageDelete() {
+    this.btnDelete = !this.btnDelete;
+    this.getList();
+  }
+  async returnDelete(productId) {
+    try {
+      const resp: any = await this.typeProduct.returnDelete(productId);
+      if (resp.ok) {
+        const idx = _.findIndex(this.types, { 'generic_type_id': productId })
+        this.types[idx].is_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.alertService.error(error.message);
     }
   }
 }
