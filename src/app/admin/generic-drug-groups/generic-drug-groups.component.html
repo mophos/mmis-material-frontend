@@ -6,7 +6,14 @@
   <clr-tab>
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 1</button>
     <clr-tab-content *clrIfActive>
-      <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup1()">+ เพิ่มรายการ</button>
+      <div class="row">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup1()">+ เพิ่มรายการ</button>
+        </div>
+        <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+          <button class="btn btn-sm btn-danger" (click)="manageDelete1()">จัดการข้อมูลที่ลบไปแล้ว</button>
+        </div>
+      </div>
       <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
         <clr-dg-column [clrDgField]="'group_code_1'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'group_name_1'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
@@ -23,13 +30,17 @@
               <label for="chk-{{idx}}"></label>
             </div>
           </clr-dg-cell>
-          <clr-dg-cell>
+          <clr-dg-cell style="text-align:center;">
             <div class="btn-group btn-primary">
-              <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup1(t)">
+              <button title="แก้ไข" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup1(t)">
                 <clr-icon shape="note"></clr-icon>
               </button>
-              <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup1(t)">
+              <button title="ลบ" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup1(t)">
                 <clr-icon shape="trash"></clr-icon>
+              </button>
+              <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete1" [disabled]="t.is_deleted =='N'"
+                title="ลบ" (click)="returnDelete1(t)">
+                <clr-icon shape="undo"></clr-icon>
               </button>
             </div>
           </clr-dg-cell>
@@ -45,7 +56,14 @@
   <clr-tab>
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 2</button>
     <clr-tab-content *clrIfActive>
-      <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup2()">+ เพิ่มรายการ</button>
+      <div class="row">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup2()">+ เพิ่มรายการ</button>
+        </div>
+        <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+          <button class="btn btn-sm btn-danger" (click)="manageDelete2()">จัดการข้อมูลที่ลบไปแล้ว</button>
+        </div>
+      </div>
       <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
@@ -61,17 +79,22 @@
           </clr-dg-cell>
           <clr-dg-cell>
             <div class="toggle-switch">
-              <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_actived==='Y'" (change)="setisActiveGroup2($event, t)">
+              <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_actived==='Y'"
+                (change)="setisActiveGroup2($event, t)">
               <label for="chk-{{idx}}"></label>
             </div>
           </clr-dg-cell>
-          <clr-dg-cell>
+          <clr-dg-cell style="text-align:center;">
             <div class="btn-group btn-primary">
-              <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup2(t)">
+              <button title="แก้ไข" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup2(t)">
                 <clr-icon shape="note"></clr-icon>
               </button>
-              <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup2(t)">
+              <button title="ลบ" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup2(t)">
                 <clr-icon shape="trash"></clr-icon>
+              </button>
+              <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete2" [disabled]="t.is_deleted =='N'"
+                title="ลบ" (click)="returnDelete2(t)">
+                <clr-icon shape="undo"></clr-icon>
               </button>
             </div>
           </clr-dg-cell>
@@ -87,7 +110,14 @@
   <clr-tab>
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 3</button>
     <clr-tab-content *clrIfActive>
-      <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup3()">+ เพิ่มรายการ</button>
+      <div class="row">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup3()">+ เพิ่มรายการ</button>
+        </div>
+        <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+          <button class="btn btn-sm btn-danger" (click)="manageDelete3()">จัดการข้อมูลที่ลบไปแล้ว</button>
+        </div>
+      </div>
       <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
@@ -107,13 +137,17 @@
               <label for="chk-{{idx}}"></label>
             </div>
           </clr-dg-cell>
-          <clr-dg-cell>
+          <clr-dg-cell style="text-align:center;">
             <div class="btn-group btn-primary">
-              <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup3(t)">
+              <button title="แก้ไข" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup3(t)">
                 <clr-icon shape="note"></clr-icon>
               </button>
-              <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup3(t)">
+              <button title="ลบ" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup3(t)">
                 <clr-icon shape="trash"></clr-icon>
+              </button>
+              <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete3" [disabled]="t.is_deleted =='N'"
+                title="ลบ" (click)="returnDelete3(t)">
+                <clr-icon shape="undo"></clr-icon>
               </button>
             </div>
           </clr-dg-cell>
@@ -129,7 +163,14 @@
   <clr-tab>
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 4</button>
     <clr-tab-content *clrIfActive>
-      <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup4()">+ เพิ่มรายการ</button>
+      <div class="row">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup4()">+ เพิ่มรายการ</button>
+        </div>
+        <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+          <button class="btn btn-sm btn-danger" (click)="manageDelete4()">จัดการข้อมูลที่ลบไปแล้ว</button>
+        </div>
+      </div>
       <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
@@ -149,13 +190,17 @@
               <label for="chk-{{idx}}"></label>
             </div>
           </clr-dg-cell>
-          <clr-dg-cell>
+          <clr-dg-cell style="text-align:center;">
             <div class="btn-group btn-primary">
-              <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup4(t)">
+              <button title="แก้ไข" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn" (click)="editGroup4(t)">
                 <clr-icon shape="note"></clr-icon>
               </button>
-              <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup4(t)">
+              <button title="ลบ" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="removeGroup4(t)">
                 <clr-icon shape="trash"></clr-icon>
+              </button>
+              <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete4" [disabled]="t.is_deleted =='N'"
+                title="ลบ" (click)="returnDelete4(t)">
+                <clr-icon shape="undo"></clr-icon>
               </button>
             </div>
           </clr-dg-cell>
@@ -181,7 +226,8 @@
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" [disabled]="isUpdate" type="text" name="modal1GroupCode1" [(ngModel)]="modal1GroupCode1" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal1GroupCode1" [(ngModel)]="modal1GroupCode1"
+              placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
@@ -214,7 +260,8 @@
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 1</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" readonly type="text" name="modal2GroupCode1" [(ngModel)]="modal2GroupCode1" placeholder="">
+            <input class="form-control" readonly type="text" name="modal2GroupCode1" [(ngModel)]="modal2GroupCode1"
+              placeholder="">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
@@ -230,7 +277,8 @@
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 2</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" [disabled]="isUpdate" type="text" name="modal2GroupCode2" [(ngModel)]="modal2GroupCode2" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal2GroupCode2" [(ngModel)]="modal2GroupCode2"
+              placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 2</label>
@@ -271,7 +319,8 @@
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="select">
-              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal3GroupCode1" name="modal3GroupCode1" (change)="selectGroupName1Modal3($event)">
+              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal3GroupCode1" name="modal3GroupCode1"
+                (change)="selectGroupName1Modal3($event)">
                 <option *ngFor="let item of listGroup1" [value]="item.group_code_1">{{item.group_name_1}}</option>
               </select>
             </div>
@@ -297,7 +346,8 @@
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 3</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" [disabled]="isUpdate" type="text" name="modal3GroupCode3" [(ngModel)]="modal3GroupCode3" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal3GroupCode3" [(ngModel)]="modal3GroupCode3"
+              placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 3</label>
@@ -338,7 +388,8 @@
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="select">
-              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal4GroupCode1" name="modal4GroupCode1" (change)="selectGroupName1Modal4($event)">
+              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal4GroupCode1" name="modal4GroupCode1"
+                (change)="selectGroupName1Modal4($event)">
                 <option *ngFor="let item of listGroup1" [value]="item.group_code_1">{{item.group_name_1}}</option>
               </select>
             </div>
@@ -355,7 +406,8 @@
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="select">
-              <select [disabled]="isUpdate|| selectGroup2.length === 0" [(ngModel)]="modal4GroupCode2" name="modal4GroupCode2" (change)="selectGroupName2Modal4($event)">
+              <select [disabled]="isUpdate|| selectGroup2.length === 0" [(ngModel)]="modal4GroupCode2" name="modal4GroupCode2"
+                (change)="selectGroupName2Modal4($event)">
                 <option *ngFor="let item of selectGroup2" [value]="item.group_code_2">{{item.group_name_2}}</option>
               </select>
             </div>
@@ -371,18 +423,19 @@
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 3</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-              <div class="select">
-                  <select [disabled]="isUpdate || selectGroup3.length === 0" [(ngModel)]="modal4GroupCode3" name="modal4GroupCode3">
-                    <option *ngFor="let item of selectGroup3" [value]="item.group_code_3">{{item.group_name_3}}</option>
-                  </select>
-                </div>
+            <div class="select">
+              <select [disabled]="isUpdate || selectGroup3.length === 0" [(ngModel)]="modal4GroupCode3" name="modal4GroupCode3">
+                <option *ngFor="let item of selectGroup3" [value]="item.group_code_3">{{item.group_name_3}}</option>
+              </select>
+            </div>
             <!-- <input class="form-control" type="text" name="modal4GroupName3" [(ngModel)]="modal4GroupName3" placeholder=""> -->
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 4</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" [disabled]="isUpdate" type="text" name="modal4GroupCode4" [(ngModel)]="modal4GroupCode4" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal4GroupCode4" [(ngModel)]="modal4GroupCode4"
+              placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 4</label>
