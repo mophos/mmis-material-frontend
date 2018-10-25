@@ -337,3 +337,6 @@ wm-loading .modal-backdrop {
   background-color: red;
   color: white;
 }
+.datagrid .datagrid-body{
+  overflow: visible;
+}
