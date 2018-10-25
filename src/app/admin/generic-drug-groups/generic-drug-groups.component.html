@@ -7,7 +7,7 @@
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 1</button>
     <clr-tab-content *clrIfActive>
       <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup1()">+ เพิ่มรายการ</button>
-      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+      <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'group_code_1'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'group_name_1'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column>ใช้งาน</clr-dg-column>
@@ -37,7 +37,7 @@
 
         <clr-dg-footer>
           {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
         </clr-dg-footer>
       </clr-datagrid>
     </clr-tab-content>
@@ -46,7 +46,7 @@
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 2</button>
     <clr-tab-content *clrIfActive>
       <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup2()">+ เพิ่มรายการ</button>
-      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+      <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column>ใช้งาน</clr-dg-column>
@@ -79,7 +79,7 @@
 
         <clr-dg-footer>
           {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
         </clr-dg-footer>
       </clr-datagrid>
     </clr-tab-content>
@@ -88,7 +88,7 @@
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 3</button>
     <clr-tab-content *clrIfActive>
       <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup3()">+ เพิ่มรายการ</button>
-      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+      <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column>ใช้งาน</clr-dg-column>
@@ -121,7 +121,7 @@
 
         <clr-dg-footer>
           {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
         </clr-dg-footer>
       </clr-datagrid>
     </clr-tab-content>
@@ -130,7 +130,7 @@
     <button clrTabLink>กลุ่มบัญชียาหลัก กลุ่มที่ 4</button>
     <clr-tab-content *clrIfActive>
       <button type="button" class="btn btn-sm btn-success" (click)="addNewGroup4()">+ เพิ่มรายการ</button>
-      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+      <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column>ใช้งาน</clr-dg-column>
@@ -163,7 +163,7 @@
 
         <clr-dg-footer>
           {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
         </clr-dg-footer>
       </clr-datagrid>
     </clr-tab-content>
@@ -181,7 +181,8 @@
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" [disabled]="isUpdate" type="text" name="modal1GroupCode1" [(ngModel)]="modal1GroupCode1" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal1GroupCode1" [(ngModel)]="modal1GroupCode1"
+              placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
@@ -214,7 +215,8 @@
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 1</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" readonly type="text" name="modal2GroupCode1" [(ngModel)]="modal2GroupCode1" placeholder="">
+            <input class="form-control" readonly type="text" name="modal2GroupCode1" [(ngModel)]="modal2GroupCode1"
+              placeholder="">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 1</label>
@@ -230,7 +232,8 @@
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 2</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" [disabled]="isUpdate" type="text" name="modal2GroupCode2" [(ngModel)]="modal2GroupCode2" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal2GroupCode2" [(ngModel)]="modal2GroupCode2"
+              placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 2</label>
@@ -271,7 +274,8 @@
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="select">
-              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal3GroupCode1" name="modal3GroupCode1" (change)="selectGroupName1Modal3($event)">
+              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal3GroupCode1" name="modal3GroupCode1"
+                (change)="selectGroupName1Modal3($event)">
                 <option *ngFor="let item of listGroup1" [value]="item.group_code_1">{{item.group_name_1}}</option>
               </select>
             </div>
@@ -297,7 +301,8 @@
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 3</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" [disabled]="isUpdate" type="text" name="modal3GroupCode3" [(ngModel)]="modal3GroupCode3" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal3GroupCode3" [(ngModel)]="modal3GroupCode3"
+              placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 3</label>
@@ -338,7 +343,8 @@
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="select">
-              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal4GroupCode1" name="modal4GroupCode1" (change)="selectGroupName1Modal4($event)">
+              <select [disabled]="isUpdate || listGroup1.length === 0" [(ngModel)]="modal4GroupCode1" name="modal4GroupCode1"
+                (change)="selectGroupName1Modal4($event)">
                 <option *ngFor="let item of listGroup1" [value]="item.group_code_1">{{item.group_name_1}}</option>
               </select>
             </div>
@@ -355,7 +361,8 @@
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <div class="select">
-              <select [disabled]="isUpdate|| selectGroup2.length === 0" [(ngModel)]="modal4GroupCode2" name="modal4GroupCode2" (change)="selectGroupName2Modal4($event)">
+              <select [disabled]="isUpdate|| selectGroup2.length === 0" [(ngModel)]="modal4GroupCode2" name="modal4GroupCode2"
+                (change)="selectGroupName2Modal4($event)">
                 <option *ngFor="let item of selectGroup2" [value]="item.group_code_2">{{item.group_name_2}}</option>
               </select>
             </div>
@@ -371,18 +378,19 @@
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 3</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-              <div class="select">
-                  <select [disabled]="isUpdate || selectGroup3.length === 0" [(ngModel)]="modal4GroupCode3" name="modal4GroupCode3">
-                    <option *ngFor="let item of selectGroup3" [value]="item.group_code_3">{{item.group_name_3}}</option>
-                  </select>
-                </div>
+            <div class="select">
+              <select [disabled]="isUpdate || selectGroup3.length === 0" [(ngModel)]="modal4GroupCode3" name="modal4GroupCode3">
+                <option *ngFor="let item of selectGroup3" [value]="item.group_code_3">{{item.group_name_3}}</option>
+              </select>
+            </div>
             <!-- <input class="form-control" type="text" name="modal4GroupName3" [(ngModel)]="modal4GroupName3" placeholder=""> -->
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupCode">รหัสกลุ่มบัญชียาหลัก กลุ่ม 4</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" [disabled]="isUpdate" type="text" name="modal4GroupCode4" [(ngModel)]="modal4GroupCode4" placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
+            <input class="form-control" [disabled]="isUpdate" type="text" name="modal4GroupCode4" [(ngModel)]="modal4GroupCode4"
+              placeholder="รหัสกลุ่มบัญชียาหลัก 2 หลัก">
           </div>
           <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
             <label class="required" for="groupName">ชื่อกลุ่มบัญชียาหลัก กลุ่ม 4</label>

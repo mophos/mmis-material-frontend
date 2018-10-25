@@ -3,7 +3,7 @@
   <span class="breadcrumb-item active">ข้อมูล Unit of Measure</span>
 </nav>
 
-<div class="row">
+<div class="row wid99">
   <div class="col-md-2">
     <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
   </div>
@@ -16,7 +16,7 @@
   </div>
 </div>
 
-<clr-datagrid [clrDgLoading]="loading" [style.height.%]="88">
+<clr-datagrid [clrDgLoading]="loading">
   <clr-dg-column [clrDgField]="'unit_code'">รหัส</clr-dg-column>
   <clr-dg-column [clrDgField]="'unit_name'">หน่วยสินค้า</clr-dg-column>
   <clr-dg-column [style.width.px]="50">Base Unit</clr-dg-column>
@@ -52,10 +52,10 @@
       </div>
     </clr-dg-cell>
   </clr-dg-row>
-  <!-- <clr-dg-footer> -->
-  <!-- <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
-{{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems | number}} รายการ
-  </clr-dg-footer> -->
+  <clr-dg-footer>
+    <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems | number}} รายการ
+  </clr-dg-footer>
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
