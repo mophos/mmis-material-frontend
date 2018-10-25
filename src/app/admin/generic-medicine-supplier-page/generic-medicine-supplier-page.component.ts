@@ -51,10 +51,10 @@ export class GenericMedicineSupplierPageComponent implements OnInit {
   }
 
   getGenericTypes() {
-    this.standardService.getGenericSuppliesTypes()
-      .then((results: any) => {
-        this.genericTypes = results.rows;
-      });
+    // this.standardService.getGenericSuppliesTypes()
+    //   .then((results: any) => {
+    //     this.genericTypes = results.rows;
+    //   });
   }
 
   addNew() {

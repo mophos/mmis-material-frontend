@@ -15,6 +15,8 @@
         </div>
       </div>
       <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+
+      <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'group_code_1'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'group_name_1'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column>ใช้งาน</clr-dg-column>
@@ -48,7 +50,7 @@
 
         <clr-dg-footer>
           {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
         </clr-dg-footer>
       </clr-datagrid>
     </clr-tab-content>
@@ -64,7 +66,7 @@
           <button class="btn btn-sm btn-danger" (click)="manageDelete2()">จัดการข้อมูลที่ลบไปแล้ว</button>
         </div>
       </div>
-      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+      <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column>ใช้งาน</clr-dg-column>
@@ -102,7 +104,7 @@
 
         <clr-dg-footer>
           {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
         </clr-dg-footer>
       </clr-datagrid>
     </clr-tab-content>
@@ -118,7 +120,8 @@
           <button class="btn btn-sm btn-danger" (click)="manageDelete3()">จัดการข้อมูลที่ลบไปแล้ว</button>
         </div>
       </div>
-      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+
+      <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column>ใช้งาน</clr-dg-column>
@@ -155,7 +158,7 @@
 
         <clr-dg-footer>
           {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
         </clr-dg-footer>
       </clr-datagrid>
     </clr-tab-content>
@@ -171,7 +174,7 @@
           <button class="btn btn-sm btn-danger" (click)="manageDelete4()">จัดการข้อมูลที่ลบไปแล้ว</button>
         </div>
       </div>
-      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+      <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'full_code'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'full_name'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column>ใช้งาน</clr-dg-column>
@@ -208,7 +211,7 @@
 
         <clr-dg-footer>
           {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-          <clr-dg-pagination #pagination [clrDgPageSize]="20"></clr-dg-pagination>
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
         </clr-dg-footer>
       </clr-datagrid>
     </clr-tab-content>

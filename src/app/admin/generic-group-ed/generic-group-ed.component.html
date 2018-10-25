@@ -2,7 +2,7 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">บัญชียาหลัก กขคง</span>
 </nav>
-<div class="row">
+<div class="row wid99">
   <div class="col-md-10">
     <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
   </div>
@@ -10,7 +10,7 @@
     <button name="manageDelete" class="btn btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
   </div>
 </div>
-<clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
+<clr-datagrid [clrDgLoading]="loading">
   <clr-dg-column [style.width.%]="85" [clrDgField]="'name'">บัญชียาหลัก กขคง</clr-dg-column>
   <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
@@ -34,7 +34,7 @@
 
   <clr-dg-footer>
     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
-    <clr-dg-pagination #pagination [clrDgPageSize]="50"></clr-dg-pagination>
+    <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
 
