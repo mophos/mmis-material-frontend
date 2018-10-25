@@ -47,7 +47,7 @@ export class GenericsComponent implements OnInit {
   keyword: string;
   drugAccountId: string;
 
-  perPage = 15;
+  perPage = 10;
   total = 0;
 
   types: any = [];
