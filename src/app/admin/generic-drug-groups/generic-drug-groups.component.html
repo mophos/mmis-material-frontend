@@ -14,8 +14,6 @@
           <button class="btn btn-sm btn-danger" (click)="manageDelete1()">จัดการข้อมูลที่ลบไปแล้ว</button>
         </div>
       </div>
-      <clr-datagrid [clrDgLoading]="loading" [style.height.%]="85">
-
       <clr-datagrid [clrDgLoading]="loading">
         <clr-dg-column [clrDgField]="'group_code_1'" [style.width.%]="15">รหัสกลุ่มบัญชียาหลัก</clr-dg-column>
         <clr-dg-column [clrDgField]="'group_name_1'" [style.width.%]="65">กลุ่มบัญชียาหลัก</clr-dg-column>
