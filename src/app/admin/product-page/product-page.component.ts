@@ -297,9 +297,13 @@ export class ProductPageComponent implements OnInit {
             this.loadingModal.hide();
             if (rs.ok) {
               const idx = _.findIndex(this.products, { 'product_id': productId });
+              console.log(productId);
+              
               if (idx > -1) {
                 if (this.btnDelete) {
-                  this.products[idx].mark_deleded = 'Y';
+                  console.log(this.products[idx]);
+                  
+                  this.products[idx].mark_deleted = 'Y';
                 } else {
                   this.products.splice(idx, 1);
                 }
