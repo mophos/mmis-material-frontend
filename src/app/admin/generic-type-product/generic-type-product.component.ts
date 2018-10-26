@@ -34,6 +34,7 @@ export class GenericTypeProductComponent implements OnInit {
   }
 
   addNew() {
+    this.prefixName = null;
     this.typeId = null;
     this.typeName = null;
     this.isUpdate = false;
