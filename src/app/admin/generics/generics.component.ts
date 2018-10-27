@@ -391,7 +391,7 @@ export class GenericsComponent implements OnInit {
             const idx = _.findIndex(this.generics, { 'generic_id': g.generic_id });
             if (idx > -1) {
               if (this.btnDelete) {
-                this.generics[idx].mark_deleded = 'Y';
+                this.generics[idx].mark_deleted = 'Y';
               } else {
                 this.generics.splice(idx, 1);
               }

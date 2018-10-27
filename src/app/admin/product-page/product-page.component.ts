@@ -299,7 +299,7 @@ export class ProductPageComponent implements OnInit {
               const idx = _.findIndex(this.products, { 'product_id': productId });
               if (idx > -1) {
                 if (this.btnDelete) {
-                  this.products[idx].mark_deleded = 'Y';
+                  this.products[idx].mark_deleted = 'Y';
                 } else {
                   this.products.splice(idx, 1);
                 }
