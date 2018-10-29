@@ -58,26 +58,28 @@ export class ProductService {
     });
   }
 
-  async all(limit: number = 15, offset: number = 0, groupId: any, deleted: boolean) {
+  async all(limit: number = 15, offset: number = 0, groupId: any, deleted: boolean, sort: any = {}) {
     const rs = await this.authHttp.post(`${this.url}/products`,
       {
         groupId: groupId,
         limit: limit,
         offset: offset,
-        deleted: deleted
+        deleted: deleted,
+        sort: sort
       }
     ).toPromise();
     return rs.json();
   }
 
-  async search(query: any, limit: number, offset: number, groupId: any, deleted: boolean) {
+  async search(query: any, limit: number, offset: number, groupId: any, deleted: boolean, sort: any = {}) {
     const rs = await this.authHttp.post(`${this.url}/products/search`,
       {
         query: query,
         groupId: groupId,
         limit: limit,
         deleted: deleted,
-        offset: offset
+        offset: offset,
+        sort: sort
       }).toPromise();
     return rs.json();
   }

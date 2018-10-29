@@ -10,23 +10,25 @@ export class GenericService {
     private authHttp: AuthHttp
   ) { }
 
-  async getListByTypes(typeFilterId: any, limit: number, offset: number, deleted: boolean) {
+  async getListByTypes(typeFilterId: any, limit: number, offset: number, deleted: boolean, sort = {}) {
     const rs: any = await this.authHttp.post(`${this.url}/generics/list-type`, {
       typeId: typeFilterId,
       limit: limit,
       offset: offset,
-      deleted: deleted
+      deleted: deleted,
+      sort: sort
     }).toPromise();
     return rs.json();
   }
 
-  async search(query: any, groupId: any, limit: number, offset: number, deleted: boolean) {
+  async search(query: any, groupId: any, limit: number, offset: number, deleted: boolean, sort = {}) {
     const rs: any = await this.authHttp.post(`${this.url}/generics/search`, {
       query: query,
       groupId: groupId,
       limit: limit,
       offset: offset,
-      deleted: deleted
+      deleted: deleted,
+      sort: sort
     }).toPromise();
     return rs.json();
   }

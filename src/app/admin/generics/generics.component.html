@@ -31,12 +31,12 @@
     </div>
   </div>
 </form>
-<clr-datagrid (clrDgRefresh)="refresh($event)">
-  <clr-dg-column>Generic Code</clr-dg-column>
-  <clr-dg-column>Generic Name</clr-dg-column>
-  <clr-dg-column>ชนิดยาในบัญชี/นอกบัญชี</clr-dg-column>
-  <clr-dg-column>Base Unit</clr-dg-column>
-  <clr-dg-column>หมวดสินค้า</clr-dg-column>
+<clr-datagrid class="hidefillter" (clrDgRefresh)="refresh($event)">
+  <clr-dg-column [clrDgField]="'working_code'">Generic Code</clr-dg-column>
+  <clr-dg-column [clrDgField]="'generic_name'">Generic Name</clr-dg-column>
+  <clr-dg-column [clrDgField]="'account_name'">ชนิดยาในบัญชี/นอกบัญชี</clr-dg-column>
+  <clr-dg-column [clrDgField]="'primary_unit_name'">Base Unit</clr-dg-column>
+  <clr-dg-column [clrDgField]="'generic_type_name'">หมวดสินค้า</clr-dg-column>
   <clr-dg-column></clr-dg-column>
 
   <clr-dg-row *ngFor="let g of generics">

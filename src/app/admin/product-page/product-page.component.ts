@@ -49,6 +49,7 @@ export class ProductPageComponent implements OnInit {
   perPage = 15;
   total = 0;
   currentPage = 1;
+  sort = {};
 
   isSaving = false;
 
@@ -91,10 +92,10 @@ export class ProductPageComponent implements OnInit {
         this.loadingModal.show();
         let results: any;
         if (this.groupId === 'all') {
-          results = await this.productService.all(this.perPage, 0, this.genericTypeIds, this.btnDelete);
+          results = await this.productService.all(this.perPage, 0, this.genericTypeIds, this.btnDelete, null);
           sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
         } else {
-          results = await this.productService.all(this.perPage, 0, this.groupId, this.btnDelete);
+          results = await this.productService.all(this.perPage, 0, this.groupId, this.btnDelete, null);
           sessionStorage.setItem('productGroupId', JSON.stringify(this.groupId));
         }
         this.loadingModal.hide();
@@ -267,9 +268,9 @@ export class ProductPageComponent implements OnInit {
       this.isSearch = true;
       let results: any;
       if (this.groupId === 'all') {
-        results = await this.productService.search(this.query || '', this.perPage, 0, this.genericTypeIds, this.btnDelete);
+        results = await this.productService.search(this.query || '', this.perPage, 0, this.genericTypeIds, this.btnDelete, this.sort);
       } else {
-        results = await this.productService.search(this.query || '', this.perPage, 0, this.groupId, this.btnDelete);
+        results = await this.productService.search(this.query || '', this.perPage, 0, this.groupId, this.btnDelete, this.sort);
       }
       this.loading = false;
       if (results.ok) {
@@ -335,6 +336,7 @@ export class ProductPageComponent implements OnInit {
 
   async refresh(state: State) {
     const offset = +state.page.from;
+    const sort = state.sort;
     const limit = this.perPage;
 
     if (!this.currentPage) {
@@ -351,7 +353,7 @@ export class ProductPageComponent implements OnInit {
 
     if (this.isSearch) {
       try {
-        const results: any = await this.productService.search(this.query, limit, offset, _groupId, this.btnDelete);
+        const results: any = await this.productService.search(this.query, limit, offset, _groupId, this.btnDelete, sort);
         this.loadingModal.hide();
         if (results.ok) {
           this.products = results.rows;
@@ -365,7 +367,7 @@ export class ProductPageComponent implements OnInit {
       }
     } else {
       try {
-        const results: any = await this.productService.all(limit, offset, _groupId, this.btnDelete);
+        const results: any = await this.productService.all(limit, offset, _groupId, this.btnDelete, sort);
         this.loadingModal.hide();
         if (results.ok) {
           this.products = results.rows;
