@@ -340,3 +340,6 @@ wm-loading .modal-backdrop {
 .datagrid .datagrid-body{
   overflow: visible;
 }
+.hidefillter .datagrid .datagrid-column .datagrid-filter-toggle, .datagrid .datagrid-head .datagrid-row-actions .datagrid-filter-toggle {
+  display: none;
+}

@@ -49,6 +49,7 @@ export class GenericsComponent implements OnInit {
 
   perPage = 10;
   total = 0;
+  sort = {};
 
   types: any = [];
   isSearch = false;
@@ -414,6 +415,7 @@ export class GenericsComponent implements OnInit {
 
     const limit = +state.page.size;
     const offset = +state.page.from;
+    this.sort = state.sort;
 
     if (!this.currentPage) {
       this.currentPage = this.pagination.currentPage;
@@ -425,8 +427,10 @@ export class GenericsComponent implements OnInit {
 
     const _groupId = sessionStorage.getItem('genericGroupId') ? JSON.parse(sessionStorage.getItem('genericGroupId')) : this.genericTypeIds;
     this.loadingModal.show();
-    if (this.isSearch) {
-      const results: any = await this.genericService.search(this.query, _groupId, limit, offset, this.btnDelete);
+    // console.log(this.isSearch, query);
+
+    if (this.query) {
+      const results: any = await this.genericService.search(this.query, _groupId, limit, offset, this.btnDelete, this.sort);
       this.loadingModal.hide();
       if (results.ok) {
         console.log(results.total);
@@ -438,7 +442,7 @@ export class GenericsComponent implements OnInit {
       }
     } else {
       try {
-        const results: any = await this.genericService.getListByTypes(_groupId, limit, offset, this.btnDelete);
+        const results: any = await this.genericService.getListByTypes(_groupId, limit, offset, this.btnDelete, this.sort);
         this.loadingModal.hide();
         if (results.ok) {
           this.generics = results.rows;
