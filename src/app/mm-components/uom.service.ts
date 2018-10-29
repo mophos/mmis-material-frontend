@@ -45,7 +45,7 @@ export class UomService {
   }
 
   async updateConversion(genericId: any, unitGenericId: any, fromUnitId: any, toUnitId: any, qty: number, cost: any) {
-    const resp = await this.authHttp.put(`${this.url}/units/conversion`, {
+    const resp = await this.authHttp.put(`${this.url}/units/update/Conversion`, {
       genericId: genericId,
       unitGenericId: unitGenericId,
       fromUnitId: fromUnitId,
