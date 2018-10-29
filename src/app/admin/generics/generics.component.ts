@@ -285,11 +285,10 @@ export class GenericsComponent implements OnInit {
       this.loadingModal.show();
       const rs: any = await this.genericService.searchDC24(this.genericNameSearch);
       if (rs.ok) {
-        this.listdc24 = rs.rows;
+        this.listdc24 = _.uniqBy(rs.rows, 'generic_name');
         console.log(this.listdc24);
-
       } else {
-        this.alertService.error(rs.error);
+        this.listdc24 = [];
       }
       this.loadingModal.hide();
     } catch (error) {

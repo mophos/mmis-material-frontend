@@ -210,26 +210,26 @@
   <h3 class="modal-title" style="padding: 0 0 0rem 0">ค้นหาชื่อสามัญจาก รหัสมาตราฐาน 24 หลัก</h3>
   <div class="modal-body">
     <!-- <form> -->
-    <div class="form-block">
+    <form class="form-block">
       <div class="row form-group">
-        <div class="col-md-2">
+        <div class="col-md-1">
           ค้นหา
         </div>
         <div class="col-md-6">
-          <input type="text" name="genericNameSearch" (keyup)="searchDC24()" [(ngModel)]="genericNameSearch"
-            placeholder="รหัส 24 หลัก หรือ ชื่อสามัญ">
+          <input type="text" class="form-control" name="genericNameSearch" (keyup)="searchDC24()" [(ngModel)]="genericNameSearch"
+            placeholder="ค้นหาจาก รหัส 24 หลัก ,tmt หรือ ชื่อสามัญ">
         </div>
-        <div class="col-md-4" style="float: right">
+        <div class="col-md-5" style="float: right">
           ** ข้อมูลยาจากฐานข้อมูล NMPCD
         </div>
         <div class="col-md-12">
           <clr-datagrid style="height: 500px">
-            <clr-dg-column>DC24</clr-dg-column>
+            <!-- <clr-dg-column>DC24</clr-dg-column> -->
             <clr-dg-column>Generic Name</clr-dg-column>
             <clr-dg-column></clr-dg-column>
 
             <clr-dg-row *clrDgItems="let g of listdc24">
-              <clr-dg-cell>{{g.id}}</clr-dg-cell>
+              <!-- <clr-dg-cell>{{g.id}}</clr-dg-cell> -->
               <clr-dg-cell>{{g.generic_name}}</clr-dg-cell>
               <clr-dg-cell>
                 <div class="btn-group">
@@ -250,7 +250,7 @@
 
         </div>
       </div>
-    </div>
+    </form>
     <!-- </form> -->
   </div>
   <div class="modal-footer">
