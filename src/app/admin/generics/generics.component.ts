@@ -315,10 +315,10 @@ export class GenericsComponent implements OnInit {
         this.loadingModal.show();
         let results: any;
         if (this.typeFilterId === 'all') {
-          results = await this.genericService.getListByTypes(this.genericTypeIds, this.perPage, 0, this.btnDelete);
+          results = await this.genericService.getListByTypes(this.genericTypeIds, this.perPage, 0, this.btnDelete, this.sort);
           sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
         } else {
-          results = await this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0, this.btnDelete);
+          results = await this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0, this.btnDelete, this.sort);
           sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
         }
         console.log(JSON.parse(sessionStorage.getItem('genericGroupId')));
