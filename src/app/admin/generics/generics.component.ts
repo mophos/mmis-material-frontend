@@ -349,9 +349,9 @@ export class GenericsComponent implements OnInit {
       const drugs = {
         genericName: this.genericName,
         typeId: this.typeId,
-        genericTypeId: this.genericTypeId,
+        // genericTypeId: this.genericTypeId,
         // groupId: this.groupId,
-        dosageId: this.dosageId,
+        // dosageId: this.dosageId,
         drugAccountId: this.drugAccountId,
         workingCode: this.workingCode,
         primaryUnitId: this.primaryUnitId
