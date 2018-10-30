@@ -92,10 +92,10 @@ export class ProductPageComponent implements OnInit {
         this.loadingModal.show();
         let results: any;
         if (this.groupId === 'all') {
-          results = await this.productService.all(this.perPage, 0, this.genericTypeIds, this.btnDelete, null);
+          results = await this.productService.all(this.perPage, 0, this.genericTypeIds, this.btnDelete, this.sort);
           sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
         } else {
-          results = await this.productService.all(this.perPage, 0, this.groupId, this.btnDelete, null);
+          results = await this.productService.all(this.perPage, 0, this.groupId, this.btnDelete, this.sort);
           sessionStorage.setItem('productGroupId', JSON.stringify(this.groupId));
         }
         this.loadingModal.hide();
