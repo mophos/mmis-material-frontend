@@ -191,7 +191,7 @@ export class GenericsEditComponent implements OnInit {
         this.eoqQty = +rs.detail.eoq_qty;
         this.carryingCost = +rs.detail.carrying_cost;
         this.orderingCost = +rs.detail.ordering_cost;
-        this.bidTypeId = this.bidTypeId ? this.bidTypes[0].bid_id : rs.detail.purchasing_method;
+        this.bidTypeId = rs.detail.purchasing_method;
         // this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
         this.keywords = rs.detail.keywords;
         if (this.groupId2) {
