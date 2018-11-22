@@ -99,7 +99,7 @@
           </div>
           <div class="col-md-9">
             <ag2-completer placeholder="ค้นหา..." style="width: 100%;" name="modalLargeUnit" #fromUnit [datasource]="dataServiceUomActive"
-              (selected)="setSelectedLargeModal($event)" (keyup)="clearSelectedLargeModal()" [(ngModel)]="modalLargeUnit"
+              (selected)="setSelectedLargeModal($event)" [(ngModel)]="modalLargeUnit"
               [openOnFocus]="true" [minSearchLength]="0"></ag2-completer>
           </div>
           <div class="col-md-3">
