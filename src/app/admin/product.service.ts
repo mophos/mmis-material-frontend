@@ -58,25 +58,29 @@ export class ProductService {
     });
   }
 
-  async all(limit: number = 15, offset: number = 0, groupId: any) {
+  async all(limit: number = 15, offset: number = 0, groupId: any, deleted: boolean, sort: any = {}) {
     const rs = await this.authHttp.post(`${this.url}/products`,
       {
         groupId: groupId,
         limit: limit,
-        offset: offset
+        offset: offset,
+        deleted: deleted,
+        sort: sort
       }
     ).toPromise();
     return rs.json();
   }
 
-  async search(query: any, limit: number, offset: number, groupId: any) {
+  async search(query: any, limit: number, offset: number, groupId: any, deleted: boolean, sort: any = {}) {
     const rs = await this.authHttp.post(`${this.url}/products/search`,
-    {
-      query: query,
-      groupId: groupId,
-      limit: limit,
-      offset: offset
-    }).toPromise();
+      {
+        query: query,
+        groupId: groupId,
+        limit: limit,
+        deleted: deleted,
+        offset: offset,
+        sort: sort
+      }).toPromise();
     return rs.json();
   }
 
@@ -116,8 +120,25 @@ export class ProductService {
     });
   }
 
+  getGenericTypes() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-types`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
   async markDeleted(productId: any) {
     const rs = await this.authHttp.delete(`${this.url}/products/mark-deleted/${productId}`, {}).toPromise();
+    return rs.json();
+  }
+
+  async returnDelete(productId: any) {
+    const rs = await this.authHttp.delete(`${this.url}/products/return-deleted/${productId}`, {}).toPromise();
     return rs.json();
   }
 

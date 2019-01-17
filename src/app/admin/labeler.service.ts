@@ -149,9 +149,9 @@ export class LabelerService {
     });
   }
 
-  all() {
+  all(deleted: boolean) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/labelers`)
+      this.authHttp.get(`${this.url}/labelers?deleted=${deleted}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -176,6 +176,20 @@ export class LabelerService {
   remove(labelerId: any) {
     return new Promise((resolve, reject) => {
       this.authHttp.delete(`${this.url}/labelers/${labelerId}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  return(labelerId: any) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.post(`${this.url}/labelers/return`, {
+        labelerId: labelerId
+      })
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);

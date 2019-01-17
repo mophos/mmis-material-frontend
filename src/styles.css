@@ -337,3 +337,9 @@ wm-loading .modal-backdrop {
   background-color: red;
   color: white;
 }
+.datagrid .datagrid-body{
+  overflow: visible;
+}
+.hidefillter .datagrid .datagrid-column .datagrid-filter-toggle, .datagrid .datagrid-head .datagrid-row-actions .datagrid-filter-toggle {
+  display: none;
+}

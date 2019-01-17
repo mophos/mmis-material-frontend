@@ -1,6 +1,9 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { GenericDrugTypesService } from '../generic-drug-types.service';
 import { AlertService } from '../alert.service';
+import { JwtHelper } from 'angular2-jwt';
+import * as _ from 'lodash'
+
 @Component({
   selector: 'app-generic-drug-types',
   templateUrl: './generic-drug-types.component.html',
@@ -12,10 +15,12 @@ export class GenericDrugTypesComponent implements OnInit {
   typeId: string;
   typeName: string;
 
-  opened: boolean = false;
-  isUpdate: boolean = false;
-  loading: boolean = false;
-
+  opened = false;
+  isUpdate = false;
+  loading = false;
+  btnDelete = false;
+  menuDelete = false;
+  jwtHelper: JwtHelper = new JwtHelper();
   constructor(
     private drugTypeService: GenericDrugTypesService,
     private ref: ChangeDetectorRef,
@@ -23,6 +28,10 @@ export class GenericDrugTypesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const token = sessionStorage.getItem('token');
+    const decoded = this.jwtHelper.decodeToken(token);
+    const accessRight = decoded.accessRight.split(',');
+    this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
     this.getList();
   }
 
@@ -32,10 +41,26 @@ export class GenericDrugTypesComponent implements OnInit {
     this.isUpdate = false;
     this.opened = true;
   }
-
+  manageDelete() {
+    this.btnDelete = !this.btnDelete;
+    this.getList();
+  }
+  async returnDelete(productId) {
+    try {
+      const resp: any = await this.drugTypeService.returnDelete(productId);
+      if (resp.ok) {
+        const idx = _.findIndex(this.types, { 'account_id': productId })
+        this.types[idx].is_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.alertService.error(error.message);
+    }
+  }
   getList() {
     this.loading = true;
-    this.drugTypeService.all()
+    this.drugTypeService.all(this.btnDelete)
       .then((results: any) => {
         if (results.ok) {
           this.types = results.rows;
@@ -64,7 +89,14 @@ export class GenericDrugTypesComponent implements OnInit {
           .then((results: any) => {
             if (results.ok) {
               this.alertService.success();
-              this.getList();
+              const idx = _.findIndex(this.types, { 'account_id': p.account_id });
+              if (idx > -1) {
+                if (this.btnDelete) {
+                  this.types[idx].is_deleted = 'Y';
+                } else {
+                  this.types.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(JSON.stringify(results.error));
             }

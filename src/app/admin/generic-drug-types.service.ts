@@ -10,9 +10,9 @@ export class GenericDrugTypesService {
     private authHttp: AuthHttp
   ) { }
 
-  all() {
+  all(deleted: boolean) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-types`)
+      this.authHttp.get(`${this.url}/drug-types?deleted=${deleted}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -21,7 +21,12 @@ export class GenericDrugTypesService {
         });
     });
   }
-
+  async returnDelete(id: any) {
+    const rs: any = await this.authHttp.post(`${this.url}/drug-types/return`, {
+      id: id
+    }).toPromise();
+    return rs.json();
+  }
   save(typeName: string) {
     return new Promise((resolve, reject) => {
       this.authHttp.post(`${this.url}/drug-types`, {

@@ -10,13 +10,13 @@ export class UnitsService {
     private authHttp: AuthHttp
   ) { }
 
-  async all() {
-    const resp = await this.authHttp.get(`${this.url}/units`).toPromise();
+  async all(deleted) {
+    const resp = await this.authHttp.get(`${this.url}/units?deleted=${deleted}`).toPromise();
     return resp.json();
   }
 
-  async search(query) {
-    const resp = await this.authHttp.get(`${this.url}/units/search?query=${query}`).toPromise();
+  async search(query, deleted) {
+    const resp = await this.authHttp.get(`${this.url}/units/search?query=${query}&deleted=${deleted}`).toPromise();
     return resp.json();
   }
 
@@ -42,6 +42,13 @@ export class UnitsService {
 
   async remove(unitId: any) {
     const resp = await this.authHttp.delete(`${this.url}/units/${unitId}`).toPromise();
+    return resp.json();
+  }
+
+  async returnDelete(unitId: any) {
+    const resp = await this.authHttp.post(`${this.url}/units/return`, {
+      unitId: unitId
+    }).toPromise();
     return resp.json();
   }
 

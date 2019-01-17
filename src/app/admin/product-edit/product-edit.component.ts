@@ -7,11 +7,13 @@ import { Component, OnInit, Inject, ViewChild } from '@angular/core';
 import { CompleterService, CompleterData, RemoteData } from 'ag2-completer';
 import { ActivatedRoute } from '@angular/router';
 import * as _ from 'lodash';
+import * as moment from 'moment';
 import { LoadingComponent } from 'app/loading/loading.component';
-
+import { NgxGalleryOptions, NgxGalleryImage, NgxGalleryAnimation } from 'ngx-gallery';
 @Component({
   selector: 'wm-product-edit',
-  templateUrl: './product-edit.component.html'
+  templateUrl: './product-edit.component.html',
+  styleUrls: ['./product-edit.component.css']
 })
 export class ProductEditComponent implements OnInit {
   @ViewChild('planning') planning: any;
@@ -25,6 +27,7 @@ export class ProductEditComponent implements OnInit {
   mLabelerName: any = null;
   selectedGenericId: any = null;
   selectedGenericName: any = null;
+  selectedGenericCode: any = null;
   isRawMaterial = false;
   pickingRuleId = null;
   isActive = false;
@@ -36,8 +39,8 @@ export class ProductEditComponent implements OnInit {
   // maxQty: number = 0;
   // eoqQty: number = 0;
 
-  orderingCost: number = 0;
-  carryingCost: number = 0;
+  orderingCost = 0;
+  carryingCost = 0;
 
   isLotControl = false;
   description = null;
@@ -57,7 +60,7 @@ export class ProductEditComponent implements OnInit {
   genericId = null;
   purchasePrice = 0;
   keywords = null;
-  // productGroupsId = null;
+  productGroupsId = null;
   // productGroupOldId = null;
 
   files: any = [];
@@ -69,7 +72,10 @@ export class ProductEditComponent implements OnInit {
 
   purchaseUnitProductId: null;
   issueUnitProductId: null;
+  modalPicture = false;
 
+  galleryOptions: NgxGalleryOptions[];
+  galleryImages: NgxGalleryImage[] = [];
   constructor(
     private completerService: CompleterService,
     private productService: ProductService,
@@ -94,12 +100,28 @@ export class ProductEditComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.galleryOptions = [
+      {
+        'previewZoom': true,
+        'previewRotate': true,
+        'previewCloseOnClick': true,
+        'previewCloseOnEsc': true,
+        'width': '400px',
+        'height': '380px',
+      },
+      { 'breakpoint': 480, 'width': '300px', 'height': '300px', 'thumbnailsColumns': 3 },
+      { 'breakpoint': 400, 'width': '100%', 'height': '200px', 'thumbnailsColumns': 2 }
+    ];
+
+
     this.getInfo();
+
   }
+
 
   async getInfo() {
     await this.getFilesList();
-    // await this.getProductGroups();
+    await this.getProductGroups();
     await this.getProductDetail();
     await this.getPrimaryUnits();
     await this.getUnits();
@@ -159,22 +181,6 @@ export class ProductEditComponent implements OnInit {
     }
   }
 
-  // async getProductGroups() {
-  //   this.loadingModal.show();
-  //   try {
-  //     const resp: any = await this.productService.getProductGroups();
-  //     this.loadingModal.hide();
-  //     if (resp.ok) {
-  //       this.productGroups = resp.rows;
-  //     } else {
-  //       this.alertService.error(resp.error);
-  //     }
-  //   } catch (error) {
-  //     this.loadingModal.hide();
-  //     this.alertService.error(error.message);
-  //   }
-  // }
-
   clearManufacture() {
     this.selectedM = null;
   }
@@ -191,6 +197,7 @@ export class ProductEditComponent implements OnInit {
     try {
       this.selectedGenericId = event.generic_id;
       this.selectedGenericName = event.generic_name;
+      this.selectedGenericCode = event.working_code
     } catch (error) {
       console.error(error.message);
     }
@@ -232,9 +239,11 @@ export class ProductEditComponent implements OnInit {
       const resp: any = await this.productService.detail(this.productId);
       this.loadingModal.hide();
       if (resp.ok) {
+        this.description = resp.detail.description;
         this.productName = resp.detail.product_name;
         this.isRawMaterial = resp.detail.is_raw_material === 'Y' ? true : false;
         this.selectedGenericId = resp.detail.generic_id;
+        this.selectedGenericCode = resp.detail.generic_code;
         this.selectedGenericName = resp.detail.generic_name;
         this.vLabelerName = resp.detail.v_labeler;
         this.mLabelerName = resp.detail.m_labeler;
@@ -251,7 +260,7 @@ export class ProductEditComponent implements OnInit {
         this.selectedGenericName = resp.detail.generic_name;
         this.pickingRuleId = resp.detail.picking_rule_id;
         this.keywords = resp.detail.keywords;
-        // this.productGroupsId = resp.detail.product_group_id;
+        this.productGroupsId = resp.detail.product_group_id;
         // this.productGroupOldId = resp.detail.product_group_id;
         this.isActive = resp.detail.is_active === 'Y' ? true : false;
         this.isRawMaterial = resp.detail.is_raw_material === 'Y' ? true : false;
@@ -275,7 +284,7 @@ export class ProductEditComponent implements OnInit {
     data.pickingRuleId = this.pickingRuleId;
     data.isActive = this.isActive ? 'Y' : 'N';
     data.isLotControl = this.isLotControl ? 'Y' : 'N';
-    data.discription = this.description;
+    data.description = this.description;
     data.purchaseUnitId = this.purchaseUnitId;
     data.issueUnitId = this.issueUnitId;
     data.primaryUnitId = this.primaryUnitId;
@@ -283,7 +292,8 @@ export class ProductEditComponent implements OnInit {
     data.reg_no = this.reg_no;
     data.purchasePrice = this.purchasePrice;
     data.keywords = this.keywords;
-    // data.productGroupId = this.productGroupsId;
+    data.productGroupId = this.productGroupsId;
+    this.isType = false;
     // data.productGroupOldId = this.productGroupOldId;
     // data.minQty = this.minQty || 0;
     // data.maxQty = this.maxQty || 0;
@@ -297,7 +307,6 @@ export class ProductEditComponent implements OnInit {
       const resp: any = await this.productService.update(this.productId, data);
       this.loadingModal.hide();
       if (resp.ok) {
-        this.workingCode = resp.workingCode;
         this.alertService.success();
       } else {
         this.alertService.error(resp.error);
@@ -306,21 +315,22 @@ export class ProductEditComponent implements OnInit {
       this.loadingModal.hide();
       this.alertService.error(error.message);
     }
-  } 
+  }
 
   fileChangeEvent(fileInput: any) {
     this.filesToUpload = [];
     this.filesToUpload = <Array<File>>fileInput.target.files;
   }
 
-  upload() {
+  async upload() {
     const documentCode = `${this.productImagePrefix}-${this.productId}`;
     this.isUploading = true;
     this.uploadingService.makeFileRequest(documentCode, this.filesToUpload)
-      .then((result: any) => {
+      .then(async (result: any) => {
         this.isUploading = false;
         if (result.ok) {
           this.filesToUpload = [];
+          await this.getFilesList();
           this.alertService.success();
           // this.getFilesList();
         } else {
@@ -333,26 +343,60 @@ export class ProductEditComponent implements OnInit {
   }
 
   openFile() {
-    if (this.imageUrl) {
-      window.open(this.imageUrl, '_blank');
-    } else {
-      this.alertService.error('ไม่พบไฟล์ที่ต้องการ');
-    }
+    // if (this.imageUrl) {
+    //   window.open(this.imageUrl, '_blank');
+    // } else {
+    //   this.alertService.error('ไม่พบไฟล์ที่ต้องการ');
+    // }
+    this.modalPicture = true;
+    // console.log('open file');
+
   }
 
   getFilesList() {
     this.files = [];
+    this.galleryImages = [];
     const file = `${this.productImagePrefix}-${this.productId}`;
     try {
       this.uploadingService.getFiles(file)
         .then((result: any) => {
           if (result.ok) {
             this.files = result.rows;
-            const lastImage: any = this.files[0];
+            // const lastImage: any = this.files[0];
             // console.log(lastImage);
-            const documentId = lastImage.document_id ? lastImage.document_id : null;
-            const url = `${this.docUrl}/uploads/files/${documentId}`;
-            this.imageUrl = url;
+            // const documentId = lastImage.document_id ? lastImage.document_id : null;
+            // const url = `${this.docUrl}/uploads/files/${documentId}`;
+
+            // preview //
+            if (result.rows.length) {
+              result.rows.forEach(v => {
+                const url = `${this.docUrl}/uploads/files/${v.document_id}`;
+                const timestamp = v.uploaded_at / 100;
+                let date;
+                if (moment(timestamp, 'x').isValid()) {
+                  moment.locale('th');
+                  date = moment(v.uploaded_at, 'x').format('DD MMMM ') + (moment(v.uploaded_at, 'x').get('year') + 543)
+                } else {
+                  date = '';
+                }
+                const obj: any = {
+                  small: url,
+                  medium: url,
+                  big: url,
+                  description: date
+
+                };
+                this.galleryImages.push(obj);
+              });
+            } else {
+              this.galleryImages.push({
+                small: 'http://via.placeholder.com/400x285',
+                medium: 'http://via.placeholder.com/400x285',
+                big: 'http://via.placeholder.com/400x285'
+              })
+            }
+            /////////////
+            // this.imageUrl = url;
           } else {
             this.alertService.error(JSON.stringify(result.error));
           }
@@ -370,4 +414,19 @@ export class ProductEditComponent implements OnInit {
     this.isType = true;
   }
 
+  async getProductGroups() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.productService.getProductGroups();
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.productGroups = rs.rows;
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(error.message);
+    }
+  }
 }

@@ -4,6 +4,7 @@ import { GenericDrugGroupsService } from '../generic-drug-groups.service';
 import { AlertService } from '../alert.service';
 import { LoadingComponent } from 'app/loading/loading.component';
 import * as _ from 'lodash';
+import { JwtHelper } from 'angular2-jwt';
 @Component({
   selector: 'app-generic-drug-groups',
   templateUrl: './generic-drug-groups.component.html',
@@ -55,6 +56,13 @@ export class GenericDrugGroupsComponent implements OnInit {
   modal4GroupCode4 = '';
   modal4GroupName4 = '';
 
+  btnDelete1= false
+  btnDelete2= false
+  btnDelete3= false
+  btnDelete4= false
+  menuDelete = false
+  jwtHelper: JwtHelper = new JwtHelper()
+
   isUpdate = false;
   loading = false;
 
@@ -66,11 +74,84 @@ export class GenericDrugGroupsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    const token = sessionStorage.getItem('token');
+    const decoded = this.jwtHelper.decodeToken(token);
+    const accessRight = decoded.accessRight.split(',');
+    this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
     this.getGroup1();
     this.getGroup2();
     this.getGroup3();
     this.getGroup4();
   }
+  manageDelete1() {
+    this.btnDelete1 = !this.btnDelete1;
+    this.getGroup1();
+  }
+  async returnDelete1(id) {
+    try {
+      const resp: any = await this.drugGroupService.returnDelete1(id);
+      if (resp.ok) {
+        const idx = _.findIndex(this.listGroup1, { 'group_code_1': id.group_code_1 })
+        this.listGroup1[idx].is_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.alertService.error(error.message);
+    }
+  }
+  manageDelete2() {
+    this.btnDelete2 = !this.btnDelete2;
+    this.getGroup2();
+  }
+  async returnDelete2(id) {
+    try {
+      const resp: any = await this.drugGroupService.returnDelete2(id);
+      if (resp.ok) {
+        const idx = _.findIndex(this.listGroup2, { 'group_code_1': id.group_code_1,'group_code_2': id.group_code_2 })
+        this.listGroup2[idx].is_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.alertService.error(error.message);
+    }
+  }
+  manageDelete3() {
+    this.btnDelete3 = !this.btnDelete3;
+    this.getGroup3();
+  }
+  async returnDelete3(id) {
+    try {
+      const resp: any = await this.drugGroupService.returnDelete3(id);
+      if (resp.ok) {
+        const idx = _.findIndex(this.listGroup3, { 'group_code_1': id.group_code_1,'group_code_2': id.group_code_2,'group_code_3': id.group_code_3 })
+        this.listGroup3[idx].is_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.alertService.error(error.message);
+    }
+  }
+  manageDelete4() {
+    this.btnDelete4 = !this.btnDelete4;
+    this.getGroup4();
+  }
+  async returnDelete4(id) {
+    try {
+      const resp: any = await this.drugGroupService.returnDelete4(id);
+      if (resp.ok) {
+        const idx = _.findIndex(this.listGroup4, { 'group_code_1': id.group_code_1,'group_code_2': id.group_code_2,'group_code_3': id.group_code_3,'group_code_4': id.group_code_4 })
+        this.listGroup4[idx].is_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.alertService.error(error.message);
+    }
+  }
+  
   // ############## GROUP 1 ######################
   addNewGroup1() {
     this.modal1GroupCode1 = '';
@@ -81,7 +162,7 @@ export class GenericDrugGroupsComponent implements OnInit {
 
   getGroup1() {
     this.loading = true;
-    this.drugGroupService.getGenericGroup1('A')
+    this.drugGroupService.getGenericGroup1('A',this.btnDelete1)
       .then((results: any) => {
         if (results.ok) {
           this.listGroup1 = results.rows;
@@ -128,7 +209,14 @@ export class GenericDrugGroupsComponent implements OnInit {
           .then((results: any) => {
             if (results.ok) {
               this.alertService.success();
-              this.getGroup1();
+              const idx = _.findIndex(this.listGroup1, { 'group_code_1': p.group_code_1 });
+              if (idx > -1) {
+                if (this.btnDelete1) {
+                  this.listGroup1[idx].is_deleted = 'Y';
+                } else {
+                  this.listGroup1.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(JSON.stringify(results.error));
             }
@@ -182,7 +270,7 @@ export class GenericDrugGroupsComponent implements OnInit {
 
   getGroup2() {
     this.loading = true;
-    this.drugGroupService.getGenericGroup2('A')
+    this.drugGroupService.getGenericGroup2('A', this.btnDelete2)
       .then((results: any) => {
         if (results.ok) {
           this.listGroup2 = results.rows;
@@ -231,7 +319,14 @@ export class GenericDrugGroupsComponent implements OnInit {
           .then((results: any) => {
             if (results.ok) {
               this.alertService.success();
-              this.getGroup2();
+              const idx = _.findIndex(this.listGroup2, { 'group_code_1': p.group_code_1, 'group_code_2': p.group_code_2 });
+              if (idx > -1) {
+                if (this.btnDelete2) {
+                  this.listGroup2[idx].is_deleted = 'Y';
+                } else {
+                  this.listGroup2.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(JSON.stringify(results.error));
             }
@@ -294,7 +389,7 @@ export class GenericDrugGroupsComponent implements OnInit {
 
   getGroup3() {
     this.loading = true;
-    this.drugGroupService.getGenericGroup3('A')
+    this.drugGroupService.getGenericGroup3('A', this.btnDelete3)
       .then((results: any) => {
         if (results.ok) {
           this.listGroup3 = results.rows;
@@ -361,7 +456,14 @@ export class GenericDrugGroupsComponent implements OnInit {
           .then((results: any) => {
             if (results.ok) {
               this.alertService.success();
-              this.getGroup3();
+              const idx = _.findIndex(this.listGroup3, {'group_code_1': p.group_code_1, 'group_code_2': p.group_code_2,'group_code_3': p.group_code_3 });
+              if (idx > -1) {
+                if (this.btnDelete3) {
+                  this.listGroup3[idx].is_deleted = 'Y';
+                } else {
+                  this.listGroup3.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(JSON.stringify(results.error));
             }
@@ -424,7 +526,7 @@ export class GenericDrugGroupsComponent implements OnInit {
 
   getGroup4() {
     this.loading = true;
-    this.drugGroupService.getGenericGroup4('A')
+    this.drugGroupService.getGenericGroup4('A', this.btnDelete4)
       .then((results: any) => {
         if (results.ok) {
           this.listGroup4 = results.rows;
@@ -510,7 +612,14 @@ export class GenericDrugGroupsComponent implements OnInit {
           .then((results: any) => {
             if (results.ok) {
               this.alertService.success();
-              this.getGroup4();
+              const idx = _.findIndex(this.listGroup4, { 'group_code_1': p.group_code_1, 'group_code_2': p.group_code_2,'group_code_3': p.group_code_3,'group_code_4': p.group_code_4 });
+              if (idx > -1) {
+                if (this.btnDelete4) {
+                  this.listGroup4[idx].is_deleted = 'Y';
+                } else {
+                  this.listGroup4.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(JSON.stringify(results.error));
             }

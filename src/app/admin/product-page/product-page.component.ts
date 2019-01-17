@@ -49,6 +49,7 @@ export class ProductPageComponent implements OnInit {
   perPage = 15;
   total = 0;
   currentPage = 1;
+  sort = {};
 
   isSaving = false;
 
@@ -59,7 +60,8 @@ export class ProductPageComponent implements OnInit {
 
   genericTypeIds: any = [];
   jwtHelper: JwtHelper = new JwtHelper();
-
+  menuDelete = false;
+  btnDelete = false;
   constructor(
     private completerService: CompleterService,
     private productService: ProductService,
@@ -70,14 +72,68 @@ export class ProductPageComponent implements OnInit {
   ) {
     const token = sessionStorage.getItem('token');
     const decoded = this.jwtHelper.decodeToken(token);
+    const accessRight = decoded.accessRight.split(',');
+    this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
     this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
     this.currentPage = +sessionStorage.getItem('productCurrentPage') ? +sessionStorage.getItem('productCurrentPage') : 1;
   }
 
   async ngOnInit() {
-    // this.getList();
     await this.getPrimaryUnits();
     await this.getGroupList();
+  }
+
+  async getProductList(event) {
+    try {
+      if (this.query) {
+        this.searchProduct();
+      } else {
+
+        this.loadingModal.show();
+        let results: any;
+        if (this.groupId === 'all') {
+          results = await this.productService.all(this.perPage, 0, this.genericTypeIds, this.btnDelete, this.sort);
+          sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
+        } else {
+          results = await this.productService.all(this.perPage, 0, this.groupId, this.btnDelete, this.sort);
+          sessionStorage.setItem('productGroupId', JSON.stringify(this.groupId));
+        }
+        this.loadingModal.hide();
+        if (results.ok) {
+          this.products = results.rows;
+          this.total = +results.total;
+          this.currentPage = 1;
+        } else {
+          this.alertService.error(JSON.stringify(results.error));
+        }
+      }
+    } catch (error) {
+      // this.loading = false;
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
+
+  async returnDelete(productId) {
+    this.loadingModal.show();
+    try {
+      const resp: any = await this.productService.returnDelete(productId);
+      this.loadingModal.hide();
+      if (resp.ok) {
+        const idx = _.findIndex(this.products, { 'product_id': productId })
+        this.products[idx].mark_deleted = 'N';
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(error.message);
+    }
+  }
+
+  manageDelete() {
+    this.btnDelete = !this.btnDelete;
+    this.searchProduct();
   }
 
   async getPrimaryUnits() {
@@ -99,7 +155,7 @@ export class ProductPageComponent implements OnInit {
   async getGroupList() {
     try {
       this.loadingModal.show();
-      const rs: any = await this.productService.getProductGroups();
+      const rs: any = await this.productService.getGenericTypes();
       this.loadingModal.hide();
       if (rs.ok) {
         if (rs.rows.length) {
@@ -212,16 +268,17 @@ export class ProductPageComponent implements OnInit {
       this.isSearch = true;
       let results: any;
       if (this.groupId === 'all') {
-        results = await this.productService.search(this.query || '', this.perPage, 0, this.genericTypeIds);
+        results = await this.productService.search(this.query || '', this.perPage, 0, this.genericTypeIds, this.btnDelete, this.sort);
       } else {
-        results = await this.productService.search(this.query || '', this.perPage, 0, this.groupId);
+        results = await this.productService.search(this.query || '', this.perPage, 0, this.groupId, this.btnDelete, this.sort);
       }
       this.loading = false;
-      this.loadingModal.hide();
       if (results.ok) {
         this.products = results.rows;
         this.total = +results.total;
+        this.loadingModal.hide();
       } else {
+        this.loadingModal.hide();
         this.alertService.error(JSON.stringify(results.error));
       }
 
@@ -232,7 +289,7 @@ export class ProductPageComponent implements OnInit {
     }
   }
 
-  markDeleted(idx: any, productId: any) {
+  markDeleted(productId: any) {
     this.alertService.confirm('ต้องการลบรายการ ใช่หรือไม่?')
       .then(() => {
         this.loadingModal.show();
@@ -240,7 +297,14 @@ export class ProductPageComponent implements OnInit {
           .then((rs: any) => {
             this.loadingModal.hide();
             if (rs.ok) {
-              this.products.splice(idx, 1);
+              const idx = _.findIndex(this.products, { 'product_id': productId });
+              if (idx > -1) {
+                if (this.btnDelete) {
+                  this.products[idx].mark_deleted = 'Y';
+                } else {
+                  this.products.splice(idx, 1);
+                }
+              }
             } else {
               this.alertService.error(rs.error);
             }
@@ -270,39 +334,9 @@ export class ProductPageComponent implements OnInit {
     this.mdlNew = true;
   }
 
-  async getProductList(event) {
-    try {
-      if (this.query) {
-        this.searchProduct();
-      } else {
-
-        this.loadingModal.show();
-        let results: any;
-        if (this.groupId === 'all') {
-          results = await this.productService.all(this.perPage, 0, this.genericTypeIds);
-          sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
-        } else {
-          results = await this.productService.all(this.perPage, 0, this.groupId);
-          sessionStorage.setItem('productGroupId', JSON.stringify(this.groupId));
-        }
-        this.loadingModal.hide();
-        if (results.ok) {
-          this.products = results.rows;
-          this.total = +results.total;
-          this.currentPage = 1;
-        } else {
-          this.alertService.error(JSON.stringify(results.error));
-        }
-      }
-    } catch (error) {
-      // this.loading = false;
-      this.loadingModal.hide();
-      this.alertService.error(JSON.stringify(error));
-    }
-  }
-
   async refresh(state: State) {
     const offset = +state.page.from;
+    const sort = state.sort;
     const limit = this.perPage;
 
     if (!this.currentPage) {
@@ -319,7 +353,7 @@ export class ProductPageComponent implements OnInit {
 
     if (this.isSearch) {
       try {
-        const results: any = await this.productService.search(this.query, limit, offset, _groupId);
+        const results: any = await this.productService.search(this.query, limit, offset, _groupId, this.btnDelete, sort);
         this.loadingModal.hide();
         if (results.ok) {
           this.products = results.rows;
@@ -333,7 +367,7 @@ export class ProductPageComponent implements OnInit {
       }
     } else {
       try {
-        const results: any = await this.productService.all(limit, offset, _groupId);
+        const results: any = await this.productService.all(limit, offset, _groupId, this.btnDelete, sort);
         this.loadingModal.hide();
         if (results.ok) {
           this.products = results.rows;

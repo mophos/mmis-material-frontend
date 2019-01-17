@@ -12,20 +12,16 @@
             <th class="left">x Base Unit</th>
             <th>ราคาต่อแพค</th>
             <th>ใช้งาน</th>
+            <th>ใช้จัดทำแผน</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <td class="left wm-add-row">
-              <ag2-completer placeholder="ค้นหา..." style="width: 100%;" 
-              name="selectedLarge" #fromUnit
-              [datasource]="dataServiceUomActive" 
-              (selected)="setSelectedLarge($event)"
-              (keyup)="clearSelectedLarge()" 
-              [(ngModel)]="fromUnitName" 
-              [openOnFocus]="true" 
-              [minSearchLength]="0"></ag2-completer>
+              <ag2-completer placeholder="ค้นหา..." style="width: 100%;" name="selectedLarge" #fromUnit [datasource]="dataServiceUomActive"
+                (selected)="setSelectedLarge($event)" (keyup)="clearSelectedLarge()" [(ngModel)]="fromUnitName"
+                [openOnFocus]="true" [minSearchLength]="0"></ag2-completer>
             </td>
             <td style="width: 50px;" class="wm-add-row">
               <input type="number" style="width: 100%" [(ngModel)]="conversionQty" style="text-align: center;">
@@ -37,40 +33,52 @@
               <input type="number" name="cost" [(ngModel)]="cost" style="text-align: center;" />
             </td>
             <td class="wm-add-row">
-              <clr-checkbox name="isActive" [(ngModel)]="isActive"></clr-checkbox>
+              <!-- <clr-checkbox name="isActive" [(ngModel)]="isActive"></clr-checkbox> -->
+            </td>
+            <td class="wm-add-row">
             </td>
             <td class="wm-add-row">
               <div class="btn-group">
-                <button class="btn btn-sm btn-success wm-small-btn" 
-              (click)="saveConversion()" [clrLoading]="isSaving"
-              [disabled]="!conversionQty || !fromUnitId || !primaryUnitId || isSaving">
-                <clr-icon shape="floppy" size="16"></clr-icon>
-              </button>
-              <button 
-              [disabled]="!conversionQty || !fromUnitId || isSaving"
-              class="btn btn-sm btn-danger wm-small-btn" (click)="resetForm()">
-                <clr-icon shape="refresh" size="16"></clr-icon>
-              </button>
+                <button class="btn btn-sm btn-success wm-small-btn" (click)="saveConversion()" [clrLoading]="isSaving"
+                  [disabled]="!conversionQty || !fromUnitId || !primaryUnitId || isSaving">
+                  <clr-icon shape="floppy" size="16"></clr-icon>
+                </button>
+                <button [disabled]="!conversionQty || !fromUnitId || isSaving" class="btn btn-sm btn-danger wm-small-btn"
+                  (click)="resetForm()">
+                  <clr-icon shape="refresh" size="16"></clr-icon>
+                </button>
               </div>
             </td>
           </tr>
-          <tr *ngFor="let c of conversions" [class.editLine]="c.is_update === 'Y'">
+          <tr *ngFor="let c of conversions;let idx = index;" [class.editLine]="c.is_update === 'Y'">
             <td class="left">{{ c.from_unit_name }}</td>
             <td>{{ c.qty | number }}</td>
             <td class="left">{{ c.to_unit_name }}</td>
             <td>{{ c.cost | number: '1.2-2' }}</td>
             <td>
-              <clr-icon *ngIf="c.is_active === 'Y'" shape="success" size="16" class="is-success"></clr-icon>
-              <clr-icon *ngIf="c.is_active === 'N' || !c.is_active" shape="close" size="16" class="is-danger"></clr-icon>
+              <!-- <clr-icon *ngIf="c.is_active === 'Y'" shape="success" size="16" class="is-success"></clr-icon>
+              <clr-icon *ngIf="c.is_active === 'N' || !c.is_active" shape="close" size="16" class="is-danger"></clr-icon> -->
+              <div class="toggle-switch">
+                <input type="checkbox" id="toggle_{{idx}}" [checked]="c.is_active==='Y'" (change)="changeStatus($event,c)">
+                <label for="toggle_{{idx}}"></label>
+              </div>
+            </td>
+            <td>
+              <div class="toggle-switch">
+                <input type="checkbox" id="toggleP_{{idx}}" [checked]="c.planning==='Y'" (change)="changeStatusPlanning($event,c)">
+                <label for="toggleP_{{idx}}"></label>
+              </div>
             </td>
             <td>
               <div class="btn-group">
-                <button [disabled]="c.is_update === 'Y'" class="btn btn-sm btn-success wm-small-btn" (click)="doEdit(c)" title="แก้ไข">
-                <clr-icon shape="note" size="16"></clr-icon>
-              </button>
-              <button [disabled]="c.is_update === 'Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="doRemove(c)" title="ลบรายการ">
-                <clr-icon shape="trash" size="16"></clr-icon>
-              </button>
+                <button [disabled]="c.is_update === 'Y'" class="btn btn-sm btn-success wm-small-btn" (click)="doEdit(c)"
+                  title="แก้ไข">
+                  <clr-icon shape="note" size="16"></clr-icon>
+                </button>
+                <button [disabled]="c.is_update === 'Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="doRemove(c)"
+                  title="ลบรายการ">
+                  <clr-icon shape="trash" size="16"></clr-icon>
+                </button>
               </div>
             </td>
           </tr>
@@ -80,4 +88,45 @@
   </div>
 </div>
 
+<clr-modal [(clrModalOpen)]="modalEdit">
+  <h3 class="modal-title">แก้ไข UOM</h3>
+  <div class="modal-body">
+    <div class="form-block">
+      <div class="form-group">
+        <div class="row">
+          <div class="col-md-3">
+            <label for="">package</label>
+          </div>
+          <div class="col-md-9">
+            <ag2-completer placeholder="ค้นหา..." style="width: 100%;" name="modalLargeUnit" #fromUnit [datasource]="dataServiceUomActive"
+              (selected)="setSelectedLargeModal($event)" [(ngModel)]="modalLargeUnit"
+              [openOnFocus]="true" [minSearchLength]="0"></ag2-completer>
+          </div>
+          <div class="col-md-3">
+            <label for="">Conversion</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" name="modalConversion" [(ngModel)]="modalConversion" readonly>
+          </div>
+          <div class="col-md-3">
+            <label for="">Base unit</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" [value]='primaryUnitName' readonly>
+          </div>
+          <div class="col-md-3">
+            <label for="">ราคา/แพค</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" name="modalCost" [(ngModel)]="modalCost">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-success" (click)="saveConversion()">บันทึก</button>
+    <button type="button" class="btn btn-danger" (click)="modalEdit = false">ยกเลิก</button>
+  </div>
+</clr-modal>
 <wm-loading #loadingModal></wm-loading>

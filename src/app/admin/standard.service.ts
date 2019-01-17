@@ -86,18 +86,6 @@ export class StandardService {
     });
   }
 
-  getGenericSuppliesTypes() {
-    return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/std/generic-supplies-types`)
-        .map(res => res.json())
-        .subscribe(data => {
-          resolve(data);
-        }, error => {
-          reject(error);
-        });
-    });
-  }
-
   getGenericTypes() {
     return new Promise((resolve, reject) => {
       this.authHttp.get(`${this.url}/std/generic-types`)
@@ -184,7 +172,19 @@ export class StandardService {
         });
     });
   }
-  
+
+  getED() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/ed`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
   async getWarehouses() {
     const resp = await this.authHttp.get(`${this.url}/std/warehouses`).toPromise();
     return resp.json();

@@ -7,7 +7,7 @@ import { GenericDrugAccountsService } from 'app/admin/generic-drug-accounts.serv
 import { UomService } from 'app/mm-components/uom.service';
 import { LoadingComponent } from 'app/loading/loading.component';
 import * as _ from 'lodash';
-
+import { JwtHelper } from 'angular2-jwt';
 @Component({
   selector: 'wm-generics-edit',
   templateUrl: './generics-edit.component.html',
@@ -21,6 +21,7 @@ export class GenericsEditComponent implements OnInit {
   drugAccounts: any = [];
   typeProduct: any = [];
   conversions: any = [];
+  ed: any = [];
 
   isSaving = false;
   loading = false;
@@ -32,13 +33,14 @@ export class GenericsEditComponent implements OnInit {
   typeOldId: string;
   typeFilterId: string;
 
+  edId: any;
   genericName: string;
   unitName: string;
   pName: string;
   genericId: string;
   shortName: string;
   description: string;
-  keyword: string;
+  keywords: string;
   drugAccountId: string;
   workingCode: any;
   shortCode: any;
@@ -48,7 +50,7 @@ export class GenericsEditComponent implements OnInit {
   planningMethod = 1;
   planningUnitGenericId: null;
 
-  type: number = 2;
+  type = 2;
 
   minQty = 0;
   maxQty = 0;
@@ -56,8 +58,8 @@ export class GenericsEditComponent implements OnInit {
   orderingCost = 0;
   carryingCost = 0;
 
-  convers: number = 0;
-  packCost: number = 0;
+  convers = 0;
+  packCost = 0;
 
   primaryUnits: any = [];
   primaryUnitId: any;
@@ -74,6 +76,8 @@ export class GenericsEditComponent implements OnInit {
   groupId2: any;
   groupId3: any;
   groupId4: any;
+  genericTypeIds = [];
+  jwtHelper: JwtHelper = new JwtHelper();
   constructor(
     private standardService: StandardService,
     private genericService: GenericService,
@@ -83,7 +87,9 @@ export class GenericsEditComponent implements OnInit {
     private uomService: UomService
   ) {
     this.genericId = this.router.snapshot.params.genericId;
-
+    const token = sessionStorage.getItem('token');
+    const decoded = this.jwtHelper.decodeToken(token);
+    this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
   }
 
   async ngOnInit() {
@@ -94,8 +100,9 @@ export class GenericsEditComponent implements OnInit {
     await this.getAccounts();
     await this.getBidTypes();
     await this.getConversions();
-    await this.getDetail();
     await this.getPrimaryUnits();
+    await this.getED();
+    await this.getDetail();
   }
 
   async getConversions() {
@@ -114,6 +121,9 @@ export class GenericsEditComponent implements OnInit {
     }
   }
 
+  async tapGeneric() {
+    await this.getConversions()
+  }
   async getPrimaryUnits() {
     this.loadingModal.show();
     try {
@@ -166,6 +176,7 @@ export class GenericsEditComponent implements OnInit {
         this.typeOldId = rs.detail.generic_type_id;
         this.dosageId = rs.detail.dosage_id;
         this.pTypeId = rs.detail.generic_hosp_id;
+        this.edId = rs.detail.group_ed;
         this.groupId1 = rs.detail.group_code_1;
         this.groupId2 = rs.detail.group_code_2;
         this.groupId3 = rs.detail.group_code_3;
@@ -180,9 +191,9 @@ export class GenericsEditComponent implements OnInit {
         this.eoqQty = +rs.detail.eoq_qty;
         this.carryingCost = +rs.detail.carrying_cost;
         this.orderingCost = +rs.detail.ordering_cost;
-        this.bidTypeId = this.bidTypeId ? this.bidTypes[0].bid_id : rs.detail.purchasing_method;
-        this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
-        this.keyword = rs.detail.keywords;
+        this.bidTypeId = rs.detail.purchasing_method;
+        // this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
+        this.keywords = rs.detail.keywords;
         if (this.groupId2) {
           this.getGenericGroup2();
         }
@@ -206,9 +217,16 @@ export class GenericsEditComponent implements OnInit {
       const rs: any = await this.standardService.getGenericTypes();
       this.loadingModal.hide();
       if (rs.ok) {
-        this.genericTypes = rs.rows;
-      } else {
-        this.alertService.error(rs.error);
+        this.loadingModal.hide();
+        if (rs.rows.length) {
+          rs.rows.forEach(v => {
+            this.genericTypeIds.forEach(x => {
+              if (+x === +v.generic_type_id) {
+                this.genericTypes.push(v);
+              }
+            });
+          });
+        }
       }
     } catch (error) {
       this.loadingModal.hide();
@@ -353,14 +371,36 @@ export class GenericsEditComponent implements OnInit {
     }
   }
 
+  async getED() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getED();
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.ed = rs.rows;
+      } else {
+        this.alertService.error(JSON.stringify(rs.error));
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
+
   async save() {
 
     if (this.genericName && this.primaryUnitId && this.typeId && this.workingCode) {
       this.isSaving = true;
+      if (this.convers && this.packCost) {
+        this.standardCost = this.packCost / this.convers;
+      }
       const generics = {
+        workingCode: this.workingCode,
         genericName: this.genericName,
         typeId: this.typeId,
         typeOldId: this.typeOldId,
+        groupEd: this.edId === 'null' ? null : this.edId,
         groupId1: this.groupId1 === 'null' ? null : this.groupId1,
         groupId2: this.groupId2 === 'null' ? null : this.groupId2,
         groupId3: this.groupId3 === 'null' ? null : this.groupId3,
@@ -368,7 +408,7 @@ export class GenericsEditComponent implements OnInit {
         dosageId: this.dosageId,
         pTypeId: this.pTypeId,
         description: this.description,
-        keywords: this.keyword,
+        keywords: this.keywords,
         drugAccountId: this.drugAccountId,
         primaryUnitId: this.primaryUnitId,
         planningMethod: this.planningMethod,
@@ -383,7 +423,7 @@ export class GenericsEditComponent implements OnInit {
         isActive: this.isActive ? 'Y' : 'N',
         isPlanning: this.isPlanning ? 'Y' : 'N',
         purchasingMethod: this.bidTypeId,
-        planningUnitGenericId: this.planningUnitGenericId
+        // planningUnitGenericId: this.planningUnitGenericId
       };
       if (!this.genericId) {
         this.alertService.error('ไม่พบรหัสยาที่ต้องการแก้ไข');
@@ -392,6 +432,7 @@ export class GenericsEditComponent implements OnInit {
         this.loadingModal.show();
         try {
           const rs: any = await this.genericService.updateGeneric(this.genericId, generics);
+          await this.getDetail();
           this.loadingModal.hide();
           if (rs.ok) {
             this.alertService.success();
@@ -413,20 +454,21 @@ export class GenericsEditComponent implements OnInit {
   }
 
   selectType() {
-      this.standardCost = 0;
-      this.packCost = 0;
-      this.convers = 0;
+    this.standardCost = 0;
+    this.packCost = 0;
+    this.convers = 0;
   }
 
   keytype() {
     this.isType = true;
-    if (this.convers && this.packCost) {
-      this.standardCost = this.packCost / this.convers;
-    }
   }
 
   async selectBaseUnit() {
-    let idx = _.findIndex(this.primaryUnits, { "unit_id": +this.primaryUnitId });
-    idx > -1 ? this.unitName = this.primaryUnits[idx].unit_name : this.unitName = null;
+    const idx = _.findIndex(this.primaryUnits, { 'unit_id': +this.primaryUnitId });
+    if (idx > -1) {
+      this.unitName = this.primaryUnits[idx].unit_name;
+    } else {
+      this.unitName = null;
+    }
   }
 }

@@ -3,7 +3,6 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin/products">สินค้า (Products)</a>
   <span class="breadcrumb-item active">{{productName}} ({{selectedGenericName}})</span>
 </nav>
-
 <clr-tabs>
   <clr-tab>
     <button clrTabLink clrTabLinkId="link1" (click)="getInfo()">Product detail</button>
@@ -12,7 +11,7 @@
         <div class="card-block">
           <div class="card-text">
             <div class="row">
-              <div class="col-md-9">
+              <div class="col-md-8">
                 <form>
                   <section class="form-block">
                     <div class="form-group row">
@@ -39,10 +38,11 @@
                         <label class="required" for="genericName">Generic</label>
                       </div>
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                        <input type="text" disabled [value]="selectedGenericId">
+                        <input type="text" disabled [value]="selectedGenericCode">
                       </div>
                       <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <mm-search-generics-box [selectedName]="selectedGenericName" [clearOnChange]="true" (change)="keytype()" (onChange)="clearOnChangeGeneric($event)" (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
+                        <mm-search-generics-box disabled [selectedName]="selectedGenericName" [clearOnChange]="true"
+                          (change)="keytype()" (onChange)="clearOnChangeGeneric($event)" (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -50,29 +50,33 @@
                         <label class="required" for="productName">ชื่อทางการค้า</label>
                       </div>
                       <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                        <input class="form-control" type="text" name="productName" (keyup)="keytype()" [(ngModel)]="productName" placeholder="">
+                        <input class="form-control" type="text" name="productName" (keyup)="keytype()" [(ngModel)]="productName"
+                          placeholder="">
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <label class="required" for="mLabelerName">ผู้ผลิต</label>
                       </div>
-                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                        <input type="text" disabled [value]="selectedM" >
-                      </div>
-                      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <mm-search-labeler-box [selectedName]="mLabelerName" [clearOnChange]="true" (change)="keytype()" (onChange)="clearOnChangeManufacture($event)" (onSelect)="selectedManufacture($event)" labelerType="M"></mm-search-labeler-box>
+                      <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <input type="text" disabled [value]="selectedM">
+                      </div> -->
+                      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <mm-search-labeler-box [selectedName]="mLabelerName" [clearOnChange]="true" (change)="keytype()"
+                          (onChange)="clearOnChangeManufacture($event)" (onSelect)="selectedManufacture($event)"
+                          labelerType="M"></mm-search-labeler-box>
                       </div>
                     </div>
                     <div class="form-group row">
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <label class="required" for="vLabelerName">ผู้จำหน่าย</label>
                       </div>
-                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                      <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <input type="text" disabled [value]="selectedV">
-                      </div>
-                      <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                        <mm-search-labeler-box [selectedName]="vLabelerName" (change)="keytype()" [clearOnChange]="true" (onChange)="clearOnChangeVendor($event)" labelerType="V" (onSelect)="selectedVendor($event)"></mm-search-labeler-box>
+                      </div> -->
+                      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                        <mm-search-labeler-box [selectedName]="vLabelerName" (change)="keytype()" [clearOnChange]="true"
+                          (onChange)="clearOnChangeVendor($event)" labelerType="V" (onSelect)="selectedVendor($event)"></mm-search-labeler-box>
                       </div>
                     </div>
                     <div class="form-group row">
@@ -82,7 +86,8 @@
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="select">
                           <select id="selects_4" name="purchaseUnitId" (change)="keytype()" [(ngModel)]="purchaseUnitId">
-                            <option *ngFor="let u of conversions"   [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
+                            <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x
+                              {{u.qty}} {{u.to_unit_name}}</option>
                           </select>
                         </div>
                       </div>
@@ -92,8 +97,9 @@
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="select">
-                          <select id="selects_4" name="issueUnitId" [(ngModel)]="issueUnitId" (change)="keytype()" >
-                            <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x {{u.qty}} {{u.to_unit_name}}</option>
+                          <select id="selects_4" name="issueUnitId" [(ngModel)]="issueUnitId" (change)="keytype()">
+                            <option *ngFor="let u of conversions" [value]="u.unit_generic_id">{{u.from_unit_name}} x
+                              {{u.qty}} {{u.to_unit_name}}</option>
                           </select>
                         </div>
                       </div>
@@ -104,7 +110,7 @@
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <div class="select">
-                          <select id="selects_4" name="primaryUnitId" [(ngModel)]="primaryUnitId" (change)="keytype()" >
+                          <select id="selects_4" name="primaryUnitId" [(ngModel)]="primaryUnitId" (change)="keytype()">
                             <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
                           </select>
                         </div>
@@ -115,7 +121,7 @@
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <input type="number" name="purchasePrice" [(ngModel)]="purchasePrice">
                       </div> -->
-                    <!-- </div>
+                      <!-- </div>
                     <div class="form-group row"> -->
 
                       <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
@@ -161,7 +167,7 @@
                       </div>
                     </div>
                     <!-- <div class="form-group row"> -->
-                      <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <!-- <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <label>Planning Method</label>
                       </div>
                       <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
@@ -217,9 +223,19 @@
 
                     <div class="form-group row">
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <label>กลุ่ม</label>
+                      </div>
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="select">
+                          <select id="selects_4" name="productGroupId" [(ngModel)]="productGroupsId" (change)="keytype()">
+                            <option *ngFor="let p of productGroups" [value]="p.product_group_id">{{p.product_group_name}}</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <label>Keyword</label>
                       </div>
-                      <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                      <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
                         <input type="text" name="keywords" style="width: 100%" [(ngModel)]="keywords" (keyup)="keytype()">
                       </div>
                     </div>
@@ -234,16 +250,28 @@
                   </section>
                 </form>
               </div>
-              <div class="col-md-3">
-                <!-- <h4>ภาพสินค้า</h/4> -->
-                <a href="javascript://" (dblclick)="openFile()" class="card clickable">
+              <div class="col-md-4">
+                <ngx-gallery [options]="galleryOptions" [images]="galleryImages"></ngx-gallery>
+                <label class="btn btn-sm btn-success" style="margin: 0px;">
+                  <input type="file" #file accept="image/*" class="hidden" (change)="fileChangeEvent($event)">
+                  เลือก.. ({{filesToUpload.length}})
+                </label>
+                <button class="btn btn-sm btn-danger" (click)="upload()" [disabled]="!filesToUpload.length">อัปโหลด</button>
+                <span class="spinner spinner-inline" *ngIf="isUploading">
+                  Uploading...
+                </span>
+                <span *ngIf="isUploading">
+                  Uploading...
+                </span>
+                <!-- <a href="javascript://" class="card clickable">
                   <div class="card-img">
                     <img *ngIf="!imageUrl" src="http://via.placeholder.com/350x450">
-                    <img *ngIf="imageUrl" [src]="imageUrl" style="width: 250px; height: 330px;">
+                    <img *ngIf="imageUrl" (click)="openFile()" [src]="imageUrl" style="width: 250px; height: 330px;">
                   </div>
                   <div class="card-footer">
                     <label class="btn btn-sm btn-success" style="margin: 0px;">
-                      <input type="file" #file accept="image/*" class="hidden" (change)="fileChangeEvent($event)"> เลือก.. ({{filesToUpload.length}})
+                      <input type="file" #file accept="image/*" class="hidden" (change)="fileChangeEvent($event)">
+                      เลือก.. ({{filesToUpload.length}})
                     </label>
                     <button class="btn btn-sm btn-danger" (click)="upload()" [disabled]="!filesToUpload.length">อัปโหลด</button>
                     <span class="spinner spinner-inline" *ngIf="isUploading">
@@ -253,7 +281,7 @@
                       Uploading...
                     </span>
                   </div>
-                </a>
+                </a> -->
               </div>
             </div>
           </div>
@@ -292,5 +320,13 @@
     </clr-tab-content>
   </clr-tab> -->
 </clr-tabs>
+
+<clr-modal [(clrModalOpen)]="modalPicture" [clrModalSize]="'xl'">
+  <div class="modal-body" style="text-align: center">
+    <img *ngIf="!imageUrl" src="http://via.placeholder.com/350x450">
+    <img *ngIf="imageUrl" [src]="imageUrl" style="width: 80%;">
+  </div>
+</clr-modal>
+
 
 <wm-loading #loadingModal></wm-loading>

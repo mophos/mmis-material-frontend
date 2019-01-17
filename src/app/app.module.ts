@@ -33,7 +33,7 @@ import { DenyComponent } from './deny/deny.component';
     LoginModule,
     ClarityModule.forRoot(),
     AgxTypeaheadModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [
     { provide: 'HOME_URL', useValue: environment.homeUrl },

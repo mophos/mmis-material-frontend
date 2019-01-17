@@ -1,6 +1,6 @@
 <nav class="breadcrumb">
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
-  <span class="breadcrumb-item active">รูปแบบรายการสินค้า (Dosage Form)</span>
+  <span class="breadcrumb-item active">บัญชียาหลัก กขคง</span>
 </nav>
 <div class="row wid99">
   <div class="col-md-10">
@@ -11,18 +11,11 @@
   </div>
 </div>
 <clr-datagrid [clrDgLoading]="loading">
-  <clr-dg-column [clrDgField]="'dosage_name'" [style.width.%]="80">รูปแบบรายการสินค้า (Dosage Form)</clr-dg-column>
-  <clr-dg-column>ใช้งาน</clr-dg-column>
+  <clr-dg-column [style.width.%]="85" [clrDgField]="'name'">บัญชียาหลัก กขคง</clr-dg-column>
   <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
-  <clr-dg-row *clrDgItems="let t of dosages;let idx = index;" [clrDgItem]="t">
-    <clr-dg-cell>{{t.dosage_name}}</clr-dg-cell>
-    <clr-dg-cell>
-      <div class="toggle-switch">
-        <input type="checkbox" id="chk-{{idx}}" #active name="isActive" [checked]="t.is_active==='Y'" (change)="setisActive($event, t.dosage_id)">
-        <label for="chk-{{idx}}"></label>
-      </div>
-    </clr-dg-cell>
+  <clr-dg-row *clrDgItems="let t of genricGroupED" [clrDgItem]="t">
+    <clr-dg-cell>{{t.ed_name}}</clr-dg-cell>
     <clr-dg-cell>
       <div class="btn-group btn-primary">
         <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="t.is_deleted == 'Y'" (click)="edit(t)">
@@ -32,7 +25,7 @@
           <clr-icon shape="trash"></clr-icon>
         </button>
         <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="t.is_deleted == 'N'" title="ยกเลิกลบ"
-          (click)="returnRemove(t)">
+          (click)="retunRemove(t)">
           <clr-icon shape="undo"></clr-icon>
         </button>
       </div>
@@ -46,18 +39,19 @@
 </clr-datagrid>
 
 <clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข รูปแบบรายการสินค้า (Dosage Form)</h3>
+  <h3 class="modal-title">เพิ่ม/แก้ไข บัญชียาหลัก กขคง</h3>
   <div class="modal-body">
 
     <form>
       <section class="form-block">
-        <label>ข้อมูล รูปแบบรายการสินค้า (Dosage Form)</label>
+        <label>ข้อมูล บัญชียาหลัก กขคง</label>
         <div class="form-group row">
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <label class="required" for="dosageName">รูปแบบรายการสินค้า (Dosage Form)</label>
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="genericGroupEDName">บัญชียาหลัก กขคง</label>
           </div>
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-            <input class="form-control" type="text" name="dosageName" [(ngModel)]="dosageName" placeholder="">
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="genericGroupEDName" [(ngModel)]="genericGroupEDName"
+              placeholder="">
           </div>
         </div>
       </section>
@@ -66,7 +60,7 @@
   </div>
   <div class="modal-footer">
 
-    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!dosageName">
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!genericGroupEDName">
       บันทึก
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
@@ -74,5 +68,3 @@
     </button>
   </div>
 </clr-modal>
-
-<wm-loading #loadingModal></wm-loading>

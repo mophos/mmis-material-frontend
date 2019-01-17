@@ -49,9 +49,9 @@ export class GenericDrugGroupsService {
     });
   }
 
-  getGenericGroup1(isActived) {
+  getGenericGroup1(isActived,isDeleted) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-groups/group/1?isActived=${isActived}`)
+      this.authHttp.get(`${this.url}/drug-groups/group/1?isActived=${isActived}&isDeleted=${isDeleted}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -118,9 +118,9 @@ export class GenericDrugGroupsService {
     });
   }
 
-  getGenericGroup2(isActived) {
+  getGenericGroup2(isActived, isDeleted) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-groups/group/2?isActived=${isActived}`)
+      this.authHttp.get(`${this.url}/drug-groups/group/2?isActived=${isActived}&isDeleted=${isDeleted}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -189,9 +189,9 @@ export class GenericDrugGroupsService {
     });
   }
 
-  getGenericGroup3(isActived) {
+  getGenericGroup3(isActived, isDeleted) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-groups/group/3?isActived=${isActived}`)
+      this.authHttp.get(`${this.url}/drug-groups/group/3?isActived=${isActived}&isDeleted=${isDeleted}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -262,9 +262,9 @@ export class GenericDrugGroupsService {
     });
   }
 
-  getGenericGroup4(isActived) {
+  getGenericGroup4(isActived, isDeleted) {
     return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/drug-groups/group/4?isActived=${isActived}`)
+      this.authHttp.get(`${this.url}/drug-groups/group/4?isActived=${isActived}&isDeleted=${isDeleted}`)
         .map(res => res.json())
         .subscribe(data => {
           resolve(data);
@@ -321,4 +321,30 @@ export class GenericDrugGroupsService {
         });
     });
   }
+
+  async returnDelete1(id: any) {
+    const rs: any = await this.authHttp.post(`${this.url}/drug-groups/return1`, {
+      id: id
+    }).toPromise();
+    return rs.json();
+  }
+  async returnDelete2(id: any) {
+    const rs: any = await this.authHttp.post(`${this.url}/drug-groups/return2`, {
+      id: id
+    }).toPromise();
+    return rs.json();
+  }
+  async returnDelete3(id: any) {
+    const rs: any = await this.authHttp.post(`${this.url}/drug-groups/return3`, {
+      id: id
+    }).toPromise();
+    return rs.json();
+  }
+  async returnDelete4(id: any) {
+    const rs: any = await this.authHttp.post(`${this.url}/drug-groups/return4`, {
+      id: id
+    }).toPromise();
+    return rs.json();
+  }
+
 }
