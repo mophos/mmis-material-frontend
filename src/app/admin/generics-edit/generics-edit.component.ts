@@ -4,6 +4,7 @@ import { StandardService } from 'app/admin/standard.service';
 import { GenericService } from 'app/admin/generic.service';
 import { AlertService } from 'app/admin/alert.service';
 import { GenericDrugAccountsService } from 'app/admin/generic-drug-accounts.service';
+import { GenericMinmaxGroupsService } from "./../generic-minmax-groups.service";
 import { UomService } from 'app/mm-components/uom.service';
 import { LoadingComponent } from 'app/loading/loading.component';
 import * as _ from 'lodash';
@@ -21,6 +22,7 @@ export class GenericsEditComponent implements OnInit {
   drugAccounts: any = [];
   typeProduct: any = [];
   conversions: any = [];
+  minmaxGroups: any = [];
   ed: any = [];
 
   isSaving = false;
@@ -49,7 +51,7 @@ export class GenericsEditComponent implements OnInit {
   isPlanning: any;
   planningMethod = 1;
   planningUnitGenericId: null;
-
+  minmaxGroupId:any;
   type = 2;
 
   minQty = 0;
@@ -79,6 +81,7 @@ export class GenericsEditComponent implements OnInit {
   genericTypeIds = [];
   jwtHelper: JwtHelper = new JwtHelper();
   constructor(
+    private genericMinmaxGroupsService: GenericMinmaxGroupsService,
     private standardService: StandardService,
     private genericService: GenericService,
     private alertService: AlertService,
@@ -98,6 +101,7 @@ export class GenericsEditComponent implements OnInit {
     await this.getGenericTypes();
     await this.getProductTypes();
     await this.getAccounts();
+    await this.getMinMaxGroup();
     await this.getBidTypes();
     await this.getConversions();
     await this.getPrimaryUnits();
@@ -192,6 +196,7 @@ export class GenericsEditComponent implements OnInit {
         this.carryingCost = +rs.detail.carrying_cost;
         this.orderingCost = +rs.detail.ordering_cost;
         this.bidTypeId = rs.detail.purchasing_method;
+        this.minmaxGroupId = rs.detail.minmax_group_id ||  null;;
         // this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
         this.keywords = rs.detail.keywords;
         if (this.groupId2) {
@@ -233,7 +238,22 @@ export class GenericsEditComponent implements OnInit {
       this.alertService.error(JSON.stringify(error))
     }
   }
-
+  async getMinMaxGroup() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.genericMinmaxGroupsService.all(false);
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.minmaxGroups = rs.rows;
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
   async getAccounts() {
     this.loadingModal.show();
     try {
@@ -423,6 +443,7 @@ export class GenericsEditComponent implements OnInit {
         isActive: this.isActive ? 'Y' : 'N',
         isPlanning: this.isPlanning ? 'Y' : 'N',
         purchasingMethod: this.bidTypeId,
+        minmaxGroupId: this.minmaxGroupId
         // planningUnitGenericId: this.planningUnitGenericId
       };
       if (!this.genericId) {
