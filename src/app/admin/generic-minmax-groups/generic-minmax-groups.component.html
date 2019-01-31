@@ -1,0 +1,106 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <span class="breadcrumb-item active">กลุ่มยา (MIN - MAX)</span>
+</nav>
+<div class="row wid99">
+  <div class="col-md-6">
+    <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
+  </div>
+  <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+    <button class="btn btn-sm btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+  </div>
+</div>
+<clr-datagrid [clrDgLoading]="loading">
+  <clr-dg-column [style.width.%]="30" [clrDgField]="'name'">ชื่อกลุ่มยา (MIN - MAX)</clr-dg-column>
+  <clr-dg-column>จำนวนวันในการคำนวณยอดการใช้</clr-dg-column>
+  <clr-dg-column>Safety Stock MIN (วัน)</clr-dg-column>
+  <clr-dg-column>Safety Stock MAX (วัน)</clr-dg-column>
+  <clr-dg-column></clr-dg-column>
+  <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+  <clr-dg-row *clrDgItems="let t of accounts" [clrDgItem]="t">
+    <!-- <clr-dg-action-overflow>
+      <button class="action-item" (click)="edit(t)">
+          <clr-icon shape="note"></clr-icon>แก้ไขข้อมูล</button>
+      <button class="action-item" (click)="remove(t)">
+          <clr-icon shape="trash" class="is-error"></clr-icon>ลบข้อมูล</button>
+    </clr-dg-action-overflow> -->
+    <clr-dg-cell>{{t.group_name}}</clr-dg-cell>
+    <clr-dg-cell>{{t.used_day}}</clr-dg-cell>
+    <clr-dg-cell>{{t.safety_min_day}}</clr-dg-cell>
+    <clr-dg-cell>{{t.safety_max_day}}</clr-dg-cell>
+    <clr-dg-cell style="text-align:center;">
+      <div class="btn-group btn-primary">
+        <button title="แก้ไข" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn" (click)="edit(t)">
+          <clr-icon shape="note"></clr-icon>
+        </button>
+        <button title="ลบ" [disabled]="t.is_deleted=='Y'" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(t)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
+        <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="t.is_deleted=='N'" title="ลบ"
+          (click)="returnDelete(t.group_id)">
+          <clr-icon shape="undo"></clr-icon>
+        </button>
+      </div>
+    </clr-dg-cell>
+  </clr-dg-row>
+
+  <clr-dg-footer>
+    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} of {{pagination.totalItems}} รายการ
+    <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
+  </clr-dg-footer>
+</clr-datagrid>
+
+<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
+  <h3 class="modal-title" *ngIf="!isUpdate">เพิ่ม กลุ่มยา (MIN - MAX)</h3>
+  <h3 class="modal-title" *ngIf="isUpdate">แก้ไข กลุ่มยา (MIN - MAX)</h3>
+  <div class="modal-body">
+
+    <form>
+      <section class="form-block">
+        <label>ข้อมูล กลุ่มยา (MIN - MAX)</label>
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="minMaxGroupName">ชื่อกลุ่มยา (MIN - MAX)</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="minMaxGroupName" [(ngModel)]="minMaxGroupName" placeholder="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="minMaxGroupCal">จำนวนวันในการคำนวณยอดการใช้</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control wm-edit-box-number" appNumberOnly  type="text" name="minMaxGroupCal" [(ngModel)]="minMaxGroupCal" placeholder="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="minSafety">Safety Stock MIN (วัน)</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control wm-edit-box-number" appNumberOnly  type="text" name="minSafety" [(ngModel)]="minSafety" placeholder="">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label class="required" for="maxSafety">Safety Stock MAX (วัน)</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <input class="form-control wm-edit-box-number" appNumberOnly  type="text" name="maxSafety" [(ngModel)]="maxSafety" placeholder="">
+          </div>
+        </div>
+      </section>
+    </form>
+
+  </div>
+  <div class="modal-footer">
+
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!minMaxGroupName">
+      บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="opened = false">
+      ปิด
+    </button>
+  </div>
+</clr-modal>

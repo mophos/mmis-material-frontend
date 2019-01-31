@@ -60,6 +60,8 @@ import { LabelerNewComponent } from './labeler-new/labeler-new.component';
 import { ProductGroupsComponent } from './product-groups/product-groups.component';
 import { GenericGroupEdComponent } from './generic-group-ed/generic-group-ed.component';
 import { NgxGalleryModule } from 'ngx-gallery';
+import { GenericMinmaxGroupsComponent } from './generic-minmax-groups/generic-minmax-groups.component';
+import { GenericMinmaxGroupsService } from "./generic-minmax-groups.service";
 @NgModule({
   imports: [
     CommonModule,
@@ -103,7 +105,8 @@ import { NgxGalleryModule } from 'ngx-gallery';
     UpperCaseDirective,
     LabelerNewComponent,
     ProductGroupsComponent,
-    GenericGroupEdComponent
+    GenericGroupEdComponent,
+    GenericMinmaxGroupsComponent
   ],
   providers: [
     LabelerService,
@@ -124,7 +127,8 @@ import { NgxGalleryModule } from 'ngx-gallery';
     UploadingService,
     UsersService,
     ProductGroupsService,
-    GenericGroupEDService
+    GenericGroupEDService,
+    GenericMinmaxGroupsService
   ]
 })
 export class AdminModule { }

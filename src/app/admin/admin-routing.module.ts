@@ -25,6 +25,7 @@ import { AuthGuard } from '../auth-guard.service';
 import { GenericsComponent } from 'app/admin/generics/generics.component';
 import { GenericsEditComponent } from 'app/admin/generics-edit/generics-edit.component';
 import { LabelerNewComponent } from './labeler-new/labeler-new.component';
+import { GenericMinmaxGroupsComponent } from './generic-minmax-groups/generic-minmax-groups.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,7 @@ const routes: Routes = [
       { path: 'generic-dosages', component: GenericDrugDosagesComponent, pathMatch: 'full' },
       { path: 'generic-groups', component: GenericDrugGroupsComponent, pathMatch: 'full' },
       { path: 'generic-group-ed', component: GenericGroupEdComponent, pathMatch: 'full' },
+      { path: 'generic-minmax-group', component: GenericMinmaxGroupsComponent, pathMatch: 'full' },
       { path: 'generic-medicine-supplier', component: GenericMedicineSupplierPageComponent, pathMatch: 'full' },
       { path: 'generic-supplier-types', component: GenericSuppliesTypesComponent, pathMatch: 'full' },
       { path: 'products', component: ProductPageComponent, pathMatch: 'full' },
