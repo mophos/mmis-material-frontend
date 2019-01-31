@@ -21,7 +21,7 @@ export class GenericMinmaxGroupsService {
     });
   }
 
-  save(minMaxGroupName: string, minMaxGroupCal: string, maxSafety: string, minSafety: string) {
+  save(minMaxGroupName: string, minMaxGroupCal: any, maxSafety: any, minSafety: any) {
     return new Promise((resolve, reject) => {
       this.authHttp.post(`${this.url}/minmax-groups`, {
         minMaxGroupName: minMaxGroupName,
@@ -38,7 +38,7 @@ export class GenericMinmaxGroupsService {
     });
   }
 
-  update(minMaxGroupId: string, minMaxGroupName: string, minMaxGroupCal: string, maxSafety: string, minSafety: string) {
+  update(minMaxGroupId: string, minMaxGroupName: string, minMaxGroupCal: any, maxSafety: any, minSafety: any) {
     return new Promise((resolve, reject) => {
       this.authHttp.put(`${this.url}/minmax-groups/${minMaxGroupId}`, {
         minMaxGroupName: minMaxGroupName,

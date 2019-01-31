@@ -14,7 +14,7 @@ export class GenericMinmaxGroupsComponent implements OnInit {
 
   accounts: any = [];
   minMaxGroupId: string;
-  minMaxGroupName: string;
+  minMaxGroupName: string = '';
 
   opened = false;
   isUpdate = false;
@@ -23,9 +23,10 @@ export class GenericMinmaxGroupsComponent implements OnInit {
   menuDelete = false;
   btnDelete = false;
 
-  minMaxGroupCal: any;
-  maxSafety: any;
-  minSafety: any;
+  minMaxGroupCal = 0;
+  maxSafety= 0;
+  minSafety= 0;
+  dis: boolean;
 
   constructor(
     private genericMinmaxGroupsService: GenericMinmaxGroupsService,
@@ -88,8 +89,8 @@ export class GenericMinmaxGroupsComponent implements OnInit {
     this.minMaxGroupId = p.group_id;
     this.minMaxGroupName = p.group_name;
     this.minMaxGroupCal = p.used_day;
-    this.maxSafety = p.safety_min_day;
-    this.minSafety = p.safety_max_day;
+    this.minSafety = p.safety_min_day;
+    this.maxSafety = p.safety_max_day;
     this.isUpdate = true;
     this.opened = true;
   }
@@ -143,5 +144,7 @@ export class GenericMinmaxGroupsComponent implements OnInit {
         });
     }
   }
-
+  async checkName(){
+    this.dis =  await _.trim(this.minMaxGroupName) == ''
+  }
 }
