@@ -63,7 +63,7 @@
             <label class="required" for="minMaxGroupName">ชื่อกลุ่มยา (MIN - MAX)</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <input class="form-control" type="text" name="minMaxGroupName" [(ngModel)]="minMaxGroupName" placeholder="">
+            <input class="form-control" type="text" name="minMaxGroupName" (keyup)="checkName()" [(ngModel)]="minMaxGroupName" placeholder="">
           </div>
         </div>
         <div class="form-group row">
@@ -96,7 +96,7 @@
   </div>
   <div class="modal-footer">
 
-    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!minMaxGroupName">
+    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!minMaxGroupName || dis || !(+maxSafety > 0 )  || !(+minSafety > 0)|| !(+minMaxGroupCal > 0)">
       บันทึก
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="opened = false">
