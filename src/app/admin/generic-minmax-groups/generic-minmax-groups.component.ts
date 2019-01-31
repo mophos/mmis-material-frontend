@@ -88,8 +88,8 @@ export class GenericMinmaxGroupsComponent implements OnInit {
     this.minMaxGroupId = p.group_id;
     this.minMaxGroupName = p.group_name;
     this.minMaxGroupCal = p.used_day;
-    this.maxSafety = p.safety_min_day;
-    this.minSafety = p.safety_max_day;
+    this.minSafety = p.safety_min_day;
+    this.maxSafety = p.safety_max_day;
     this.isUpdate = true;
     this.opened = true;
   }
