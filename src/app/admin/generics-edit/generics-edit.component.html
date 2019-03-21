@@ -25,15 +25,16 @@
                   <label class="required" for="txtGenericName">Generic Name</label>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                  <input class="form-control" type="text" (keyup)="keytype()" name="txtGenericName" [(ngModel)]="genericName"
-                    placeholder="">
+                  <input class="form-control" type="text" (keyup)="keytype()" name="txtGenericName"
+                    [(ngModel)]="genericName" placeholder="">
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div style="float: left">Generic Code</div>
                   <div style="float: left;font-size: 2em">&nbsp;{{workingCode}}</div>
                 </div>
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <clr-checkbox id="isActive" class="checkbox-inline" (change)="keytype()" name="isActive" [(ngModel)]="isActive">
+                  <clr-checkbox id="isActive" class="checkbox-inline" (change)="keytype()" name="isActive"
+                    [(ngModel)]="isActive">
                     ใช้งาน
                   </clr-checkbox>
                 </div>
@@ -47,7 +48,8 @@
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select form-control">
                     <select name="slType" id="slType" (change)="keytype()" [(ngModel)]="typeId">
-                      <option *ngFor="let t of genericTypes" [value]="t.generic_type_id">{{ t.generic_type_name }}</option>
+                      <option *ngFor="let t of genericTypes" [value]="t.generic_type_id">{{ t.generic_type_name }}
+                      </option>
                     </select>
                   </div>
                 </div>
@@ -56,7 +58,8 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select id="selects_4" name="primaryUnitId" (change)="selectBaseUnit();keytype()" [(ngModel)]="primaryUnitId">
+                    <select id="selects_4" name="primaryUnitId" (change)="selectBaseUnit();keytype()"
+                      [(ngModel)]="primaryUnitId">
                       <option *ngFor="let u of primaryUnits" [value]="u.unit_id">{{u.unit_name}}</option>
                     </select>
                   </div>
@@ -67,6 +70,7 @@
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select form-control">
                     <select name="slPackage" id="slPackage" (change)="keytype()" [(ngModel)]="dosageId">
+                      <option value="null">-</option>
                       <option *ngFor="let t of genericDosages" [value]="t.dosage_id">{{ t.dosage_name }}</option>
                     </select>
                   </div>
@@ -87,7 +91,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select form-control">
                     <select name="tProduct" id="tProduct" (change)="keytype()" [(ngModel)]="pTypeId">
-                      <!-- <option value="">ไม่ระบุ</option> -->
+                      <option value="null">-</option>
                       <option *ngFor="let t of typeProduct" [value]="t.id">{{ t.name }}</option>
                     </select>
                   </div>
@@ -98,7 +102,7 @@
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
                     <select id="bidTypeId" name="bidTypeId" (change)="keytype()" [(ngModel)]="bidTypeId">
-                      <!-- <option value="">ไม่ระบุ</option> -->
+                      <option value="null">-</option>
                       <option [value]="b.bid_id" *ngFor="let b of bidTypes">{{ b.bid_name}}</option>
                     </select>
                   </div>
@@ -170,7 +174,7 @@
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select form-control">
                     <select name="drugAccountId" id="drugAccountId" (change)="keytype()" [(ngModel)]="drugAccountId">
-                      <!-- <option value="">ไม่ระบุ</option> -->
+                      <option value="null">-</option>
                       <option *ngFor="let t of drugAccounts" [value]="t.account_id">{{ t.account_name }}</option>
                     </select>
                   </div>
@@ -181,8 +185,8 @@
                 <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                   <div class="select">
                     <select [(ngModel)]="edId" name="edId" (change)="keytype()">
-                      <option *ngFor="let g of ed" [value]="g.ed_id">{{g.ed_name}}</option>
                       <option value="null">-</option>
+                      <option *ngFor="let g of ed" [value]="g.ed_id">{{g.ed_name}}</option>
                     </select>
                   </div>
                 </div>
@@ -196,34 +200,37 @@
                     <select [(ngModel)]="groupId1" name="groupId1" (change)="getGenericGroup2();keytype();">
                       <option *ngFor="let g of genericGroup1" [value]="g.group_code_1">{{g.group_code_1}} -
                         {{g.group_name_1}}</option>
-                      <option value="null"></option>
+                      <option value="null">-</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select [(ngModel)]="groupId2" name="groupId2" (change)="getGenericGroup3();keytype();" [disabled]="!groupId1 || genericGroup2.length === 0">
+                    <select [(ngModel)]="groupId2" name="groupId2" (change)="getGenericGroup3();keytype();"
+                      [disabled]="!groupId1 || genericGroup2.length === 0">
                       <option *ngFor="let g of genericGroup2" [value]="g.group_code_2">{{g.group_code_2}} -
                         {{g.group_name_2}}</option>
-                      <option value="null"></option>
+                      <option value="null">-</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select [(ngModel)]="groupId3" name="groupId3" (change)="getGenericGroup4();keytype();" [disabled]="!groupId2 || genericGroup3.length === 0">
+                    <select [(ngModel)]="groupId3" name="groupId3" (change)="getGenericGroup4();keytype();"
+                      [disabled]="!groupId2 || genericGroup3.length === 0">
                       <option *ngFor="let g of genericGroup3" [value]="g.group_code_3">{{g.group_code_3}} -
                         {{g.group_name_3}}</option>
-                      <option value="null"></option>
+                      <option value="null">-</option>
                     </select>
                   </div>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <div class="select">
-                    <select [(ngModel)]="groupId4" name="groupId4" (change)="keytype()" [disabled]="!groupId3 || genericGroup4.length === 0">
+                    <select [(ngModel)]="groupId4" name="groupId4" (change)="keytype()"
+                      [disabled]="!groupId3 || genericGroup4.length === 0">
                       <option *ngFor="let g of genericGroup4" [value]="g.group_code_4">{{g.group_code_4}} -
                         {{g.group_name_4}}</option>
-                      <option value="null"></option>
+                      <option value="null">-</option>
                     </select>
                   </div>
                 </div>
@@ -280,22 +287,22 @@
                   <label for="eoqQty">EOQ Qty</label>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <input type="number" id="eoqQty" name="eoqQty" style="width: 100%; text-align: right;" (keyup)="keytype()"
-                    [(ngModel)]="eoqQty">
+                  <input type="number" id="eoqQty" name="eoqQty" style="width: 100%; text-align: right;"
+                    (keyup)="keytype()" [(ngModel)]="eoqQty">
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <label for="orderingCost">ต้นทุนซื้อ (EOQ)</label>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <input type="number" id="orderingCost" name="orderingCost" (keyup)="keytype()" style="width: 100%; text-align: right;"
-                    [(ngModel)]="orderingCost">
+                  <input type="number" id="orderingCost" name="orderingCost" (keyup)="keytype()"
+                    style="width: 100%; text-align: right;" [(ngModel)]="orderingCost">
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                   <label for="carryingCost">ต้นทุนเก็บรักษา (EOQ)</label>
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <input type="number" id="carryingCost" name="carryingCost" (keyup)="keytype()" style="width: 100%; text-align: right;"
-                    [(ngModel)]="carryingCost">
+                  <input type="number" id="carryingCost" name="carryingCost" (keyup)="keytype()"
+                    style="width: 100%; text-align: right;" [(ngModel)]="carryingCost">
                 </div>
               </div>
             </div>
@@ -310,12 +317,14 @@
                   <label for="txtDiscription">รายละเอียดอื่นๆ</label>
                 </div>
                 <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                  <textarea name="txtDescript" id="txtDiscription" [(ngModel)]="description" (keyup)="keytype()" rows="2"></textarea>
+                  <textarea name="txtDescript" id="txtDiscription" [(ngModel)]="description" (keyup)="keytype()"
+                    rows="2"></textarea>
                 </div>
               </div>
               <div class="form-group row">
                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                  <button class="btn btn-success btn-sm" (click)="save()" [disabled]="isSaving || !genericName || !typeId || !primaryUnitId || !isType">
+                  <button class="btn btn-success btn-sm" (click)="save()"
+                    [disabled]="isSaving || !genericName || !typeId || !primaryUnitId || !isType">
                     <clr-icon shape="plus"></clr-icon> บันทึก
                   </button>
                   <button class="btn btn-danger btn-sm" routerLink="/admin/generics">

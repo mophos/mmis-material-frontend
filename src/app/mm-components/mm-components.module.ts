@@ -23,6 +23,8 @@ import { AgxTypeaheadModule } from '@siteslave/agx-typeahead';
 import { SearchLabelerBoxComponent } from 'app/mm-components/search-labeler-box/search-labeler-box.component';
 import { ReceivePlanningComponent } from './receive-planning/receive-planning.component';
 import { ReceivePlanningService } from './receive-planning.service';
+import { MappingsComponent } from './mappings/mappings.component';
+import { MappingsService } from './mappings.service';
 
 @NgModule({
   imports: [
@@ -34,7 +36,16 @@ import { ReceivePlanningService } from './receive-planning.service';
     TextMaskModule,
     LoadingModule
   ],
-  providers: [UomService, ProductPlanningService, ReceivePlanningService, OrderModifierService, LotService, DateService, GenericPlanningService],
+  providers: [
+    UomService,
+    ProductPlanningService,
+    ReceivePlanningService,
+    OrderModifierService,
+    LotService,
+    DateService,
+    GenericPlanningService,
+    MappingsService
+  ],
   declarations: [
     ToThaiDatePipe,
     ProductPlanningComponent,
@@ -44,7 +55,8 @@ import { ReceivePlanningService } from './receive-planning.service';
     GenericPlanningComponent,
     SearchGenericsBoxComponent,
     SearchLabelerBoxComponent,
-    ReceivePlanningComponent
+    ReceivePlanningComponent,
+    MappingsComponent
   ],
   exports: [
     ProductPlanningComponent,
@@ -54,7 +66,8 @@ import { ReceivePlanningService } from './receive-planning.service';
     GenericPlanningComponent,
     ReceivePlanningComponent,
     SearchGenericsBoxComponent,
-    SearchLabelerBoxComponent
+    SearchLabelerBoxComponent,
+    MappingsComponent
   ]
 })
 export class MmComponentsModule { }
