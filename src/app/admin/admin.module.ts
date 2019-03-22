@@ -37,8 +37,6 @@ import { HelperService } from './helper.service';
 import { AuthModule } from '../auth/auth.module';
 import { AuthGuard } from '../auth-guard.service';
 import { LabelerPageComponent } from './labeler-page/labeler-page.component';
-import { GenericMedicinePageComponent } from './generic-medicine-page/generic-medicine-page.component';
-import { GenericMedicineSupplierPageComponent } from './generic-medicine-supplier-page/generic-medicine-supplier-page.component';
 import { PackagesComponent } from './packages/packages.component';
 import { GenericDrugTypesComponent } from './generic-drug-types/generic-drug-types.component';
 import { GenericSuppliesTypesComponent } from './generic-supplies-types/generic-supplies-types.component';
@@ -84,8 +82,6 @@ import { GenericMinmaxGroupsService } from "./generic-minmax-groups.service";
   declarations: [
     AdminComponent,
     LabelerPageComponent,
-    GenericMedicinePageComponent,
-    GenericMedicineSupplierPageComponent,
     PackagesComponent,
     GenericDrugTypesComponent,
     GenericSuppliesTypesComponent,
