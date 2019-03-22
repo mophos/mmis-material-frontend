@@ -15,6 +15,17 @@
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
             <input class="form-control" type="text" name="ediLabelerCode" [(ngModel)]="ediLabelerCode">
           </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label>TMT</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <wm-search-tmt-code #searchTMT [tmtId]='tmtid' (onSelect)="setTmtCode($event)"
+              (onChange)="setTmtCode($event)" style="display: inline-block;" class="wm-edit-box-number">
+            </wm-search-tmt-code>
+          </div>
+
+
           <div class="col-md-12">
             <button class="btn btn-sm btn-icon btn-success" (click)="save()">บันทึก </button>
           </div>
@@ -23,3 +34,4 @@
     </form>
   </div>
 </div>
+<wm-loading #loadingModal></wm-loading>

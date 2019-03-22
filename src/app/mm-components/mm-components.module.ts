@@ -25,6 +25,7 @@ import { ReceivePlanningComponent } from './receive-planning/receive-planning.co
 import { ReceivePlanningService } from './receive-planning.service';
 import { MappingsComponent } from './mappings/mappings.component';
 import { MappingsService } from './mappings.service';
+import { SearchTmtCodeComponent } from './search-tmt-code/search-tmt-code.component';
 
 @NgModule({
   imports: [
@@ -56,7 +57,8 @@ import { MappingsService } from './mappings.service';
     SearchGenericsBoxComponent,
     SearchLabelerBoxComponent,
     ReceivePlanningComponent,
-    MappingsComponent
+    MappingsComponent,
+    SearchTmtCodeComponent
   ],
   exports: [
     ProductPlanningComponent,
@@ -67,7 +69,8 @@ import { MappingsService } from './mappings.service';
     ReceivePlanningComponent,
     SearchGenericsBoxComponent,
     SearchLabelerBoxComponent,
-    MappingsComponent
+    MappingsComponent,
+    SearchTmtCodeComponent
   ]
 })
 export class MmComponentsModule { }

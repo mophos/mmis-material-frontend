@@ -9,16 +9,22 @@ export class MappingsService {
     private authHttp: AuthHttp
   ) { }
 
-  async saveEdiLabelerCode(productId, ediLabelerCode) {
-    const resp = await this.authHttp.post(`${this.url}/mappings/edi-labeler-code`, {
+  async saveMappgins(productId, data) {
+    const resp = await this.authHttp.post(`${this.url}/mappings/`, {
       productId: productId,
-      ediLabelerCode: ediLabelerCode
+      data: data
     }).toPromise();
     return resp.json();
   }
 
-  async getEdiLabelerCode(productId) {
-    const resp = await this.authHttp.get(`${this.url}/mappings/edi-labeler-code?productId=${productId}`).toPromise();
+  async getMappgins(productId) {
+    const resp = await this.authHttp.get(`${this.url}/mappings?productId=${productId}`).toPromise();
+    return resp.json();
+  }
+
+
+  async getTmtCode(productId) {
+    const resp = await this.authHttp.get(`${this.url}/mappings/tmt-code?productId=${productId}`).toPromise();
     return resp.json();
   }
 }
