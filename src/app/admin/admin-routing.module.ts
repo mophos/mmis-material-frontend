@@ -9,8 +9,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AdminComponent } from './admin.component';
 import { LabelerPageComponent } from './labeler-page/labeler-page.component';
-import { GenericMedicinePageComponent } from './generic-medicine-page/generic-medicine-page.component';
-import { GenericMedicineSupplierPageComponent } from './generic-medicine-supplier-page/generic-medicine-supplier-page.component';
 import { PackagesComponent } from './packages/packages.component';
 import { GenericSuppliesTypesComponent } from './generic-supplies-types/generic-supplies-types.component';
 import { GenericDrugGroupsComponent } from './generic-drug-groups/generic-drug-groups.component';
@@ -45,8 +43,6 @@ const routes: Routes = [
       { path: 'generic-dosages', component: GenericDrugDosagesComponent, pathMatch: 'full' },
       { path: 'generic-groups', component: GenericDrugGroupsComponent, pathMatch: 'full' },
       { path: 'generic-group-ed', component: GenericGroupEdComponent, pathMatch: 'full' },
-      { path: 'generic-minmax-group', component: GenericMinmaxGroupsComponent, pathMatch: 'full' },
-      { path: 'generic-medicine-supplier', component: GenericMedicineSupplierPageComponent, pathMatch: 'full' },
       { path: 'generic-supplier-types', component: GenericSuppliesTypesComponent, pathMatch: 'full' },
       { path: 'products', component: ProductPageComponent, pathMatch: 'full' },
       { path: 'product-groups', component: ProductGroupsComponent, pathMatch: 'full' },

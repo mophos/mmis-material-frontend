@@ -1,0 +1,65 @@
+import { AlertService } from './../../admin/alert.service';
+import { MappingsService } from './../mappings.service';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { LoadingComponent } from 'app/loading/loading.component';
+
+@Component({
+  selector: 'wm-mappings',
+  templateUrl: './mappings.component.html',
+  styles: []
+})
+export class MappingsComponent implements OnInit {
+
+  ediLabelerCode: any = null;
+  tmtid: any = null;
+  @ViewChild('loadingModal') loadingModal: LoadingComponent;
+  @Input('productId') productId: any;
+  constructor(
+    private mappingsService: MappingsService,
+    private alertService: AlertService
+  ) { }
+
+  async ngOnInit() {
+    await this.getData();
+  }
+
+  async save() {
+    try {
+      this.loadingModal.show()
+      const data: any = {
+        edi_labeler_code: this.ediLabelerCode,
+        tmt_id: this.tmtid
+      }
+      await this.mappingsService.saveMappgins(this.productId, data);
+      this.loadingModal.hide()
+      this.alertService.success();
+    } catch (error) {
+      this.loadingModal.hide()
+      this.alertService.error(error);
+    }
+  }
+
+  async getData() {
+    try {
+      this.loadingModal.show()
+      const data = await this.mappingsService.getMappgins(this.productId);
+      if (data.ok) {
+        this.ediLabelerCode = data.rows.edi_labeler_code;
+        this.tmtid = data.rows.tmt_id;
+      }
+      this.loadingModal.hide()
+    } catch (error) {
+      this.loadingModal.hide()
+      this.alertService.error(error);
+    }
+  }
+
+  setTmtCode(event) {
+    this.tmtid = event.tmtid;
+    console.log(this.tmtid);
+
+
+  }
+
+
+}
