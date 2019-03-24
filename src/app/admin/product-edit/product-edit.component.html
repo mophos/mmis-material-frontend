@@ -159,6 +159,11 @@
                         </clr-checkbox>
                       </div>
                       <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                        <clr-checkbox name="isExpiredControl" [(ngModel)]="isExpiredControl" (change)="keytype()">
+                          Expired control
+                        </clr-checkbox>
+                      </div>
+                      <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                         <clr-checkbox name="isActive" [(ngModel)]="isActive" (change)="keytype()">
                           Active
                         </clr-checkbox>
