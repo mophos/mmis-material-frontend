@@ -45,6 +45,9 @@ export class UomComponent implements OnInit {
   modalCost: any;
   modalUnitGenericId: any;
   modalGenericId: any;
+
+  uomReq: any;
+
   constructor(
     private uomService: UomService,
     private alertService: AlertService,
@@ -54,8 +57,25 @@ export class UomComponent implements OnInit {
   ngOnInit() {
     this.getActiveUnits();
     this.getPrimaryUnits();
+    this.getUomReq();
     this.getConversionList();
     this.getProductPrimaryUnit();
+  }
+
+  async getUomReq() {
+    this.loadingModal.show();
+    try {
+      const resp = await this.uomService.getUomReq(this.genericId);
+      this.loadingModal.hide();
+      if (resp.ok) {
+        this.uomReq = resp.rows;
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
   }
 
   async getActiveUnits() {
@@ -200,6 +220,30 @@ export class UomComponent implements OnInit {
       }
     }
   }
+
+  async changeUseUOM(e, c) {
+    try {
+      if (!e.target.checked) {
+        this.uomReq = null;
+      } else {
+        this.uomReq = c.unit_generic_id;
+      }
+      this.loadingModal.show();
+      const rs = await this.uomService.updateUomReq(this.uomReq, this.genericId);
+      if (rs.ok) {
+        this.loadingModal.hide();
+        this.alertService.success();
+      } else {
+        this.loadingModal.hide();
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
+
+
   async saveConversion() {
     // const _isActive = this.isActive ? 'Y' : 'N';
     let resp: any;
@@ -291,4 +335,6 @@ export class UomComponent implements OnInit {
         this.loadingModal.hide();
       });
   }
+
+
 }

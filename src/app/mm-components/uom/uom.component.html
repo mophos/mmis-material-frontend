@@ -13,6 +13,7 @@
             <th>ราคาต่อแพค</th>
             <th>ใช้งาน</th>
             <th>ใช้จัดทำแผน</th>
+            <th>ใช้ เบิก/จ่าย</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -34,6 +35,8 @@
             </td>
             <td class="wm-add-row">
               <!-- <clr-checkbox name="isActive" [(ngModel)]="isActive"></clr-checkbox> -->
+            </td>
+            <td class="wm-add-row">
             </td>
             <td class="wm-add-row">
             </td>
@@ -67,6 +70,12 @@
               <div class="toggle-switch">
                 <input type="checkbox" id="toggleP_{{idx}}" [checked]="c.planning==='Y'" (change)="changeStatusPlanning($event,c)">
                 <label for="toggleP_{{idx}}"></label>
+              </div>
+            </td>
+            <td>
+              <div class="toggle-switch">
+                <input type="checkbox" id="toggleUOM_{{idx}}" [checked]="c.unit_generic_id == uomReq" (change)="changeUseUOM($event,c)">
+                <label for="toggleUOM_{{idx}}"></label>
               </div>
             </td>
             <td>
