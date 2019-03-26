@@ -45,7 +45,23 @@ export class UomService {
     return resp.json();
   }
 
+
+  async getUomReq(genericId: any) {
+    const resp = await this.authHttp.get(`${this.url}/generics/uom-req?genericId=${genericId}`).toPromise();
+    return resp.json();
+  }
+
+  async updateUomReq(unitGenericId: any,genericId: any) {
+    const resp = await this.authHttp.put(`${this.url}/generics/uom-req`, {
+      unitGenericId: unitGenericId,
+      genericId: genericId
+    }).toPromise();
+    return resp.json();
+  }
+
+
   async updateConversion(genericId: any, unitGenericId: any, fromUnitId: any, toUnitId: any, qty: number, cost: any, standardCost: any) {
+
     const resp = await this.authHttp.put(`${this.url}/units/update/Conversion`, {
       genericId: genericId,
       unitGenericId: unitGenericId,
