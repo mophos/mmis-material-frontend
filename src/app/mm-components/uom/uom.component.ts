@@ -269,7 +269,7 @@ export class UomComponent implements OnInit {
     this.modalConversion = unit.qty;
     this.modalsmallUnit = this.primaryUnitId
     this.modalCost = unit.cost;
-    this.modalStandardCost = unit.standardCost
+    this.modalStandardCost = unit.standard_cost
 
     this.modalEdit = true;
     // this.fromUnit.focus();
