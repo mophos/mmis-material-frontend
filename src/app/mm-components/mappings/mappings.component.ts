@@ -11,7 +11,8 @@ import { LoadingComponent } from 'app/loading/loading.component';
 export class MappingsComponent implements OnInit {
 
   ediLabelerCode: any = null;
-  tmtid: any = null;
+  tmtId: any = null;
+  dcId: any = null;
   @ViewChild('loadingModal') loadingModal: LoadingComponent;
   @Input('productId') productId: any;
   constructor(
@@ -28,7 +29,8 @@ export class MappingsComponent implements OnInit {
       this.loadingModal.show()
       const data: any = {
         edi_labeler_code: this.ediLabelerCode,
-        tmt_id: this.tmtid
+        tmt_id: this.tmtId,
+        std_code: this.dcId
       }
       await this.mappingsService.saveMappgins(this.productId, data);
       this.loadingModal.hide()
@@ -45,7 +47,8 @@ export class MappingsComponent implements OnInit {
       const data = await this.mappingsService.getMappgins(this.productId);
       if (data.ok) {
         this.ediLabelerCode = data.rows.edi_labeler_code;
-        this.tmtid = data.rows.tmt_id;
+        this.tmtId = data.rows.tmt_id;
+        this.dcId = data.rows.std_code;
       }
       this.loadingModal.hide()
     } catch (error) {
@@ -55,10 +58,11 @@ export class MappingsComponent implements OnInit {
   }
 
   setTmtCode(event) {
-    this.tmtid = event.tmtid;
-    console.log(this.tmtid);
+    this.tmtId = event.tmtid;
+  }
 
-
+  setDC24Code(event) {
+    this.dcId = event.id;
   }
 
 

@@ -20,9 +20,18 @@
             <label>TMT</label>
           </div>
           <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-            <wm-search-tmt-code #searchTMT [tmtId]='tmtid' (onSelect)="setTmtCode($event)"
+            <wm-search-tmt-code #searchTMT [tmtId]='tmtId' (onSelect)="setTmtCode($event)"
               (onChange)="setTmtCode($event)" style="display: inline-block;" class="wm-edit-box-number">
             </wm-search-tmt-code>
+          </div>
+
+          <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+            <label>รหัส 24 หลัก (DC24)</label>
+          </div>
+          <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+            <wm-search-dc24-code #searchDC24 [dcId]='dcId' (onSelect)="setDC24Code($event)"
+              (onChange)="setDC24Code($event)" style="display: inline-block;" class="wm-edit-box-number">
+            </wm-search-dc24-code>
           </div>
 
 

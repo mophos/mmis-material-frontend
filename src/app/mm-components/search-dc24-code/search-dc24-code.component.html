@@ -1,0 +1,9 @@
+<input type="text" [(ngModel)]="query" (keyup)="clearSelected($event)" style="width: 100%; background-color: #FFF9C4"
+  agxTypeahead [taUrl]="searchProductDCUrl" taApi="http" [taItemTpl]="itemTpl"
+  (taSelected)="handleResultSelected($event)">
+
+<ng-template #itemTpl let-result style="width: 100%">
+  <strong>{{ result.result.id }}</strong>
+  <br>
+  <span>{{ result.result.trade_name }}</span>
+</ng-template>
