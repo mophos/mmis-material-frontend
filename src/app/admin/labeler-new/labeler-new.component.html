@@ -15,27 +15,39 @@
               <section class="form-block">
                 <label>ข้อมูลทั่วไปของผู้ประกอบการ</label>
                 <div class="form-group row">
-                  <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                     <label class="required" for="gForm_1">รหัสผู้ประกอบการ</label>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                    <input class="form-control" [disabled]="isUpdateCode" type="text" name="txtLabelerCode" [(ngModel)]="labelerCode" placeholder="รหัสผู้ประกอบการ">
+                    <input class="form-control" [disabled]="isUpdateCode" type="text" name="txtLabelerCode"
+                      [(ngModel)]="labelerCode" placeholder="รหัสผู้ประกอบการ">
                   </div>
-                  <div class="col-lg-6 col-md-6"></div>
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <input type="checkbox" name="isEDI" [(ngModel)]="isEDI">
+                    <label for="isVendor">สั่งซื้อออนไลน์ (EDI)</label>
+                  </div>
+                  <div class="col-lg-2 col-md-2">
+                    <input class="form-control" type="text" name="ediLabelerCode" [(ngModel)]="ediLabelerCode"
+                      placeholder="รหัสผู้ประกอบการ(EDI)">
+                  </div>
+                  <div class="col-lg-1 col-md-1"></div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                     <label class="required" for="gForm_1">ชื่อผู้ประกอบการ</label>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                    <input class="form-control" type="text" name="txtLabelerName" [(ngModel)]="labelerName" placeholder="ชื่อผู้ประกอบการ">
+                    <input class="form-control" type="text" name="txtLabelerName" [(ngModel)]="labelerName"
+                      placeholder="ชื่อผู้ประกอบการ">
                   </div>
                   <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                      <clr-icon (click)="labelerNamePo=labelerName" title="คัดลอกไปยังชื่อผู้ประกอบการสำหรับออกใบสั่งซื้อ" shape="copy-to-clipboard"></clr-icon>
+                    <clr-icon (click)="labelerNamePo=labelerName" title="คัดลอกไปยังชื่อผู้ประกอบการสำหรับออกใบสั่งซื้อ"
+                      shape="copy-to-clipboard"></clr-icon>
                   </div>
                   <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
                     <label class="required" for="gForm_1">ชื่อผู้ประกอบการสำหรับออกใบสั่งซื้อ</label>
                   </div>
                   <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
-                    <input class="form-control" type="text" name="txtLabelerNamePo" [(ngModel)]="labelerNamePo" placeholder="ชื่อผู้ประกอบการสำหรับออกใบสั่งซื้อ">
+                    <input class="form-control" type="text" name="txtLabelerNamePo" [(ngModel)]="labelerNamePo"
+                      placeholder="ชื่อผู้ประกอบการสำหรับออกใบสั่งซื้อ">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -59,7 +71,8 @@
                     <label for="gForm_1" class="required">เลขประจำตัวผู้เสียภาษี</label>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                    <input class="form-control" appNumberOnly13 type="text" name="txtLabelerNin" [(ngModel)]="labelerNin" placeholder="เลขประจำตัวผู้เสียภาษี">
+                    <input class="form-control" appNumberOnly13 type="text" name="txtLabelerNin"
+                      [(ngModel)]="labelerNin" placeholder="เลขประจำตัวผู้เสียภาษี">
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                     <label for="slType" class="required">ประเภทผู้ประกอบการ</label>
@@ -87,7 +100,8 @@
                     <label for="txtDisDate">วันที่ Discontinued</label>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                    <input class="form-control" type="date" name="txtDisDate" [(ngModel)]="labelerDisableDate" id="txtDisDate">
+                    <input class="form-control" type="date" name="txtDisDate" [(ngModel)]="labelerDisableDate"
+                      id="txtDisDate">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -95,7 +109,8 @@
                     <label for="txtDescription">คำอธิบาย</label>
                   </div>
                   <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
-                    <textarea id="txtDescription" rows="2" name="txtDescription" [(ngModel)]="labelerDescription" class="form-control"></textarea>
+                    <textarea id="txtDescription" rows="2" name="txtDescription" [(ngModel)]="labelerDescription"
+                      class="form-control"></textarea>
                   </div>
                 </div>
               </section>
@@ -110,11 +125,20 @@
               <section class="form-block">
                 <label>ที่อยู่ที่สามารถติดต่อได้</label>
                 <div class="form-group row">
+
                   <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <label for="txtContacn">ชื่อผู้ติดต่อ</label>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <input class="form-control" type="text" name="txtContacn" [(ngModel)]="labelerContact"
+                      id="txtContacn" placeholder="ชื่อผู้ติดต่อ">
+                  </div>
+                  <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                     <label for="txtAddress">ที่อยู่</label>
                   </div>
-                  <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                    <input class="form-control" type="text" name="txtAddress" [(ngModel)]="labelerAddress" id="txtAddress" placeholder="ที่อยู่">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                    <input class="form-control" type="text" name="txtAddress" [(ngModel)]="labelerAddress"
+                      id="txtAddress" placeholder="ที่อยู่">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -154,13 +178,15 @@
                     <label for="txtZipCode">รหัสไปรษณีย์</label>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <input class="form-control" type="text" appNumberOnly5 name="txtZipCode" [(ngModel)]="labelerZipCode" id="txtZipCode" placeholder="รหัสไปรษณีย์">
+                    <input class="form-control" type="text" appNumberOnly5 name="txtZipCode"
+                      [(ngModel)]="labelerZipCode" id="txtZipCode" placeholder="รหัสไปรษณีย์">
                   </div>
                   <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                     <label for="txtPhone">โทรศัพท์</label>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <input class="form-control" type="text" name="txtPhone" [(ngModel)]="labelerPhone" id="txtPhone" placeholder="โทรศัพท์">
+                    <input class="form-control" type="text" name="txtPhone" [(ngModel)]="labelerPhone" id="txtPhone"
+                      placeholder="โทรศัพท์">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -168,7 +194,8 @@
                     <label for="txtUrl">เว็บไซต์</label>
                   </div>
                   <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                    <input class="form-control" type="text" name="txtUrl" [(ngModel)]="labelerUrl" id="txtUrl" placeholder="http://">
+                    <input class="form-control" type="text" name="txtUrl" [(ngModel)]="labelerUrl" id="txtUrl"
+                      placeholder="http://">
                   </div>
                 </div>
               </section>
@@ -176,7 +203,8 @@
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-success" (click)="save()" [disabled]="!labelerName ||!labelerCode||!labelerNamePo || isSaving || !labelerNin|| !labelerTypeId|| !labelerStatusId">
+      <button type="button" class="btn btn-success" (click)="save()"
+        [disabled]="!labelerName ||!labelerCode||!labelerNamePo || isSaving || !labelerNin|| !labelerTypeId|| !labelerStatusId">
         บันทึก
       </button>
       <button type="button" class="btn btn-danger" routerLink="/admin/labeler">
@@ -198,14 +226,15 @@
                     <label for="txtOrgNo">ทะเบียนนิติบุคคล</label>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                    <input class="form-control" appNumberOnly name="txtOrgNo" [(ngModel)]="orgNo" type="text" id="txtOrgNo" placeholder="ทะเบียนนิติบุคคล">
+                    <input class="form-control" appNumberOnly name="txtOrgNo" [(ngModel)]="orgNo" type="text"
+                      id="txtOrgNo" placeholder="ทะเบียนนิติบุคคล">
                   </div>
                   <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
                     <label for="txtYearEst">ปีที่ก่อตั้ง</label>
                   </div>
                   <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-                    <input class="form-control" appNumberOnly [(ngModel)]="orgYearEstablished" name="txtYearEst" type="text" id="txtYearEst"
-                      placeholder="ปีที่ก่อตั้ง">
+                    <input class="form-control" appNumberOnly [(ngModel)]="orgYearEstablished" name="txtYearEst"
+                      type="text" id="txtYearEst" placeholder="ปีที่ก่อตั้ง">
                   </div>
                 </div>
                 <div class="form-group row">
@@ -213,8 +242,8 @@
                     <label for="txtRegisterYear">ปีที่จดทะเบียน</label>
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-                    <input class="form-control" name="txtRegisterYear" appNumberOnly type="text" [(ngModel)]="orgYearRegister" id="txtRegisterYear"
-                      placeholder="รหัส">
+                    <input class="form-control" name="txtRegisterYear" appNumberOnly type="text"
+                      [(ngModel)]="orgYearRegister" id="txtRegisterYear" placeholder="รหัส">
                   </div>
                   <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
                     <label for="gForm_1">ประเทศที่จดทะเบียน</label>
@@ -232,7 +261,8 @@
                     <label for="txtFADNumber">เลขประจำตัวโดย อย.</label>
                   </div>
                   <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-                    <input class="form-control" name="txtFADNumber" [(ngModel)]="orgFADNumber" type="text" id="txtFADNumber" placeholder="เลขประจำตัว">
+                    <input class="form-control" name="txtFADNumber" [(ngModel)]="orgFADNumber" type="text"
+                      id="txtFADNumber" placeholder="เลขประจำตัว">
                   </div>
                 </div>
               </section>
@@ -256,8 +286,9 @@
                             <label for="txtLat">ค้นหา</label>
                           </div>
                           <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                            <input placeholder="search for location" name="queryPlace" autocorrect="off" autocapitalize="off" spellcheck="off" type="text"
-                              class="form-control" #search [formControl]="searchControl">
+                            <input placeholder="search for location" name="queryPlace" autocorrect="off"
+                              autocapitalize="off" spellcheck="off" type="text" class="form-control" #search
+                              [formControl]="searchControl">
                           </div>
                         </div>
                         <div class="form-group row">
@@ -265,7 +296,8 @@
                             <label for="txtLat">ละติจูด</label>
                           </div>
                           <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                            <input class="form-control" type="text" name="txtLat" [(ngModel)]="orgLatitude" id="txtLat" disabled placeholder="ละติจูด">
+                            <input class="form-control" type="text" name="txtLat" [(ngModel)]="orgLatitude" id="txtLat"
+                              disabled placeholder="ละติจูด">
                           </div>
                         </div>
                         <div class="form-group row">
@@ -273,17 +305,18 @@
                             <label for="txtLng">ลองติจูด</label>
                           </div>
                           <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
-                            <input class="form-control" name="txtLng" type="text" [(ngModel)]="orgLongitude" id="txtLng" disabled placeholder="ลองติจูด">
+                            <input class="form-control" name="txtLng" type="text" [(ngModel)]="orgLongitude" id="txtLng"
+                              disabled placeholder="ลองติจูด">
                           </div>
                         </div>
                       </section>
                     </form>
                   </div>
                   <div class="col-md-8">
-                    <agm-map [latitude]="lat" [longitude]="lng" (mapClick)="mapClick($event)" #map mapDraggable="false" zoomControl="true" mapTypeControl="true"
-                      [zoom]="mapZoom">
-                      <agm-marker [markerDraggable]="isMapDraggable" (dragEnd)="setDnGLatLng($event)" *ngIf="orgLatitude && orgLongitude" [latitude]="orgLatitude"
-                        [longitude]="orgLongitude">
+                    <agm-map [latitude]="lat" [longitude]="lng" (mapClick)="mapClick($event)" #map mapDraggable="false"
+                      zoomControl="true" mapTypeControl="true" [zoom]="mapZoom">
+                      <agm-marker [markerDraggable]="isMapDraggable" (dragEnd)="setDnGLatLng($event)"
+                        *ngIf="orgLatitude && orgLongitude" [latitude]="orgLatitude" [longitude]="orgLongitude">
                       </agm-marker>
                     </agm-map>
                     <!-- <sebm-google-map (mapClick)="mapClick($event)" #map mapDraggable="false" zoomControl="true" mapTypeControl="true" [zoom]="mapZoom"
@@ -300,7 +333,8 @@
           </div>
         </div>
       </div>
-      <button type="button" class="btn btn-success" (click)="save()" [disabled]="!labelerName || isSaving || !labelerNin|| !labelerTypeId|| !labelerStatusId">
+      <button type="button" class="btn btn-success" (click)="save()"
+        [disabled]="!labelerName || isSaving || !labelerNin|| !labelerTypeId|| !labelerStatusId">
         บันทึก
       </button>
       <button type="button" class="btn btn-danger" routerLink="/admin/labeler">
@@ -386,11 +420,13 @@
         Processing...
       </span>
     </div>
-    <button type="button" class="btn btn-success" [disabled]="!selectedLabelerRegister || isSaving" (click)="saveRegisterLabelerMCD()">
+    <button type="button" class="btn btn-success" [disabled]="!selectedLabelerRegister || isSaving"
+      (click)="saveRegisterLabelerMCD()">
       Map กับรายการที่เลือก
     </button>
 
-    <button type="button" class="btn btn-danger" [disabled]="!selectedLabelerRegister || isSaving" (click)="doImportMCDData()">
+    <button type="button" class="btn btn-danger" [disabled]="!selectedLabelerRegister || isSaving"
+      (click)="doImportMCDData()">
       นำเข้าฐาน (Local)
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="openRegister = false">
@@ -451,7 +487,8 @@
   </div>
   <div class="modal-footer">
 
-    <button type="button" class="btn btn-primary" (click)="saveBank()" [disabled]="!accountNo || !accountName || !bankName || !bankType || !bankBranch">
+    <button type="button" class="btn btn-primary" (click)="saveBank()"
+      [disabled]="!accountNo || !accountName || !bankName || !bankType || !bankBranch">
       บันทึก
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="openModalBank = false">

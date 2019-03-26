@@ -50,7 +50,7 @@ export class LabelerNewComponent implements OnInit {
   labelerZipCode: string;
   labelerPhone: string;
   labelerUrl: string;
-
+  labelerContact: string;
   // MCD
   mcdLabelerId: string;
   mcdLabelerName: string;
@@ -88,6 +88,8 @@ export class LabelerNewComponent implements OnInit {
   bankId: any;
   isManufacturer = false;
   isVendor = false;
+  isEDI = false;
+  ediLabelerCode: any;
 
   @ViewChild('map') myMap;
   @ViewChild('search') private searchElementRef: ElementRef;
@@ -227,7 +229,10 @@ export class LabelerNewComponent implements OnInit {
       orgLongitude: this.orgLongitude,
       orgCountry: this.orgCountry,
       isVendor: this.isVendor ? 'Y' : 'N',
-      isManufacturer: this.isManufacturer ? 'Y' : 'N'
+      isManufacturer: this.isManufacturer ? 'Y' : 'N',
+      isEdi: this.isEDI ? 'Y' : 'N',
+      ediLabelerCode: this.ediLabelerCode,
+      labelerContact: this.labelerContact
     };
 
     if (!this.labelerName) {
@@ -326,10 +331,13 @@ export class LabelerNewComponent implements OnInit {
         const _labelerTambon = rs.labeler.tambon_code;
         const _labelerAmpur = rs.labeler.ampur_code;
         this.labelerProvince = rs.labeler.province_code;
+        this.labelerContact = rs.labeler.contact_name;
 
         this.labelerTypeId = rs.labeler.labeler_type.toString();
         this.labelerStatusId = rs.labeler.labeler_status.toString();
         this.isVendor = rs.labeler.is_vendor === 'Y' ? true : false;
+        this.isEDI = rs.labeler.is_edi === 'Y' ? true : false;
+        this.ediLabelerCode = rs.labeler.labeler_code_edi;
         this.isManufacturer = rs.labeler.is_manufacturer === 'Y' ? true : false;
         const rsAmp: any = await this.stdService.getAmpur(this.labelerProvince);
         if (rsAmp.ok) {

@@ -43,6 +43,7 @@ export class ProductEditComponent implements OnInit {
   carryingCost = 0;
 
   isLotControl = false;
+  isExpiredControl = false;
   description = null;
   isLoading = false;
   primaryUnits = [];
@@ -265,6 +266,7 @@ export class ProductEditComponent implements OnInit {
         this.isActive = resp.detail.is_active === 'Y' ? true : false;
         this.isRawMaterial = resp.detail.is_raw_material === 'Y' ? true : false;
         this.isLotControl = resp.detail.is_lot_control === 'Y' ? true : false;
+        this.isExpiredControl = resp.detail.is_expired_control === 'Y' ? true : false;
       } else {
         this.alertService.error(resp.error);
       }
@@ -284,6 +286,7 @@ export class ProductEditComponent implements OnInit {
     data.pickingRuleId = this.pickingRuleId;
     data.isActive = this.isActive ? 'Y' : 'N';
     data.isLotControl = this.isLotControl ? 'Y' : 'N';
+    data.isExpiredControl = this.isExpiredControl ? 'Y' : 'N';
     data.description = this.description;
     data.purchaseUnitId = this.purchaseUnitId;
     data.issueUnitId = this.issueUnitId;
