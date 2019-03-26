@@ -62,10 +62,6 @@
     <div class="content-area">
       <router-outlet></router-outlet>
     </div>
-
-
-
-
     <clr-vertical-nav [clrVerticalNavCollapsible]="collapsible" [(clrVerticalNavCollapsed)]="collapse">
 
       <clr-vertical-nav-group routerLinkActive="active">
@@ -128,27 +124,23 @@
         </clr-vertical-nav-group-children>
       </clr-vertical-nav-group>
 
-
-
-
-
-
-
-      <!-- <a clrVerticalNavLink routerLink="/admin/warehouses" routerLinkActive="active" title="จัดการคลังสินค้า">
-        <clr-icon shape="store" clrVerticalNavIcon></clr-icon> จัดการคลังสินค้า
-      </a> -->
-
+      <!-- <clr-vertical-nav-group routerLinkActive="active">
+        <a clrVerticalNavLink href="javascript://">
+          <clr-icon shape="export" clrVerticalNavIcon></clr-icon>
+          ส่งออกข้อมูล
+        </a>
+        <clr-vertical-nav-group-children *clrIfExpanded="true">
+          <a clrVerticalNavLink routerLink="/admin/export" routerLinkActive="active" title="ข้อมูล Generics">
+            <clr-icon shape="export" clrVerticalNavIcon></clr-icon> ข้อมูล Generics
+          </a>
+        </clr-vertical-nav-group-children>
+      </clr-vertical-nav-group> -->
     </clr-vertical-nav>
-
   </div>
-
 </clr-main-container>
-
-
 <clr-modal [(clrModalOpen)]="ChangePasswordModal" [clrModalClosable]="false" [clrModalSize]="'md'">
   <h3 class="modal-title">เปลี่ยนรหัสผ่าน</h3>
   <div class="modal-body" style="height:210px;">
-
     <form>
       <section class="form-block">
         <!-- <label>เปลี่ยนรหัสผ่านผู้ใช้งาน</label> -->
@@ -169,7 +161,6 @@
         <!-- </div> -->
       </section>
     </form>
-
   </div>
   <div class="modal-footer">
     <button type="button" class="btn btn-success btn-sm" (click)="chanagePassword()" [disabled]="!password || password.length <= 3 || isSaving || password!=password2">

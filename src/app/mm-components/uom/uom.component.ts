@@ -18,6 +18,7 @@ export class UomComponent implements OnInit {
   @Input('genericId') genericId: any;
 
   cost = 0;
+  standardCost = 0;
 
   units = [];
   unitsPrimary = [];
@@ -43,6 +44,7 @@ export class UomComponent implements OnInit {
   modalConversion: any;
   modalsmallUnit: any;
   modalCost: any;
+  modalStandardCost: any;
   modalUnitGenericId: any;
   modalGenericId: any;
   constructor(
@@ -208,11 +210,11 @@ export class UomComponent implements OnInit {
     try {
       if (this.isUpdate) {
         resp = await this.uomService.updateConversion(
-          this.modalGenericId, this.modalUnitGenericId, this.modalLargeUnitId, this.primaryUnitId, this.modalConversion, this.modalCost);
+          this.modalGenericId, this.modalUnitGenericId, this.modalLargeUnitId, this.primaryUnitId, this.modalConversion, this.modalCost, this.modalStandardCost);
       } else {
         resp = await this.uomService.saveConversion(
           this.genericId, this.fromUnitId, this.primaryUnitId,
-          this.conversionQty, 'Y', this.cost);
+          this.conversionQty, 'Y', this.cost, this.standardCost);
       }
       this.modalEdit = false;
       this.loadingModal.hide();
@@ -237,6 +239,7 @@ export class UomComponent implements OnInit {
     this.isActive = true;
     this.conversionQty = 0;
     this.cost = 0;
+    this.standardCost = 0;
     this.unitgenericId = null;
     this.isUpdate = false;
     this.getConversionList();
@@ -266,6 +269,7 @@ export class UomComponent implements OnInit {
     this.modalConversion = unit.qty;
     this.modalsmallUnit = this.primaryUnitId
     this.modalCost = unit.cost;
+    this.modalStandardCost = unit.standardCost
 
     this.modalEdit = true;
     // this.fromUnit.focus();
