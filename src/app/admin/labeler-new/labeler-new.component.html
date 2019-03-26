@@ -125,10 +125,18 @@
               <section class="form-block">
                 <label>ที่อยู่ที่สามารถติดต่อได้</label>
                 <div class="form-group row">
+
                   <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <label for="txtContacn">ชื่อผู้ติดต่อ</label>
+                  </div>
+                  <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <input class="form-control" type="text" name="txtContacn" [(ngModel)]="labelerContact"
+                      id="txtContacn" placeholder="ชื่อผู้ติดต่อ">
+                  </div>
+                  <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
                     <label for="txtAddress">ที่อยู่</label>
                   </div>
-                  <div class="col-lg-10 col-md-10 col-sm-12 col-xs-12">
+                  <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                     <input class="form-control" type="text" name="txtAddress" [(ngModel)]="labelerAddress"
                       id="txtAddress" placeholder="ที่อยู่">
                   </div>

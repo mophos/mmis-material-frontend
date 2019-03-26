@@ -50,7 +50,7 @@ export class LabelerNewComponent implements OnInit {
   labelerZipCode: string;
   labelerPhone: string;
   labelerUrl: string;
-
+  labelerContact: string;
   // MCD
   mcdLabelerId: string;
   mcdLabelerName: string;
@@ -231,7 +231,8 @@ export class LabelerNewComponent implements OnInit {
       isVendor: this.isVendor ? 'Y' : 'N',
       isManufacturer: this.isManufacturer ? 'Y' : 'N',
       isEdi: this.isEDI ? 'Y' : 'N',
-      ediLabelerCode: this.ediLabelerCode
+      ediLabelerCode: this.ediLabelerCode,
+      labelerContact: this.labelerContact
     };
 
     if (!this.labelerName) {
@@ -330,6 +331,7 @@ export class LabelerNewComponent implements OnInit {
         const _labelerTambon = rs.labeler.tambon_code;
         const _labelerAmpur = rs.labeler.ampur_code;
         this.labelerProvince = rs.labeler.province_code;
+        this.labelerContact = rs.labeler.contact_name;
 
         this.labelerTypeId = rs.labeler.labeler_type.toString();
         this.labelerStatusId = rs.labeler.labeler_status.toString();
