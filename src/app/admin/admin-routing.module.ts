@@ -26,6 +26,7 @@ import { GenericsComponent } from 'app/admin/generics/generics.component';
 import { GenericsEditComponent } from 'app/admin/generics-edit/generics-edit.component';
 import { LabelerNewComponent } from './labeler-new/labeler-new.component';
 import { GenericMinmaxGroupsComponent } from './generic-minmax-groups/generic-minmax-groups.component';
+import { ExportComponent } from './export/export.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,7 @@ const routes: Routes = [
       { path: 'mapping', component: MappingComponent, pathMatch: 'full' },
       // { path: 'shipping-network', component: ShippingNetworkComponent, pathMatch: 'full' },
       { path: 'warehouses', component: WarehousesComponent, pathMatch: 'full' },
+      { path: 'export', component: ExportComponent, pathMatch: 'full' },
       { path: '**', component: PageNotFoundComponent, pathMatch: 'full' },
     ]
   }

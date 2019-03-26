@@ -1,16 +1,17 @@
 <div class="card">
   <div class="card-block">
+    <div class="card-header">
+      Conversions
+    </div>
     <div class="card-text">
-      <div class="card-header">
-        Conversions
-      </div>
-      <table class="table" style="width: 80%;">
+      <table class="table" style="width: 100%;">
         <thead>
           <tr>
             <th class="left">1 Unit</th>
             <th>= Conversion</th>
             <th class="left">x Base Unit</th>
             <th>ราคาต่อแพค</th>
+            <th>ราคากลาง</th>
             <th>ใช้งาน</th>
             <th>ใช้จัดทำแผน</th>
             <th>&nbsp;</th>
@@ -31,6 +32,9 @@
             </td>
             <td class="left wm-add-row">
               <input type="number" name="cost" [(ngModel)]="cost" style="text-align: center;" />
+            </td>
+            <td class="left wm-add-row">
+              <input type="number" name="standardCost" [(ngModel)]="standardCost" style="text-align: center;" />
             </td>
             <td class="wm-add-row">
               <!-- <clr-checkbox name="isActive" [(ngModel)]="isActive"></clr-checkbox> -->
@@ -55,6 +59,7 @@
             <td>{{ c.qty | number }}</td>
             <td class="left">{{ c.to_unit_name }}</td>
             <td>{{ c.cost | number: '1.2-2' }}</td>
+            <td>{{ c.standard_cost | number: '1.2-2' }}</td>
             <td>
               <!-- <clr-icon *ngIf="c.is_active === 'Y'" shape="success" size="16" class="is-success"></clr-icon>
               <clr-icon *ngIf="c.is_active === 'N' || !c.is_active" shape="close" size="16" class="is-danger"></clr-icon> -->
@@ -99,8 +104,8 @@
           </div>
           <div class="col-md-9">
             <ag2-completer placeholder="ค้นหา..." style="width: 100%;" name="modalLargeUnit" #fromUnit [datasource]="dataServiceUomActive"
-              (selected)="setSelectedLargeModal($event)" [(ngModel)]="modalLargeUnit"
-              [openOnFocus]="true" [minSearchLength]="0"></ag2-completer>
+              (selected)="setSelectedLargeModal($event)" [(ngModel)]="modalLargeUnit" [openOnFocus]="true"
+              [minSearchLength]="0"></ag2-completer>
           </div>
           <div class="col-md-3">
             <label for="">Conversion</label>
@@ -119,6 +124,12 @@
           </div>
           <div class="col-md-9">
             <input type="text" name="modalCost" [(ngModel)]="modalCost">
+          </div>
+          <div class="col-md-3">
+            <label for="">ราคากลาง</label>
+          </div>
+          <div class="col-md-9">
+            <input type="text" name="modalStandardCost" [(ngModel)]="modalStandardCost">
           </div>
         </div>
       </div>

@@ -122,39 +122,6 @@
                   <input type="text" style="width: 100%; text-align: right;" name="keyword" (keyup)="keytype()"
                     [(ngModel)]="keywords">
                 </div>
-                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12">
-                  <label for="rdoCost">ราคากลาง</label>
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                  <div class="select">
-                    <select [(ngModel)]="type" name="type" (change)="selectType();keytype()">
-                      <option [value]="1">(Pack)</option>
-                      <option [value]="2" selected>(Base Unit)</option>
-                    </select>
-                  </div>
-                </div>
-                <!-- <div *ngIf="type==1"> -->
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="type==1">
-                  <input type="number" style="width: 100%; text-align: right;" name="convers" [(ngModel)]="convers"
-                    placeholder="จำนวน/แพ็ค" (keyup)="keytype()">
-                </div>
-                <div class="col-lg-1 col-md-1 col-sm-12 col-xs-12" *ngIf="type==1">
-                  <input class="form-control" type="text" (keyup)="keytype()" [disabled]="true" name="unitName"
-                    [(ngModel)]="unitName">
-                </div>
-                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="type==1">
-                  <input type="number" style="width: 100%; text-align: right;" name="packCost" [(ngModel)]="packCost"
-                    placeholder="ราคาต่อแพ็ค" (keyup)="calPackCost();keytype()">
-                </div>
-                <!-- </div> -->
-                <div *ngIf="type==2">
-                  <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
-                    <input type="number" (keyup)="keytype()" style="width: 100%; text-align: right;" name="standardCost"
-                      [(ngModel)]="standardCost">
-                  </div>
-                </div>
-
-                <!-- </div> -->
               </div>
             </div>
           </div>
