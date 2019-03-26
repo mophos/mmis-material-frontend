@@ -26,6 +26,7 @@ import { ReceivePlanningService } from './receive-planning.service';
 import { MappingsComponent } from './mappings/mappings.component';
 import { MappingsService } from './mappings.service';
 import { SearchTmtCodeComponent } from './search-tmt-code/search-tmt-code.component';
+import { SearchDc24CodeComponent } from './search-dc24-code/search-dc24-code.component';
 
 @NgModule({
   imports: [
@@ -58,7 +59,8 @@ import { SearchTmtCodeComponent } from './search-tmt-code/search-tmt-code.compon
     SearchLabelerBoxComponent,
     ReceivePlanningComponent,
     MappingsComponent,
-    SearchTmtCodeComponent
+    SearchTmtCodeComponent,
+    SearchDc24CodeComponent
   ],
   exports: [
     ProductPlanningComponent,
@@ -70,7 +72,8 @@ import { SearchTmtCodeComponent } from './search-tmt-code/search-tmt-code.compon
     SearchGenericsBoxComponent,
     SearchLabelerBoxComponent,
     MappingsComponent,
-    SearchTmtCodeComponent
+    SearchTmtCodeComponent,
+    SearchDc24CodeComponent
   ]
 })
 export class MmComponentsModule { }

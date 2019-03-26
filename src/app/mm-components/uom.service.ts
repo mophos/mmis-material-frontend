@@ -25,13 +25,14 @@ export class UomService {
     return resp.json();
   }
 
-  async saveConversion(genericId: any, fromUnitId: any, toUnitId: any, qty: number, isActive: any, cost: any) {
+  async saveConversion(genericId: any, fromUnitId: any, toUnitId: any, qty: number, isActive: any, cost: any, standardCost: any) {
     const resp = await this.authHttp.post(`${this.url}/units/conversion/${genericId}`, {
       fromUnitId: fromUnitId,
       toUnitId: toUnitId,
       qty: qty,
       isActive: isActive,
-      cost: cost
+      cost: cost,
+      standard_cost: standardCost
     }).toPromise();
     return resp.json();
   }
@@ -43,6 +44,7 @@ export class UomService {
     }).toPromise();
     return resp.json();
   }
+
 
   async getUomReq(genericId: any) {
     const resp = await this.authHttp.get(`${this.url}/generics/uom-req?genericId=${genericId}`).toPromise();
@@ -57,14 +59,17 @@ export class UomService {
     return resp.json();
   }
 
-  async updateConversion(genericId: any, unitGenericId: any, fromUnitId: any, toUnitId: any, qty: number, cost: any) {
+
+  async updateConversion(genericId: any, unitGenericId: any, fromUnitId: any, toUnitId: any, qty: number, cost: any, standardCost: any) {
+
     const resp = await this.authHttp.put(`${this.url}/units/update/Conversion`, {
       genericId: genericId,
       unitGenericId: unitGenericId,
       fromUnitId: fromUnitId,
       toUnitId: toUnitId,
       qty: qty,
-      cost: cost
+      cost: cost,
+      standard_cost: standardCost
     }).toPromise();
     return resp.json();
   }
