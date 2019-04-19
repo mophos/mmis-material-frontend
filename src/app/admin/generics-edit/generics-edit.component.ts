@@ -50,7 +50,8 @@ export class GenericsEditComponent implements OnInit {
   isPlanning: any;
   planningMethod = 1;
   planningUnitGenericId: null;
-  minmaxGroupId:any;
+  type = 2;
+  minmaxGroupId: any;
 
   minQty = 0;
   maxQty = 0;
@@ -190,7 +191,7 @@ export class GenericsEditComponent implements OnInit {
         this.carryingCost = +rs.detail.carrying_cost;
         this.orderingCost = +rs.detail.ordering_cost;
         this.bidTypeId = rs.detail.purchasing_method;
-        this.minmaxGroupId = rs.detail.minmax_group_id ||  null;;
+        this.minmaxGroupId = rs.detail.minmax_group_id || null;;
         // this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
         this.keywords = rs.detail.keywords;
         if (this.groupId2) {
@@ -416,12 +417,12 @@ export class GenericsEditComponent implements OnInit {
         groupId2: this.groupId2 === 'null' ? null : this.groupId2,
         groupId3: this.groupId3 === 'null' ? null : this.groupId3,
         groupId4: this.groupId4 === 'null' ? null : this.groupId4,
-        dosageId: this.dosageId,
-        pTypeId: this.pTypeId,
+        dosageId: this.dosageId === 'null' ? null : this.dosageId,
+        pTypeId: this.pTypeId === 'null' ? null : this.pTypeId,
         description: this.description,
         keywords: this.keywords,
-        drugAccountId: this.drugAccountId,
-        primaryUnitId: this.primaryUnitId,
+        drugAccountId: this.drugAccountId === 'null' ? null : this.drugAccountId,
+        primaryUnitId: this.primaryUnitId === 'null' ? null : this.primaryUnitId,
         planningMethod: this.planningMethod,
         maxQty: this.maxQty,
         minQty: this.minQty,
