@@ -60,6 +60,7 @@ import { GenericGroupEdComponent } from './generic-group-ed/generic-group-ed.com
 import { NgxGalleryModule } from 'ngx-gallery';
 import { GenericMinmaxGroupsComponent } from './generic-minmax-groups/generic-minmax-groups.component';
 import { GenericMinmaxGroupsService } from "./generic-minmax-groups.service";
+import { ExportComponent } from './export/export.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -102,7 +103,8 @@ import { GenericMinmaxGroupsService } from "./generic-minmax-groups.service";
     LabelerNewComponent,
     ProductGroupsComponent,
     GenericGroupEdComponent,
-    GenericMinmaxGroupsComponent
+    GenericMinmaxGroupsComponent,
+    ExportComponent
   ],
   providers: [
     LabelerService,

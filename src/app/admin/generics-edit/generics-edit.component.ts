@@ -46,22 +46,18 @@ export class GenericsEditComponent implements OnInit {
   drugAccountId: string;
   workingCode: any;
   shortCode: any;
-  standardCost = 0;
   isActive: any;
   isPlanning: any;
   planningMethod = 1;
   planningUnitGenericId: null;
-  minmaxGroupId: any;
   type = 2;
+  minmaxGroupId: any;
 
   minQty = 0;
   maxQty = 0;
   eoqQty = 0;
   orderingCost = 0;
   carryingCost = 0;
-
-  convers = 0;
-  packCost = 0;
 
   primaryUnits: any = [];
   primaryUnitId: any;
@@ -186,7 +182,6 @@ export class GenericsEditComponent implements OnInit {
         this.groupId3 = rs.detail.group_code_3;
         this.groupId4 = rs.detail.group_code_4;
         this.description = rs.detail.description;
-        this.standardCost = +rs.detail.standard_cost;
         this.primaryUnitId = rs.detail.primary_unit_id;
         this.isActive = rs.detail.is_active === 'Y' ? true : false;
         this.isPlanning = rs.detail.is_planning === 'Y' ? true : false;
@@ -412,9 +407,6 @@ export class GenericsEditComponent implements OnInit {
 
     if (this.genericName && this.primaryUnitId && this.typeId && this.workingCode) {
       this.isSaving = true;
-      if (this.convers && this.packCost) {
-        this.standardCost = this.packCost / this.convers;
-      }
       const generics = {
         workingCode: this.workingCode,
         genericName: this.genericName,
@@ -432,9 +424,6 @@ export class GenericsEditComponent implements OnInit {
         drugAccountId: this.drugAccountId === 'null' ? null : this.drugAccountId,
         primaryUnitId: this.primaryUnitId === 'null' ? null : this.primaryUnitId,
         planningMethod: this.planningMethod,
-        convers: this.convers,
-        packCost: this.packCost,
-        standardCost: this.standardCost,
         maxQty: this.maxQty,
         minQty: this.minQty,
         eoqQty: this.eoqQty,
@@ -472,12 +461,6 @@ export class GenericsEditComponent implements OnInit {
       this.isSaving = false;
       this.alertService.error('กรุณาระบุข้อมูลให้ครบถ้วน');
     }
-  }
-
-  selectType() {
-    this.standardCost = 0;
-    this.packCost = 0;
-    this.convers = 0;
   }
 
   keytype() {

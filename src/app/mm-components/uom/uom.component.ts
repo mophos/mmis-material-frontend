@@ -18,6 +18,7 @@ export class UomComponent implements OnInit {
   @Input('genericId') genericId: any;
 
   cost = 0;
+  standardCost = 0;
 
   units = [];
   unitsPrimary = [];
@@ -43,8 +44,12 @@ export class UomComponent implements OnInit {
   modalConversion: any;
   modalsmallUnit: any;
   modalCost: any;
+  modalStandardCost: any;
   modalUnitGenericId: any;
   modalGenericId: any;
+
+  uomReq: any;
+
   constructor(
     private uomService: UomService,
     private alertService: AlertService,
@@ -54,8 +59,25 @@ export class UomComponent implements OnInit {
   ngOnInit() {
     this.getActiveUnits();
     this.getPrimaryUnits();
+    this.getUomReq();
     this.getConversionList();
     this.getProductPrimaryUnit();
+  }
+
+  async getUomReq() {
+    this.loadingModal.show();
+    try {
+      const resp = await this.uomService.getUomReq(this.genericId);
+      this.loadingModal.hide();
+      if (resp.ok) {
+        this.uomReq = resp.rows;
+      } else {
+        this.alertService.error(resp.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
   }
 
   async getActiveUnits() {
@@ -200,6 +222,30 @@ export class UomComponent implements OnInit {
       }
     }
   }
+
+  async changeUseUOM(e, c) {
+    try {
+      if (!e.target.checked) {
+        this.uomReq = null;
+      } else {
+        this.uomReq = c.unit_generic_id;
+      }
+      this.loadingModal.show();
+      const rs = await this.uomService.updateUomReq(this.uomReq, this.genericId);
+      if (rs.ok) {
+        this.loadingModal.hide();
+        this.alertService.success();
+      } else {
+        this.loadingModal.hide();
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
+
+
   async saveConversion() {
     // const _isActive = this.isActive ? 'Y' : 'N';
     let resp: any;
@@ -208,11 +254,11 @@ export class UomComponent implements OnInit {
     try {
       if (this.isUpdate) {
         resp = await this.uomService.updateConversion(
-          this.modalGenericId, this.modalUnitGenericId, this.modalLargeUnitId, this.primaryUnitId, this.modalConversion, this.modalCost);
+          this.modalGenericId, this.modalUnitGenericId, this.modalLargeUnitId, this.primaryUnitId, this.modalConversion, this.modalCost, this.modalStandardCost);
       } else {
         resp = await this.uomService.saveConversion(
           this.genericId, this.fromUnitId, this.primaryUnitId,
-          this.conversionQty, 'Y', this.cost);
+          this.conversionQty, 'Y', this.cost, this.standardCost);
       }
       this.modalEdit = false;
       this.loadingModal.hide();
@@ -237,6 +283,7 @@ export class UomComponent implements OnInit {
     this.isActive = true;
     this.conversionQty = 0;
     this.cost = 0;
+    this.standardCost = 0;
     this.unitgenericId = null;
     this.isUpdate = false;
     this.getConversionList();
@@ -266,6 +313,7 @@ export class UomComponent implements OnInit {
     this.modalConversion = unit.qty;
     this.modalsmallUnit = this.primaryUnitId
     this.modalCost = unit.cost;
+    this.modalStandardCost = unit.standard_cost
 
     this.modalEdit = true;
     // this.fromUnit.focus();
@@ -291,4 +339,6 @@ export class UomComponent implements OnInit {
         this.loadingModal.hide();
       });
   }
+
+
 }
