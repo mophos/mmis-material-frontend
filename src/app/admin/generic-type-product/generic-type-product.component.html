@@ -2,58 +2,155 @@
   <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
   <span class="breadcrumb-item active">หมวดสินค้า</span>
 </nav>
-<div class="row wid99">
-  <div class="col-md-6">
-    <button type="button" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
-  </div>
-  <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
-    <button class="btn btn-sm btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
-  </div>
-</div>
-<clr-datagrid [clrDgLoading]="loading">
-  <clr-dg-column [clrDgField]="'generic_type_name'" [style.width.%]="75">หมวดสินค้า</clr-dg-column>
-  <clr-dg-column>รหัสสินค้า</clr-dg-column>
-  <clr-dg-column></clr-dg-column>
-  <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
-  <clr-dg-row *clrDgItems="let t of types" [clrDgItem]="t">
-    <clr-dg-cell>{{t.generic_type_name}}</clr-dg-cell>
-    <clr-dg-cell>{{t.prefix_name}}</clr-dg-cell>
-    <clr-dg-cell style="text-align:center;">
-      <div class="btn-group btn-primary">
-        <button [disabled]="t.is_edit === 'N' || t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn" (click)="edit(t)">
-          <clr-icon shape="note"></clr-icon>
-        </button>
-        <button [disabled]="t.is_edit === 'N' || t.is_deleted=='Y'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn"
-          (click)="remove(t)">
-          <clr-icon shape="trash"></clr-icon>
-        </button>
-        <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="t.is_deleted=='N'" title="ลบ"
-          (click)="returnDelete(t.generic_type_id)">
-          <clr-icon shape="undo"></clr-icon>
-        </button>
+
+<clr-tabs>
+  <clr-tab>
+    <button clrTabLink>หมวดสินค้า(หลัก)</button>
+    <clr-tab-content *clrIfActive>
+      <div class="row wid99">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-sm btn-success" (click)="addNewLV1()">+ เพิ่มรายการ</button>
+        </div>
+        <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+          <button class="btn btn-sm btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+        </div>
       </div>
-    </clr-dg-cell>
-  </clr-dg-row>
+      <clr-datagrid [clrDgLoading]="loading">
+        <clr-dg-column [clrDgField]="'generic_type_name'" [style.width.%]="75">หมวดสินค้า</clr-dg-column>
+        <clr-dg-column>รหัสสินค้า</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *clrDgItems="let t of genericTypeLV1" [clrDgItem]="t">
+          <clr-dg-cell>{{t.generic_type_name}}</clr-dg-cell>
+          <clr-dg-cell>{{t.prefix_name}}</clr-dg-cell>
+          <clr-dg-cell style="text-align:center;">
+            <div class="btn-group btn-primary">
+              <button [disabled]="t.is_edit === 'N' || t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn"
+                (click)="editLV1(t)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button [disabled]="t.is_edit === 'N' || t.is_deleted=='Y'" title="ลบ"
+                class="btn btn-sm btn-danger wm-small-btn" (click)="removeLV1(t)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+              <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="t.is_deleted=='N'"
+                title="ลบ" (click)="returnDeleteLV1(t.generic_type_id)">
+                <clr-icon shape="undo"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
 
-  <clr-dg-footer>
-    {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
-    <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
-  </clr-dg-footer>
-</clr-datagrid>
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>หมวดสินค้า(รอง)</button>
+    <clr-tab-content *clrIfActive>
+      <div class="row wid99">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-sm btn-success" (click)="addNewLV2()">+ เพิ่มรายการ</button>
+        </div>
+        <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+          <button class="btn btn-sm btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+        </div>
+      </div>
+      <clr-datagrid [clrDgLoading]="loading">
+        <clr-dg-column>ชื่อหมวดสินค้า(หลัก)</clr-dg-column>
+        <clr-dg-column>ชื่อหมวดสินค้า(รอง)</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *clrDgItems="let t of genericTypeLV2" [clrDgItem]="t">
+          <clr-dg-cell>{{t.generic_type_lv1_name}}</clr-dg-cell>
+          <clr-dg-cell>{{t.generic_type_lv2_name}}</clr-dg-cell>
+          <clr-dg-cell style="text-align:center;">
+            <div class="btn-group btn-primary">
+              <button [disabled]=" t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn" (click)="editLV2(t)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button [disabled]=" t.is_deleted=='Y'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn"
+                (click)="removeLV2(t)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+              <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="t.is_deleted=='N'"
+                title="ลบ" (click)="returnDeleteLV2(t.generic_type_lv2_id)">
+                <clr-icon shape="undo"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
 
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข หมวดสินค้า</h3>
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+  <clr-tab>
+    <button clrTabLink>หมวดสินค้า(ย่อย)</button>
+    <clr-tab-content *clrIfActive>
+      <div class="row wid99">
+        <div class="col-md-6">
+          <button type="button" class="btn btn-sm btn-success" (click)="addNewLV3()">+ เพิ่มรายการ</button>
+        </div>
+        <div class="col-md-6" style="text-align:right; " *ngIf="menuDelete">
+          <button class="btn btn-sm btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
+        </div>
+      </div>
+      <clr-datagrid [clrDgLoading]="loading">
+        <clr-dg-column>ชื่อหมวดสินค้า(หลัก)</clr-dg-column>
+        <clr-dg-column>ชื่อหมวดสินค้า(รอง)</clr-dg-column>
+        <clr-dg-column>ชื่อหมวดสินค้า(ย่อย)</clr-dg-column>
+        <clr-dg-column></clr-dg-column>
+        <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+        <clr-dg-row *clrDgItems="let t of genericTypeLV3" [clrDgItem]="t">
+          <clr-dg-cell>{{t.generic_type_lv1_name}}</clr-dg-cell>
+          <clr-dg-cell>{{t.generic_type_lv2_name}}</clr-dg-cell>
+          <clr-dg-cell>{{t.generic_type_lv3_name}}</clr-dg-cell>
+          <clr-dg-cell style="text-align:center;">
+            <div class="btn-group btn-primary">
+              <button [disabled]=" t.is_deleted=='Y'" class="btn btn-sm btn-success wm-small-btn" (click)="editLV3(t)">
+                <clr-icon shape="note"></clr-icon>
+              </button>
+              <button [disabled]=" t.is_deleted=='Y'" title="ลบ" class="btn btn-sm btn-danger wm-small-btn"
+                (click)="removeLV3(t)">
+                <clr-icon shape="trash"></clr-icon>
+              </button>
+              <button class="btn btn-danger btn-sm wm-small-btn" *ngIf="btnDelete" [disabled]="t.is_deleted=='N'"
+                title="ลบ" (click)="returnDeleteLV3(t.generic_type_lv3_id)">
+                <clr-icon shape="undo"></clr-icon>
+              </button>
+            </div>
+          </clr-dg-cell>
+        </clr-dg-row>
+
+        <clr-dg-footer>
+          {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{pagination.totalItems}} รายการ
+          <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
+        </clr-dg-footer>
+      </clr-datagrid>
+    </clr-tab-content>
+  </clr-tab>
+</clr-tabs>
+
+<clr-modal [(clrModalOpen)]="openModalLV1" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่ม/แก้ไข หมวดสินค้า(หลัก)</h3>
   <div class="modal-body">
-
     <form>
       <section class="form-block">
         <label>ข้อมูล หมวดสินค้า</label>
         <div class="form-group row">
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <label class="required" for="typeName">หมวดสินค้า</label>
+            <label class="required">หมวดสินค้า</label>
           </div>
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
-            <input class="form-control" type="text" name="typeName" [(ngModel)]="typeName" placeholder="">
+            <input class="form-control" type="text" name="modalLV1GenericTypeLV1Name"
+              [(ngModel)]="modalLV1GenericTypeLV1Name" placeholder="">
           </div>
         </div>
         <div class="form-group row">
@@ -67,14 +164,106 @@
         </div>
       </section>
     </form>
-
   </div>
   <div class="modal-footer">
-
-    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="!typeName|| !prefixName">
+    <button type="button" class="btn btn-primary" (click)="saveLV1()"
+      [disabled]="!modalLV1GenericTypeLV1Name|| !prefixName">
       บันทึก
     </button>
-    <button type="button" class="btn btn-danger-outline" (click)="opened = false">
+    <button type="button" class="btn btn-danger-outline" (click)="openModalLV1 = false">
+      ปิด
+    </button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="openModalLV2" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่ม/แก้ไข หมวดสินค้า(รอง)</h3>
+  <div class="modal-body">
+    <form>
+      <section class="form-block">
+        <label>ข้อมูล หมวดสินค้า</label>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required">หมวดสินค้า(หลัก)</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <div class="select">
+              <select [(ngModel)]="modalLV2GenericTypeLV1Id" name="modalLV2GenericTypeLV1Id">
+                <option *ngFor="let item of genericTypeLV1" [value]="item.generic_type_id">{{item.generic_type_name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required">หมวดสินค้า(รอง)</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="modalLV2GenericTypeLV2Name"
+              [(ngModel)]="modalLV2GenericTypeLV2Name" placeholder="">
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveLV2()"
+      [disabled]="!modalLV2GenericTypeLV1Id|| !modalLV2GenericTypeLV2Name">
+      บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="openModalLV2 = false">
+      ปิด
+    </button>
+  </div>
+</clr-modal>
+
+<clr-modal [(clrModalOpen)]="openModalLV3" [clrModalClosable]="false">
+  <h3 class="modal-title">เพิ่ม/แก้ไข หมวดสินค้า(รอง)</h3>
+  <div class="modal-body">
+    <form>
+      <section class="form-block">
+        <label>ข้อมูล หมวดสินค้า</label>
+        <div class="form-group row">
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required">หมวดสินค้า(หลัก)</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <div class="select">
+              <select [(ngModel)]="modalLV3GenericTypeLV1Id" name="modalLV3GenericTypeLV1Id"
+                (change)="selectGenericTypeLV1Modal3()">
+                <option *ngFor="let item of genericTypeLV1" [value]="item.generic_type_id">{{item.generic_type_name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required">หมวดสินค้า(รอง)</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <div class="select">
+              <select [(ngModel)]="modalLV3GenericTypeLV2Id" name="modalLV3GenericTypeLV2Id">
+                <option *ngFor="let item of modalLV3GenericTypeLV2" [value]="item.generic_type_lv2_id">
+                  {{item.generic_type_lv2_name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <label class="required">หมวดสินค้า(ย่อย)</label>
+          </div>
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+            <input class="form-control" type="text" name="modalLV3GenericTypeLV3Name"
+              [(ngModel)]="modalLV3GenericTypeLV3Name" placeholder="">
+          </div>
+        </div>
+      </section>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveLV3()"
+      [disabled]="!modalLV3GenericTypeLV1Id|| !modalLV3GenericTypeLV2Id|| !modalLV3GenericTypeLV3Name">
+      บันทึก
+    </button>
+    <button type="button" class="btn btn-danger-outline" (click)="openModalLV3 = false">
       ปิด
     </button>
   </div>

@@ -17,7 +17,6 @@ import { JwtHelper } from 'angular2-jwt';
 export class GenericsEditComponent implements OnInit {
   @ViewChild('loadingModal') loadingModal: LoadingComponent;
   genericGroups: any = [];
-  genericTypes: any = [];
   genericDosages: any = [];
   drugAccounts: any = [];
   typeProduct: any = [];
@@ -31,7 +30,6 @@ export class GenericsEditComponent implements OnInit {
   pTypeId: string;
   dosageId: string;
   groupId: string;
-  typeId: string;
   typeOldId: string;
   typeFilterId: string;
 
@@ -75,6 +73,14 @@ export class GenericsEditComponent implements OnInit {
   groupId3: any;
   groupId4: any;
   genericTypeIds = [];
+
+  genericTypes: any = [];
+  genericTypeLV1 = [];
+  genericTypeLV2 = [];
+  genericTypeLV3 = [];
+  genericTypeLV1Id: any;
+  genericTypeLV2Id: any;
+  genericTypeLV3Id: any;
   jwtHelper: JwtHelper = new JwtHelper();
   constructor(
     private genericMinmaxGroupsService: GenericMinmaxGroupsService,
@@ -102,6 +108,7 @@ export class GenericsEditComponent implements OnInit {
     await this.getConversions();
     await this.getPrimaryUnits();
     await this.getED();
+    await this.getGenericTypeLV1();
     await this.getDetail();
   }
 
@@ -131,7 +138,7 @@ export class GenericsEditComponent implements OnInit {
       this.loadingModal.hide();
       if (resp.ok) {
         this.primaryUnits = resp.rows;
-        let idx = _.findIndex(resp.rows, { "unit_id": this.primaryUnitId });
+        const idx = _.findIndex(resp.rows, { 'unit_id': this.primaryUnitId });
         idx > -1 ? this.unitName = resp.rows[idx].unit_name : this.unitName = null;
       } else {
         console.error(resp.error);
@@ -172,7 +179,6 @@ export class GenericsEditComponent implements OnInit {
         this.genericName = rs.detail.generic_name;
         this.workingCode = rs.detail.working_code;
         this.drugAccountId = rs.detail.account_id;
-        this.typeId = rs.detail.generic_type_id;
         this.typeOldId = rs.detail.generic_type_id;
         this.dosageId = rs.detail.dosage_id;
         this.pTypeId = rs.detail.generic_hosp_id;
@@ -191,8 +197,10 @@ export class GenericsEditComponent implements OnInit {
         this.carryingCost = +rs.detail.carrying_cost;
         this.orderingCost = +rs.detail.ordering_cost;
         this.bidTypeId = rs.detail.purchasing_method;
-        this.minmaxGroupId = rs.detail.minmax_group_id || null;;
-        // this.planningUnitGenericId = rs.detail.planning_unit_generic_id;
+        this.minmaxGroupId = rs.detail.minmax_group_id || null;
+        this.genericTypeLV1Id = rs.detail.generic_type_id;
+        this.genericTypeLV2Id = rs.detail.generic_type_lv2_id;
+        this.genericTypeLV3Id = rs.detail.generic_type_lv3_id;
         this.keywords = rs.detail.keywords;
         if (this.groupId2) {
           this.getGenericGroup2();
@@ -203,7 +211,12 @@ export class GenericsEditComponent implements OnInit {
         if (this.groupId4) {
           this.getGenericGroup4();
         }
-        // console.log(this.genericId);
+        if (this.genericTypeLV1Id) {
+          await this.getGenericTypeLV2();
+        }
+        if (this.genericTypeLV2Id) {
+          await this.getGenericTypeLV3();
+        }
       }
     } catch (error) {
       this.loadingModal.hide();
@@ -284,20 +297,6 @@ export class GenericsEditComponent implements OnInit {
   }
 
   async getGenericGroups() {
-    // this.loadingModal.show();
-    // try {
-    //   const rs: any = await this.standardService.getGenericGroups();
-    //   this.loadingModal.hide();
-    //   if (rs.ok) {
-    //     this.genericGroups = rs.rows;
-    //   } else {
-    //     this.alertService.error(rs.error);
-    //   }
-    // } catch (error) {
-    //   this.loadingModal.hide();
-    //   this.alertService.error(JSON.stringify(error));
-    //   console.log(error.message);
-    // }
     this.getGenericGroup1();
   }
 
@@ -369,6 +368,70 @@ export class GenericsEditComponent implements OnInit {
     }
   }
 
+  async getGenericTypeLV1() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getGenericTypeLV1();
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.genericTypeLV1 = rs.rows;
+        if (this.genericTypeLV1Id == null) {
+          this.genericTypeLV1Id = this.genericTypeLV1[0].generic_type_id;
+        }
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
+
+  async getGenericTypeLV2() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getGenericTypeLV2(this.genericTypeLV1Id);
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.genericTypeLV2 = rs.rows;
+        if (this.genericTypeLV2Id == null) {
+          if (this.genericTypeLV2.length > 0) {
+            this.genericTypeLV2Id = 'null';
+          }
+        }
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
+
+  async getGenericTypeLV3() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getGenericTypeLV3(this.genericTypeLV1Id, this.genericTypeLV2Id);
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.genericTypeLV3 = rs.rows;
+        if (this.genericTypeLV3Id == null) {
+          if (this.genericTypeLV3.length > 0) {
+            this.genericTypeLV3Id = 'null'
+          }
+        }
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+      console.log(error.message);
+    }
+  }
+
   async getGenericDosages() {
     this.loadingModal.show();
     try {
@@ -405,18 +468,20 @@ export class GenericsEditComponent implements OnInit {
 
   async save() {
 
-    if (this.genericName && this.primaryUnitId && this.typeId && this.workingCode) {
+    if (this.genericName && this.primaryUnitId && this.genericTypeLV1Id && this.workingCode) {
       this.isSaving = true;
       const generics = {
         workingCode: this.workingCode,
         genericName: this.genericName,
-        typeId: this.typeId,
         typeOldId: this.typeOldId,
         groupEd: this.edId === 'null' ? null : this.edId,
         groupId1: this.groupId1 === 'null' ? null : this.groupId1,
         groupId2: this.groupId2 === 'null' ? null : this.groupId2,
         groupId3: this.groupId3 === 'null' ? null : this.groupId3,
         groupId4: this.groupId4 === 'null' ? null : this.groupId4,
+        genericTypeLV1Id: this.genericTypeLV1Id === 'null' ? null : this.genericTypeLV1Id,
+        genericTypeLV2Id: this.genericTypeLV2Id === 'null' ? null : this.genericTypeLV2Id,
+        genericTypeLV3Id: this.genericTypeLV3Id === 'null' ? null : this.genericTypeLV3Id,
         dosageId: this.dosageId === 'null' ? null : this.dosageId,
         pTypeId: this.pTypeId === 'null' ? null : this.pTypeId,
         description: this.description,
@@ -464,6 +529,8 @@ export class GenericsEditComponent implements OnInit {
   }
 
   keytype() {
+    console.log('type');
+
     this.isType = true;
   }
 
