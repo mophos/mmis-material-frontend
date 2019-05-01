@@ -15,7 +15,7 @@
     <button name="search" class="btn btn-primary btn-sm" [disabled]="!query" (click)="searchGeneric()">ค้นหา</button>
   </div>
 </div>
-<clr-datagrid [clrDgLoading]="loading">
+<clr-datagrid>
   <clr-dg-column [style.width.%]="75">คลัง</clr-dg-column>
   <clr-dg-column></clr-dg-column>
   <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
@@ -40,32 +40,4 @@
     <clr-dg-pagination #pagination [clrDgPageSize]="10"></clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
-
-<clr-modal [(clrModalOpen)]="opened" [clrModalClosable]="true" [clrModalSize]="'lg'">
-  <h3 class="modal-title">Generic Planning</h3>
-  <div class="modal-body">
-    <clr-datagrid [clrDgLoading]="loading">
-      <clr-dg-column>Generic Code</clr-dg-column>
-      <clr-dg-column>ชื่อยาสามัญ</clr-dg-column>
-      <clr-dg-column>Min Qty.</clr-dg-column>
-      <clr-dg-column>Max Qty.</clr-dg-column>
-      <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
-      <clr-dg-row *clrDgItems="let g of generics" [clrDgItem]="g">
-        <clr-dg-cell>{{g.working_code}}</clr-dg-cell>
-        <clr-dg-cell>{{g.generic_name}}</clr-dg-cell>
-        <clr-dg-cell>{{g.min_qty}}</clr-dg-cell>
-        <clr-dg-cell>{{g.max_qty}}</clr-dg-cell>
-      </clr-dg-row>
-    </clr-datagrid>
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-primary" (click)="save()">
-      บันทึก
-    </button>
-    <button type="button" class="btn btn-danger-outline" (click)="opened = false">
-      ปิด
-    </button>
-  </div>
-</clr-modal>
-
 <wm-loading #loadingModal></wm-loading>
