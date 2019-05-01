@@ -161,6 +161,42 @@ export class StandardService {
     });
   }
 
+  getGenericTypeLV1() {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-type-lv1`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericTypeLV2(genericTypeLV1Id: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-type-lv2?genericTypeLV1Id=${genericTypeLV1Id}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
+  getGenericTypeLV3(genericTypeLV1Id: string, genericTypeLV2Id: string) {
+    return new Promise((resolve, reject) => {
+      this.authHttp.get(`${this.url}/std/generic-type-lv3?genericTypeLV1Id=${genericTypeLV1Id}&genericTypeLV2Id=${genericTypeLV2Id}`)
+        .map(res => res.json())
+        .subscribe(data => {
+          resolve(data);
+        }, error => {
+          reject(error);
+        });
+    });
+  }
+
   getGenericDosages() {
     return new Promise((resolve, reject) => {
       this.authHttp.get(`${this.url}/std/generic-dosages`)
