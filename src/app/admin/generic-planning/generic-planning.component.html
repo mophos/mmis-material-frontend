@@ -12,7 +12,7 @@
     ค้นหา
     <input type="text" [(ngModel)]="query" name="query" class="form-control" placeholder="ระบุคำค้นหา" (keyup)="enterSearch($event)">
     <!-- <button class="btn btn-success btn-sm" (click)="getAll()">ทั้งหมด</button>     -->
-    <button name="search" class="btn btn-primary btn-sm" [disabled]="!query" (click)="searchGeneric()">ค้นหา</button>
+    <!-- <button name="search" class="btn btn-primary btn-sm" [disabled]="!query" (click)="searchGeneric()">ค้นหา</button> -->
   </div>
 </div>
 <clr-datagrid>
