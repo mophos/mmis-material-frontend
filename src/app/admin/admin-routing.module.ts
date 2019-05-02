@@ -25,6 +25,8 @@ import { GenericsEditComponent } from 'app/admin/generics-edit/generics-edit.com
 import { LabelerNewComponent } from './labeler-new/labeler-new.component';
 import { GenericMinmaxGroupsComponent } from './generic-minmax-groups/generic-minmax-groups.component';
 import { ExportComponent } from './export/export.component';
+import { GenericSetPlanningComponent } from './generic-planning/generic-planning.component';
+import { GenericPlanningEditComponent } from './generic-planning-edit/generic-planning-edit.component';
 
 const routes: Routes = [
   {
@@ -51,6 +53,8 @@ const routes: Routes = [
       { path: 'packages', component: PackagesComponent, pathMatch: 'full' },
       { path: 'units', component: UnitsMainComponent, pathMatch: 'full' },
       { path: 'mapping', component: MappingComponent, pathMatch: 'full' },
+      { path: 'generic/planning', component: GenericSetPlanningComponent, pathMatch: 'full' },
+      { path: 'generic/planning-edit/:warehouseId', component: GenericPlanningEditComponent, pathMatch: 'full' },
       // { path: 'shipping-network', component: ShippingNetworkComponent, pathMatch: 'full' },
       { path: 'warehouses', component: WarehousesComponent, pathMatch: 'full' },
       { path: 'export', component: ExportComponent, pathMatch: 'full' },

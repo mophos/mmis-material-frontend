@@ -61,6 +61,8 @@ import { NgxGalleryModule } from 'ngx-gallery';
 import { GenericMinmaxGroupsComponent } from './generic-minmax-groups/generic-minmax-groups.component';
 import { GenericMinmaxGroupsService } from "./generic-minmax-groups.service";
 import { ExportComponent } from './export/export.component';
+import { GenericSetPlanningComponent } from './generic-planning/generic-planning.component';
+import { GenericPlanningEditComponent } from './generic-planning-edit/generic-planning-edit.component';
 @NgModule({
   imports: [
     CommonModule,
@@ -104,7 +106,9 @@ import { ExportComponent } from './export/export.component';
     ProductGroupsComponent,
     GenericGroupEdComponent,
     GenericMinmaxGroupsComponent,
-    ExportComponent
+    ExportComponent,
+    GenericSetPlanningComponent,
+    GenericPlanningEditComponent
   ],
   providers: [
     LabelerService,

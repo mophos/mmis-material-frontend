@@ -85,4 +85,33 @@ export class GenericService {
     return rs.json();
   }
 
+  async getGenericPlanning(warehouseId: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/generics/planning-detail?warehouseId=${warehouseId}`).toPromise();
+    return rs.json();
+  }
+
+  async updateMin(genericPlanningId: any, minQty: any) {
+    const rs: any = await this.authHttp.put(`${this.url}/generics/planning-detail/min?genericPlanningId=${genericPlanningId}`, {
+      min_qty: minQty
+    }).toPromise();
+    return rs.json();
+  }
+
+  async updateMax(genericPlanningId: any, maxQty: any) {
+    const rs: any = await this.authHttp.put(`${this.url}/generics/planning-detail/max?genericPlanningId=${genericPlanningId}`, {
+      max_qty: maxQty
+    }).toPromise();
+    return rs.json();
+  }
+
+  async addAllGenericPlanning(warehouseId: any, genericTypeId: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/generics/addall/generic/${warehouseId}/${genericTypeId}`).toPromise();
+    return rs.json();
+  }
+
+  async deleteGenericWarehouse(warehouseId: any) {
+    const rs: any = await this.authHttp.delete(`${this.url}/generics/delete/generic/planning/${warehouseId}`).toPromise();
+    return rs.json();
+  }
+
 }

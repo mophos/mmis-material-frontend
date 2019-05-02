@@ -86,16 +86,9 @@ export class StandardService {
     });
   }
 
-  getGenericTypes() {
-    return new Promise((resolve, reject) => {
-      this.authHttp.get(`${this.url}/std/generic-types`)
-        .map(res => res.json())
-        .subscribe(data => {
-          resolve(data);
-        }, error => {
-          reject(error);
-        });
-    });
+  async getGenericTypes() {
+    const rs: any = await this.authHttp.get(`${this.url}/std/generic-types`).toPromise();
+    return rs.json();
   }
 
   async getGenericAccount() {
@@ -224,5 +217,10 @@ export class StandardService {
   async getWarehouses() {
     const resp = await this.authHttp.get(`${this.url}/std/warehouses`).toPromise();
     return resp.json();
+  }
+
+  async search(query: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/std/search/warehouses?query=${query}`).toPromise();
+    return rs.json();
   }
 }
