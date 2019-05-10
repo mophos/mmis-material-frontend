@@ -25,14 +25,14 @@ export class GenericsComponent implements OnInit {
   generics: any = [];
   openNew = false;
   genericGroups: any = [];
-  genericTypes: any = [];
-  genericType: any = [];
+  // genericTypes: any = [];
+  // genericType: any = [];
   genericDosages: any = [];
   drugAccounts: any = [];
   primaryUnits: any = [];
   loading = false;
 
-  query: any;
+  query = '';
   isSaving = false;
   isUpdate = false;
 
@@ -53,10 +53,6 @@ export class GenericsComponent implements OnInit {
 
   types: any = [];
   isSearch = false;
-  typeFilterId: any = 'all';
-
-  genericTypeIds: any = [];
-
   currentPage = 1;
   genericCodeAuto: any;
   modalSearch = false;
@@ -68,6 +64,8 @@ export class GenericsComponent implements OnInit {
   jwtHelper: JwtHelper = new JwtHelper();
   menuDelete = false;
   btnDelete = false;
+  genericType: any;
+  @ViewChild('genericTypes') genericTypes: any;
   constructor(
     private standardService: StandardService,
     private genericService: GenericService,
@@ -80,15 +78,16 @@ export class GenericsComponent implements OnInit {
     const decoded = this.jwtHelper.decodeToken(token);
     const accessRight = decoded.accessRight.split(',');
     this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
-    this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
+    // this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
     this.genericCodeAuto = decoded.MM_GENERIC_CODE_AUTO === 'Y' ? true : false;
     this.currentPage = +sessionStorage.getItem('genericCurrentPage') ? +sessionStorage.getItem('genericCurrentPage') : 1;
   }
 
   ngOnInit() {
+    this.genericType = this.genericTypes.getDefaultGenericType();
     this.getPrimaryUnits();
     this.getGenericGroups();
-    this.getGenericTypes();
+    // this.getGenericTypes();
     this.getGenericDosages();
     this.getAccounts();
     this.getGenericType();
@@ -148,8 +147,8 @@ export class GenericsComponent implements OnInit {
   async searchGeneric() {
     this.loadingModal.show();
     try {
-      const type = this.typeFilterId && this.typeFilterId !== 'all' ? this.typeFilterId : this.genericTypeIds;
-      const rs: any = await this.genericService.search(this.query, type, this.perPage, 0, this.btnDelete);
+      // const type = this.typeFilterId && this.typeFilterId !== 'all' ? this.typeFilterId : this.genericTypeIds;
+      const rs: any = await this.genericService.search(this.query, this.genericType, this.perPage, 0, this.btnDelete);
       this.loadingModal.hide();
       if (rs.ok) {
         this.generics = rs.rows;
@@ -176,36 +175,36 @@ export class GenericsComponent implements OnInit {
     }
   }
 
-  async getGenericTypes() {
-    this.loadingModal.show();
-    try {
-      const rs: any = await this.standardService.getGenericTypes();
-      this.loadingModal.hide();
-      if (rs.ok) {
-        this.loadingModal.hide();
-        if (rs.rows.length) {
-          rs.rows.forEach(v => {
-            this.genericTypeIds.forEach(x => {
-              if (+x === +v.generic_type_id) {
-                this.genericTypes.push(v);
-              }
-            });
-          });
-          // this.typeFilterId = sessionStorage.getItem('genericGroupId') ? sessionStorage.getItem('genericGroupId') : this.genericTypeIds;
-          if (this.typeFilterId === 'all') {
-            sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
-          } else {
-            sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
-          }
-        }
-      } else {
-        this.alertService.error(rs.error);
-      }
-    } catch (error) {
-      this.loadingModal.hide();
-      this.alertService.error(JSON.stringify(error));
-    }
-  }
+  // async getGenericTypes() {
+  //   this.loadingModal.show();
+  //   try {
+  //     const rs: any = await this.standardService.getGenericTypes();
+  //     this.loadingModal.hide();
+  //     if (rs.ok) {
+  //       this.loadingModal.hide();
+  //       if (rs.rows.length) {
+  //         rs.rows.forEach(v => {
+  //           this.genericTypeIds.forEach(x => {
+  //             if (+x === +v.generic_type_id) {
+  //               this.genericTypes.push(v);
+  //             }
+  //           });
+  //         });
+  //         // this.typeFilterId = sessionStorage.getItem('genericGroupId') ? sessionStorage.getItem('genericGroupId') : this.genericTypeIds;
+  //         if (this.typeFilterId === 'all') {
+  //           sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
+  //         } else {
+  //           sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
+  //         }
+  //       }
+  //     } else {
+  //       this.alertService.error(rs.error);
+  //     }
+  //   } catch (error) {
+  //     this.loadingModal.hide();
+  //     this.alertService.error(JSON.stringify(error));
+  //   }
+  // }
 
   async getAccounts() {
     this.loadingModal.show();
@@ -307,22 +306,18 @@ export class GenericsComponent implements OnInit {
     this.modalSearch = false;
     this.openNew = true;
   }
+
+  selectGenericType(e) {
+    this.genericType = e;
+    this.getListByTypes();
+  }
   async getListByTypes() {
     try {
       if (this.query) {
         this.searchGeneric();
       } else {
         this.loadingModal.show();
-        let results: any;
-        if (this.typeFilterId === 'all') {
-          results = await this.genericService.getListByTypes(this.genericTypeIds, this.perPage, 0, this.btnDelete, this.sort);
-          sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
-        } else {
-          results = await this.genericService.getListByTypes(this.typeFilterId, this.perPage, 0, this.btnDelete, this.sort);
-          sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
-        }
-        console.log(JSON.parse(sessionStorage.getItem('genericGroupId')));
-
+        const results: any = await this.genericService.search(this.query, this.genericType, this.perPage, 0, this.btnDelete, this.sort);
         this.loadingModal.hide();
         if (results.ok) {
           this.generics = results.rows;
@@ -411,48 +406,30 @@ export class GenericsComponent implements OnInit {
   }
 
   async refresh(state: State) {
+    try {
 
-    const limit = +state.page.size;
-    const offset = +state.page.from;
-    this.sort = state.sort;
 
-    if (!this.currentPage) {
-      this.currentPage = this.pagination.currentPage;
-    } else {
-      this.currentPage = this.currentPage > this.pagination.lastPage ? this.pagination.currentPage : this.pagination.currentPage;
-    }
+      const limit = +state.page.size;
+      const offset = +state.page.from;
+      this.sort = state.sort;
 
-    sessionStorage.setItem('genericCurrentPage', this.pagination.currentPage);
-
-    const _groupId = sessionStorage.getItem('genericGroupId') ? JSON.parse(sessionStorage.getItem('genericGroupId')) : this.genericTypeIds;
-    this.loadingModal.show();
-    // console.log(this.isSearch, query);
-
-    if (this.query) {
-      const results: any = await this.genericService.search(this.query, _groupId, limit, offset, this.btnDelete, this.sort);
+      if (!this.currentPage) {
+        this.currentPage = this.pagination.currentPage;
+      } else {
+        this.currentPage = this.currentPage > this.pagination.lastPage ? this.pagination.currentPage : this.pagination.currentPage;
+      }
+      sessionStorage.setItem('genericCurrentPage', this.pagination.currentPage);
+      this.loadingModal.show();
+      const results: any = await this.genericService.search(this.query, this.genericType, limit, offset, this.btnDelete, this.sort);
       this.loadingModal.hide();
       if (results.ok) {
-        console.log(results.total);
-
         this.generics = results.rows;
         this.total = +results.total;
       } else {
         this.alertService.error(JSON.stringify(results.error));
       }
-    } else {
-      try {
-        const results: any = await this.genericService.getListByTypes(_groupId, limit, offset, this.btnDelete, this.sort);
-        this.loadingModal.hide();
-        if (results.ok) {
-          this.generics = results.rows;
-          this.total = +results.total;
-        } else {
-          this.alertService.error(JSON.stringify(results.error));
-        }
-      } catch (error) {
-        this.loadingModal.hide();
-        this.alertService.error(JSON.stringify(error));
-      }
+    } catch (error) {
+      this.alertService.error(error);
     }
   }
 

@@ -21,10 +21,10 @@ export class GenericService {
     return rs.json();
   }
 
-  async search(query: any, groupId: any, limit: number, offset: number, deleted: boolean, sort = {}) {
+  async search(query: any, genericType: any, limit: number, offset: number, deleted: boolean, sort = {}) {
     const rs: any = await this.authHttp.post(`${this.url}/generics/search`, {
       query: query,
-      groupId: groupId,
+      genericType: genericType,
       limit: limit,
       offset: offset,
       deleted: deleted,

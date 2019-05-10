@@ -71,11 +71,11 @@ export class ProductService {
     return rs.json();
   }
 
-  async search(query: any, limit: number, offset: number, groupId: any, deleted: boolean, sort: any = {}) {
+  async search(query: any, limit: number, offset: number, genericType: any, deleted: boolean, sort: any = {}) {
     const rs = await this.authHttp.post(`${this.url}/products/search`,
       {
         query: query,
-        groupId: groupId,
+        genericType: genericType,
         limit: limit,
         deleted: deleted,
         offset: offset,
