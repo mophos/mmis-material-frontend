@@ -1,0 +1,44 @@
+<nav class="breadcrumb">
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin">หน้าหลัก</a>
+  <a class="breadcrumb-item" href="javascript://" routerLink="/admin/generic/planning">Generics Planing</a>
+  <span class="breadcrumb-item active">เพิ่ม/แก้ไข</span>
+</nav>
+<h3 class="modal-title">Generic Planning</h3>
+<br>
+<div class="row wid99 form-group">
+  <div class="col-md-2">
+    เลือกทั้งหมด
+  </div>
+  <div class="col-md-6">
+    <div class="select">
+      <select [(ngModel)]="genericTypeId" name="genericTypeId">
+        <option *ngFor="let g of genericTypes" [value]="g.generic_type_id">{{g.generic_type_name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <button type="button" class="btn btn-sm btn-success" (click)="addAll()">เพิ่มทั้งหมด</button>
+    <button type="button" class="btn btn-sm btn-danger" (click)="delAll()">ลบทั้งหมด</button>
+  </div>
+</div>
+<br>
+<div class="modal-body">
+  <clr-datagrid>
+    <clr-dg-column>Generic Code</clr-dg-column>
+    <clr-dg-column>ชื่อยาสามัญ</clr-dg-column>
+    <clr-dg-column>Min Qty.</clr-dg-column>
+    <clr-dg-column>Max Qty.</clr-dg-column>
+    <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
+    <clr-dg-row *clrDgItems="let g of generics" [clrDgItem]="g">
+      <clr-dg-cell>{{g.working_code}}</clr-dg-cell>
+      <clr-dg-cell>{{g.generic_name}}</clr-dg-cell>
+      <clr-dg-cell>
+        <input type="number" value="{{g.min_qty}}" appNumberOnly (blur)="onBlurMin($event, g.generic_planning_id, g.min_qty)">
+      </clr-dg-cell>
+      <clr-dg-cell>
+          <input type="number" value="{{g.max_qty}}" appNumberOnly (blur)="onBlurMax($event, g.generic_planning_id, g.max_qty)">
+      </clr-dg-cell>
+    </clr-dg-row>
+  </clr-datagrid>
+</div>
+<wm-loading #loadingModal></wm-loading>
