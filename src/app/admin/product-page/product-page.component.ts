@@ -1,10 +1,6 @@
 import { SearchGenericsBoxComponent } from './../../mm-components/search-generics-box/search-generics-box.component';
 import { Component, OnInit, ChangeDetectorRef, Inject, ViewChild } from '@angular/core';
 import { CompleterService, CompleterData, RemoteData } from 'ag2-completer';
-import { LabelerService } from '../labeler.service';
-import { GenericService } from '../generic.service';
-import { GenericSuppliesService } from '../generic-supplies.service';
-import { PackageService } from '../package.service';
 import { ProductService } from '../product.service';
 import { AlertService } from '../alert.service';
 import { UomService } from './../../mm-components/uom.service';
@@ -41,11 +37,9 @@ export class ProductPageComponent implements OnInit {
   products = [];
   loading = false;
 
-  groups: any = [];
-  groupId = 'all';
 
   isSearch = false;
-  query: string = null;
+  query = '';
   perPage = 15;
   total = 0;
   currentPage = 1;
@@ -58,10 +52,11 @@ export class ProductPageComponent implements OnInit {
   // new modal
   mdlNew = false;
 
-  genericTypeIds: any = [];
+  genericType: any;
   jwtHelper: JwtHelper = new JwtHelper();
   menuDelete = false;
   btnDelete = false;
+  @ViewChild('genericTypes') genericTypes: any;
   constructor(
     private completerService: CompleterService,
     private productService: ProductService,
@@ -74,44 +69,18 @@ export class ProductPageComponent implements OnInit {
     const decoded = this.jwtHelper.decodeToken(token);
     const accessRight = decoded.accessRight.split(',');
     this.menuDelete = _.indexOf(accessRight, 'MM_DELETED') === -1 ? false : true;
-    this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
+    // this.genericTypeIds = decoded.generic_type_id ? decoded.generic_type_id.split(',') : [];
     this.currentPage = +sessionStorage.getItem('productCurrentPage') ? +sessionStorage.getItem('productCurrentPage') : 1;
   }
 
   async ngOnInit() {
+    this.genericType = await this.genericTypes.getDefaultGenericType();
     await this.getPrimaryUnits();
-    await this.getGroupList();
   }
 
-  async getProductList(event) {
-    try {
-      if (this.query) {
-        this.searchProduct();
-      } else {
-
-        this.loadingModal.show();
-        let results: any;
-        if (this.groupId === 'all') {
-          results = await this.productService.all(this.perPage, 0, this.genericTypeIds, this.btnDelete, this.sort);
-          sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
-        } else {
-          results = await this.productService.all(this.perPage, 0, this.groupId, this.btnDelete, this.sort);
-          sessionStorage.setItem('productGroupId', JSON.stringify(this.groupId));
-        }
-        this.loadingModal.hide();
-        if (results.ok) {
-          this.products = results.rows;
-          this.total = +results.total;
-          this.currentPage = 1;
-        } else {
-          this.alertService.error(JSON.stringify(results.error));
-        }
-      }
-    } catch (error) {
-      // this.loading = false;
-      this.loadingModal.hide();
-      this.alertService.error(JSON.stringify(error));
-    }
+  selectGenericType(e) {
+    this.genericType = e;
+    this.searchProduct();
   }
 
   async returnDelete(productId) {
@@ -149,33 +118,6 @@ export class ProductPageComponent implements OnInit {
     } catch (error) {
       this.loadingModal.hide();
       this.alertService.error(error.message);
-    }
-  }
-
-  async getGroupList() {
-    try {
-      this.loadingModal.show();
-      const rs: any = await this.productService.getGenericTypes();
-      this.loadingModal.hide();
-      if (rs.ok) {
-        if (rs.rows.length) {
-          rs.rows.forEach(v => {
-            this.genericTypeIds.forEach(x => {
-              if (+x === +v.generic_type_id) {
-                this.groups.push(v);
-              }
-            });
-          });
-
-          this.groupId = 'all';
-          sessionStorage.setItem('productGroupId', JSON.stringify(this.genericTypeIds));
-        }
-      } else {
-        this.alertService.error(JSON.stringify(rs.error));
-      }
-    } catch (error) {
-      this.loadingModal.hide();
-      this.alertService.serverError();
     }
   }
 
@@ -266,12 +208,7 @@ export class ProductPageComponent implements OnInit {
       this.loadingModal.show();
       this.loading = true;
       this.isSearch = true;
-      let results: any;
-      if (this.groupId === 'all') {
-        results = await this.productService.search(this.query || '', this.perPage, 0, this.genericTypeIds, this.btnDelete, this.sort);
-      } else {
-        results = await this.productService.search(this.query || '', this.perPage, 0, this.groupId, this.btnDelete, this.sort);
-      }
+      const results: any = await this.productService.search(this.query || '', this.perPage, 0, this.genericType, this.btnDelete, this.sort);
       this.loading = false;
       if (results.ok) {
         this.products = results.rows;
@@ -281,7 +218,6 @@ export class ProductPageComponent implements OnInit {
         this.loadingModal.hide();
         this.alertService.error(JSON.stringify(results.error));
       }
-
     } catch (error) {
       this.loadingModal.hide();
       this.loading = false;
@@ -345,40 +281,23 @@ export class ProductPageComponent implements OnInit {
       this.currentPage = this.currentPage > this.pagination.lastPage ? this.pagination.currentPage : this.pagination.currentPage;
     }
 
+    if (!this.genericType) {
+      this.genericType = await this.genericTypes.getDefaultGenericType();
+    }
     sessionStorage.setItem('productCurrentPage', this.pagination.currentPage);
-
-    let _groupId = [];
-    _groupId = sessionStorage.getItem('productGroupId') ? JSON.parse(sessionStorage.getItem('productGroupId')) : this.genericTypeIds;
     this.loadingModal.show();
-
-    if (this.isSearch) {
-      try {
-        const results: any = await this.productService.search(this.query, limit, offset, _groupId, this.btnDelete, sort);
-        this.loadingModal.hide();
-        if (results.ok) {
-          this.products = results.rows;
-          this.total = results.total;
-        } else {
-          this.alertService.error(JSON.stringify(results.error));
-        }
-      } catch (error) {
-        this.loadingModal.hide();
-        this.alertService.error(JSON.stringify(error));
+    try {
+      const results: any = await this.productService.search(this.query, limit, offset, this.genericType, this.btnDelete, sort);
+      this.loadingModal.hide();
+      if (results.ok) {
+        this.products = results.rows;
+        this.total = results.total;
+      } else {
+        this.alertService.error(JSON.stringify(results.error));
       }
-    } else {
-      try {
-        const results: any = await this.productService.all(limit, offset, _groupId, this.btnDelete, sort);
-        this.loadingModal.hide();
-        if (results.ok) {
-          this.products = results.rows;
-          this.total = +results.total;
-        } else {
-          this.alertService.error(JSON.stringify(results.error));
-        }
-      } catch (error) {
-        this.loadingModal.hide();
-        this.alertService.serverError();
-      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
     }
   }
 }

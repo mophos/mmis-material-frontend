@@ -190,6 +190,20 @@ export class StandardService {
     });
   }
 
+  async getGenericTypesLV1() {
+    const res: any = await this.authHttp.get(`${this.url}/std/generic-types/lv1`).toPromise();
+    return res.json();
+  }
+
+  async getGenericTypesLV2(genericTypeLV1Id) {
+    const res: any = await this.authHttp.get(`${this.url}/std/generic-types/lv2?genericTypeLV1Id=${genericTypeLV1Id}`).toPromise();
+    return res.json();
+  }
+
+  async getGenericTypesLV3(genericTypeLV1Id, genericTypeLV2Id) {
+    const res: any = await this.authHttp.get(`${this.url}/std/generic-types/lv3?genericTypeLV1Id=${genericTypeLV1Id}&genericTypeLV2Id=${genericTypeLV2Id}`).toPromise();
+    return res.json();
+  }
   getGenericDosages() {
     return new Promise((resolve, reject) => {
       this.authHttp.get(`${this.url}/std/generic-dosages`)

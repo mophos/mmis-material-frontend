@@ -46,6 +46,7 @@ const routes: Routes = [
       { path: 'generic-dosages', component: GenericDrugDosagesComponent, pathMatch: 'full' },
       { path: 'generic-groups', component: GenericDrugGroupsComponent, pathMatch: 'full' },
       { path: 'generic-group-ed', component: GenericGroupEdComponent, pathMatch: 'full' },
+      { path: 'generic-minmax-group', component: GenericMinmaxGroupsComponent, pathMatch: 'full' },
       { path: 'generic-supplier-types', component: GenericSuppliesTypesComponent, pathMatch: 'full' },
       { path: 'products', component: ProductPageComponent, pathMatch: 'full' },
       { path: 'product-groups', component: ProductGroupsComponent, pathMatch: 'full' },

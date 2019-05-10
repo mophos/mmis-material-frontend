@@ -8,8 +8,8 @@
       <button type="button" name="addnew" class="btn btn-sm btn-success" (click)="addNew()">+ เพิ่มรายการ</button>
     </div>
     <div class="col-md-4 ">
-      <input type="text" [(ngModel)]="query" name="query" class="form-control" placeholder="ระบุคำค้นหา Generic Code, Generic Name"
-        (keyup)="enterSearch($event)">
+      <input type="text" [(ngModel)]="query" name="query" class="form-control"
+        placeholder="ระบุคำค้นหา Generic Code, Generic Name" (keyup)="enterSearch($event)">
       <!-- <button class="btn btn-success btn-sm" (click)="getAll()">ทั้งหมด</button>     -->
     </div>
     <div class="col-md-1">
@@ -19,12 +19,13 @@
     <div class="col-md-2" *ngIf="!menuDelete">
     </div>
     <div class="col-md-3">
-      <div class="select" style="padding-top: 10px;">
+      <!-- <div class="select" style="padding-top: 10px;">
         <select id="typeFilterId" style="width: 100%;" name="typeFilterId" [(ngModel)]="typeFilterId" (change)="getListByTypes()">
           <option value="all">ทั้งหมด</option>
           <option *ngFor="let g of genericTypes" [value]="g.generic_type_id">{{g.generic_type_name}}</option>
         </select>
-      </div>
+      </div> -->
+      <wm-select-generic-type-multi #genericTypes (onSelect)="selectGenericType($event)"></wm-select-generic-type-multi>
     </div>
     <div class="col-md-2" *ngIf="menuDelete">
       <button name="manageDelete" class="btn btn-danger" (click)="manageDelete()">จัดการข้อมูลที่ลบไปแล้ว</button>
@@ -51,11 +52,12 @@
           [routerLink]="['/admin/generics/edit', g.generic_id]">
           <clr-icon shape="note"></clr-icon>
         </button>
-        <button class="btn btn-sm btn-danger wm-small-btn" title="ลบ" [disabled]="g.mark_deleted == 'Y'" (click)="markDeleted(g)">
+        <button class="btn btn-sm btn-danger wm-small-btn" title="ลบ" [disabled]="g.mark_deleted == 'Y'"
+          (click)="markDeleted(g)">
           <clr-icon shape="trash"></clr-icon>
         </button>
-        <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="g.mark_deleted == 'N'" title="ยกเลิกลบ"
-          (click)="returnDelete(g.generic_id)">
+        <button class="btn btn-sm btn-icon btn-danger" *ngIf="btnDelete" [disabled]="g.mark_deleted == 'N'"
+          title="ยกเลิกลบ" (click)="returnDelete(g.generic_id)">
           <clr-icon shape="undo"></clr-icon>
         </button>
       </div>
@@ -64,7 +66,8 @@
 
   <clr-dg-footer>
     {{pagination.firstItem + 1}} - {{pagination.lastItem + 1}} จาก {{total}} รายการ
-    <clr-dg-pagination #pagination [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="total"></clr-dg-pagination>
+    <clr-dg-pagination #pagination [(clrDgPage)]="currentPage" [clrDgPageSize]="perPage" [clrDgTotalItems]="total">
+    </clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
 
@@ -79,8 +82,8 @@
             <label for="workingCode" class="required">Generic Code </label>
           </div>
           <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="!genericCodeAuto">
-            <input class="form-control" [disabled]="genericCodeAuto" type="text" name="workingCode" [(ngModel)]="workingCode"
-              placeholder="Generic Code 7 หลัก ">
+            <input class="form-control" [disabled]="genericCodeAuto" type="text" name="workingCode"
+              [(ngModel)]="workingCode" placeholder="Generic Code 7 หลัก ">
           </div>
           <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" *ngIf="genericCodeAuto">
             <label for="workingCode" class="required">Generic Code </label>
@@ -160,7 +163,8 @@
     <span *ngIf="isSaving">
       &nbsp;กำลังบันทึก...
     </span> -->
-    <button type="button" class="btn btn-primary" (click)="save()" [disabled]="isSaving || !genericName || !typeId || !primaryUnitId || (!genericCodeAuto && !workingCode)">
+    <button type="button" class="btn btn-primary" (click)="save()"
+      [disabled]="isSaving || !genericName || !typeId || !primaryUnitId || (!genericCodeAuto && !workingCode)">
       บันทึก
     </button>
     <button type="button" class="btn btn-danger-outline" (click)="openNew = false">
@@ -179,8 +183,8 @@
           ค้นหา
         </div>
         <div class="col-md-6">
-          <input type="text" class="form-control" name="genericNameSearch" (keyup)="searchDC24()" [(ngModel)]="genericNameSearch"
-            placeholder="ค้นหาจาก รหัส 24 หลัก ,tmt หรือ ชื่อสามัญ">
+          <input type="text" class="form-control" name="genericNameSearch" (keyup)="searchDC24()"
+            [(ngModel)]="genericNameSearch" placeholder="ค้นหาจาก รหัส 24 หลัก ,tmt หรือ ชื่อสามัญ">
         </div>
         <div class="col-md-5" style="float: right">
           ** ข้อมูลยาจากฐานข้อมูล NMPCD
