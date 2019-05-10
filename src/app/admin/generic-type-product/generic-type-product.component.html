@@ -189,6 +189,7 @@
           <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
             <div class="select">
               <select [(ngModel)]="modalLV2GenericTypeLV1Id" name="modalLV2GenericTypeLV1Id">
+                <option value="null" selected>กรุณาเลือก</option>
                 <option *ngFor="let item of genericTypeLV1" [value]="item.generic_type_id">{{item.generic_type_name}}
                 </option>
               </select>
@@ -217,7 +218,7 @@
 </clr-modal>
 
 <clr-modal [(clrModalOpen)]="openModalLV3" [clrModalClosable]="false">
-  <h3 class="modal-title">เพิ่ม/แก้ไข หมวดสินค้า(รอง)</h3>
+  <h3 class="modal-title">เพิ่ม/แก้ไข หมวดสินค้า(ย่อย)</h3>
   <div class="modal-body">
     <form>
       <section class="form-block">
@@ -230,6 +231,7 @@
             <div class="select">
               <select [(ngModel)]="modalLV3GenericTypeLV1Id" name="modalLV3GenericTypeLV1Id"
                 (change)="selectGenericTypeLV1Modal3()">
+                <option value="null" selected>กรุณาเลือก</option>
                 <option *ngFor="let item of genericTypeLV1" [value]="item.generic_type_id">{{item.generic_type_name}}
                 </option>
               </select>

@@ -134,7 +134,7 @@ export class GenericTypeProductComponent implements OnInit {
   }
 
   selectGenericTypeLV1Modal3() {
-    this.modalLV3GenericTypeLV2 = _.filter(this.genericTypeLV2, { 'generic_type_id': +this.modalLV3GenericTypeLV1Id });
+    this.modalLV3GenericTypeLV2 = _.filter(this.genericTypeLV2, { 'generic_type_lv1_id': +this.modalLV3GenericTypeLV1Id });
     this.modalLV3GenericTypeLV2Id = this.modalLV3GenericTypeLV2[0].generic_type_lv2_id;
   }
 
