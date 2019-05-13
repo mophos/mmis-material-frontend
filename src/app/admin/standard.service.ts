@@ -237,4 +237,9 @@ export class StandardService {
     const rs: any = await this.authHttp.get(`${this.url}/std/search/warehouses?query=${query}`).toPromise();
     return rs.json();
   }
+
+  async searchGenerics(query: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/std/search/generics?query=${query}`).toPromise();
+    return rs.json();
+  }
 }

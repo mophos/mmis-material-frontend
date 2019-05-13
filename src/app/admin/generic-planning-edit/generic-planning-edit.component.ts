@@ -15,9 +15,13 @@ export class GenericPlanningEditComponent implements OnInit {
   warehouse: any = [];
   genericTypes: any = [];
 
+  query: any;
   warehouseId: any;
+  dstWarehouseId: any;
   generics: any;
   genericTypeId: any;
+  selectedGenerics: any;
+
   @ViewChild('loadingModal') loadingModal: LoadingComponent
   constructor(
     private router: ActivatedRoute,
@@ -31,6 +35,7 @@ export class GenericPlanningEditComponent implements OnInit {
   ngOnInit() {
     this.getGeneric(this.warehouseId);
     this.getGenericType();
+    this.getWarehouses();
   }
 
   async getGeneric(warehouseId: any) {
@@ -108,6 +113,28 @@ export class GenericPlanningEditComponent implements OnInit {
     }
   }
 
+  async add() {
+    this.loadingModal.show();
+    try {
+      this.alertService.confirm('ต้องการเพิ่มรายการนี้ ใช่หรือไม่?')
+        .then(() => {
+          this.genericService.addGenericPlanning(this.warehouseId, this.selectedGenerics)
+            .then((rs: any) => {
+              if (rs.ok) {
+                this.alertService.success();
+                this.getGeneric(this.warehouseId);
+              } else {
+                this.alertService.error();
+              }
+            })
+        })
+      this.loadingModal.hide();
+    } catch (error) {
+      this.alertService.error();
+      console.log(error);
+    }
+  }
+
   async delAll() {
     this.loadingModal.show();
     try {
@@ -126,6 +153,94 @@ export class GenericPlanningEditComponent implements OnInit {
       this.loadingModal.hide();
     } catch (error) {
       this.alertService.error();
+      console.log(error);
+    }
+  }
+
+  async addByWarehouse() {
+    this.loadingModal.show();
+    try {
+      this.alertService.confirm('ต้องการเพิ่มรายการนี้ ใช่หรือไม่?')
+        .then(() => {
+          this.genericService.addGenericPlanningByWarehouse(this.warehouseId, this.dstWarehouseId)
+            .then((rs: any) => {
+              if (rs.ok) {
+                this.alertService.success();
+                this.getGeneric(this.warehouseId);
+              } else {
+                this.alertService.error();
+              }
+            })
+        })
+      this.loadingModal.hide();
+    } catch (error) {
+      this.alertService.error();
+      console.log(error);
+    }
+  }
+
+  async remove(g: any) {
+    this.loadingModal.show();
+    try {
+      this.alertService.confirm('ต้องการลบรายการนี้ ใช่หรือไม่')
+        .then(() => {
+          this.genericService.deleteGenericPlanning(g.generic_planning_id)
+            .then((rs: any) => {
+              if (rs.ok) {
+                this.alertService.success();
+                this.getGeneric(this.warehouseId);
+              } else {
+                this.alertService.error();
+              }
+            })
+        })
+      this.loadingModal.hide();
+    } catch (error) {
+      this.alertService.error();
+      console.log(error);
+    }
+  }
+
+  selectedGeneric(event) {
+    this.selectedGenerics = event;
+  }
+
+  enterSearch(event: any) {
+    if (event.target.value === '') {
+      this.searchGenerics();
+    }
+    if (event.keyCode === 13) {
+      this.searchGenerics();
+    } else {
+      setTimeout(() => {
+        this.searchGenerics();
+      }, 550);
+    }
+  }
+
+  async searchGenerics() {
+    try {
+      const rs: any = await this.standardService.searchGenerics(this.query);
+      if (rs.ok) {
+        this.generics = rs.rows;
+      } else {
+        this.alertService.error(JSON.stringify(rs.error));
+      }
+    } catch (error) {
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
+
+  async getWarehouses() {
+    this.loadingModal.show();
+    try {
+      const rs = await this.standardService.getWarehouses();
+      if (rs.ok) {
+        this.warehouse = rs.rows;
+        this.loadingModal.hide();
+      }
+    } catch (error) {
+      this.loadingModal.hide();
       console.log(error);
     }
   }

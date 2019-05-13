@@ -109,8 +109,26 @@ export class GenericService {
     return rs.json();
   }
 
+  async addGenericPlanning(warehouseId: any, data: any) {
+    const rs: any = await this.authHttp.post(`${this.url}/generics/add/generics`, {
+      warehouseId: warehouseId,
+      data: data
+    }).toPromise();
+    return rs.json();
+  }
+
+  async addGenericPlanningByWarehouse(srcWarehouseId: any, dstWarehouseId: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/generics/add/generics/warehouse?srcWarehouseId=${srcWarehouseId}&dstWarehouseId=${dstWarehouseId}`).toPromise();
+    return rs.json();
+  }
+
   async deleteGenericWarehouse(warehouseId: any) {
     const rs: any = await this.authHttp.delete(`${this.url}/generics/delete/generic/planning/${warehouseId}`).toPromise();
+    return rs.json();
+  }
+
+  async deleteGenericPlanning(genericPlanningId: any) {
+    const rs: any = await this.authHttp.delete(`${this.url}/generics/delete/generic/planning/id/${genericPlanningId}`).toPromise();
     return rs.json();
   }
 
