@@ -65,6 +65,10 @@ export class GenericsComponent implements OnInit {
   menuDelete = false;
   btnDelete = false;
   genericType: any;
+
+  genericTypeIds: any;
+  listGenericType: any;
+
   @ViewChild('genericTypes') genericTypes: any;
   constructor(
     private standardService: StandardService,
@@ -87,7 +91,7 @@ export class GenericsComponent implements OnInit {
     this.genericType = this.genericTypes.getDefaultGenericType();
     this.getPrimaryUnits();
     this.getGenericGroups();
-    // this.getGenericTypes();
+    this.getGenericTypes();
     this.getGenericDosages();
     this.getAccounts();
     this.getGenericType();
@@ -147,7 +151,8 @@ export class GenericsComponent implements OnInit {
   async searchGeneric() {
     this.loadingModal.show();
     try {
-      // const type = this.typeFilterId && this.typeFilterId !== 'all' ? this.typeFilterId : this.genericTypeIds;
+      console.log(this.genericType);
+
       const rs: any = await this.genericService.search(this.query, this.genericType, this.perPage, 0, this.btnDelete);
       this.loadingModal.hide();
       if (rs.ok) {
@@ -175,36 +180,31 @@ export class GenericsComponent implements OnInit {
     }
   }
 
-  // async getGenericTypes() {
-  //   this.loadingModal.show();
-  //   try {
-  //     const rs: any = await this.standardService.getGenericTypes();
-  //     this.loadingModal.hide();
-  //     if (rs.ok) {
-  //       this.loadingModal.hide();
-  //       if (rs.rows.length) {
-  //         rs.rows.forEach(v => {
-  //           this.genericTypeIds.forEach(x => {
-  //             if (+x === +v.generic_type_id) {
-  //               this.genericTypes.push(v);
-  //             }
-  //           });
-  //         });
-  //         // this.typeFilterId = sessionStorage.getItem('genericGroupId') ? sessionStorage.getItem('genericGroupId') : this.genericTypeIds;
-  //         if (this.typeFilterId === 'all') {
-  //           sessionStorage.setItem('genericGroupId', JSON.stringify(this.genericTypeIds));
-  //         } else {
-  //           sessionStorage.setItem('genericGroupId', JSON.stringify(this.typeFilterId));
-  //         }
-  //       }
-  //     } else {
-  //       this.alertService.error(rs.error);
-  //     }
-  //   } catch (error) {
-  //     this.loadingModal.hide();
-  //     this.alertService.error(JSON.stringify(error));
-  //   }
-  // }
+  async getGenericTypes() {
+    this.loadingModal.show();
+    try {
+      const rs: any = await this.standardService.getGenericTypes();
+      this.loadingModal.hide();
+      if (rs.ok) {
+        this.loadingModal.hide();
+        if (rs.rows.length) {
+          this.listGenericType = rs.rows;
+          // rs.rows.forEach(v => {
+          //   this.genericTypeIds.forEach(x => {
+          //     if (+x === +v.generic_type_id) {
+          //       this.listGenericTypes.push(v);
+          //     }
+          //   });
+          // });
+        }
+      } else {
+        this.alertService.error(rs.error);
+      }
+    } catch (error) {
+      this.loadingModal.hide();
+      this.alertService.error(JSON.stringify(error));
+    }
+  }
 
   async getAccounts() {
     this.loadingModal.show();
@@ -262,9 +262,9 @@ export class GenericsComponent implements OnInit {
     this.workingCode = null;
     this.genericName = null;
     // this.typeId = null;
-    this.typeId = this.genericTypes[0].generic_type_id;
+    this.typeId = this.listGenericType[0].generic_type_id;
     this.primaryUnitId = this.primaryUnits[0].unit_id;
-    this.genericTypeId = null;
+    this.typeId = null;
     this.expired = 270;
     // this.groupId = null;
     this.dosageId = null;
@@ -311,6 +311,7 @@ export class GenericsComponent implements OnInit {
     this.genericType = e;
     this.getListByTypes();
   }
+
   async getListByTypes() {
     try {
       if (this.query) {
@@ -343,8 +344,8 @@ export class GenericsComponent implements OnInit {
       this.isSaving = true;
       const drugs = {
         genericName: this.genericName,
-        typeId: this.typeId,
-        // genericTypeId: this.genericTypeId,
+        // typeId: this.typeId,
+        genericTypeId: this.typeId,
         // groupId: this.groupId,
         // dosageId: this.dosageId,
         drugAccountId: this.drugAccountId,

@@ -112,7 +112,7 @@
           <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
             <div class="select form-control">
               <select name="typeId" id="typeId" [(ngModel)]="typeId">
-                <option *ngFor="let t of genericTypes" [value]="t.generic_type_id">{{ t.generic_type_name }}</option>
+                <option *ngFor="let t of listGenericType" [value]="t.generic_type_id">{{ t.generic_type_name }}</option>
               </select>
             </div>
           </div>
