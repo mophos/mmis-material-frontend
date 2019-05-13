@@ -21,6 +21,40 @@
     <button type="button" class="btn btn-sm btn-danger" (click)="delAll()">ลบทั้งหมด</button>
   </div>
 </div>
+<div class="row wid99 form-group">
+  <div class="col-md-2">
+    เลือกจากคลัง
+  </div>
+  <div class="col-md-6">
+    <div class="select">
+      <select [(ngModel)]="dstWarehouseId" name="dstWarehouseId">
+        <option *ngFor="let w of warehouse" [value]="w.warehouse_id">{{w.warehouse_name}}</option>
+      </select>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <button type="button" class="btn btn-sm btn-success" (click)="addByWarehouse()">เพิ่ม</button>
+  </div>
+</div>
+<div class="row wid99 form-group">
+  <div class="col-md-2">
+    เลือก Generic
+  </div>
+  <div class="col-md-6">
+    <mm-search-generics-box (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
+  </div>
+  <div class="col-md-4">
+    <button type="button" class="btn btn-sm btn-success" (click)="add()">เพิ่ม</button>
+  </div>
+</div>
+<div class="row wid99 form-group">
+  <div class="col-md-4">
+    ค้นหา
+    <input type="text" [(ngModel)]="query" name="query" class="form-control" placeholder="ระบุคำค้นหา" (keyup)="enterSearch($event)">
+    <!-- <button class="btn btn-success btn-sm" (click)="getAll()">ทั้งหมด</button>     -->
+    <!-- <button name="search" class="btn btn-primary btn-sm" [disabled]="!query" (click)="searchGeneric()">ค้นหา</button> -->
+  </div>
+</div>
 <br>
 <div class="modal-body">
   <clr-datagrid>
@@ -28,6 +62,7 @@
     <clr-dg-column>ชื่อยาสามัญ</clr-dg-column>
     <clr-dg-column>Min Qty.</clr-dg-column>
     <clr-dg-column>Max Qty.</clr-dg-column>
+    <clr-dg-column></clr-dg-column>
     <clr-dg-placeholder>ไม่พบข้อมูล!</clr-dg-placeholder>
     <clr-dg-row *clrDgItems="let g of generics" [clrDgItem]="g">
       <clr-dg-cell>{{g.working_code}}</clr-dg-cell>
@@ -36,7 +71,12 @@
         <input type="number" value="{{g.min_qty}}" appNumberOnly (blur)="onBlurMin($event, g.generic_planning_id, g.min_qty)">
       </clr-dg-cell>
       <clr-dg-cell>
-          <input type="number" value="{{g.max_qty}}" appNumberOnly (blur)="onBlurMax($event, g.generic_planning_id, g.max_qty)">
+        <input type="number" value="{{g.max_qty}}" appNumberOnly (blur)="onBlurMax($event, g.generic_planning_id, g.max_qty)">
+      </clr-dg-cell>
+      <clr-dg-cell>
+        <button title="ลบ" class="btn btn-sm btn-danger wm-small-btn" (click)="remove(g)">
+          <clr-icon shape="trash"></clr-icon>
+        </button>
       </clr-dg-cell>
     </clr-dg-row>
   </clr-datagrid>
