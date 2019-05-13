@@ -94,7 +94,7 @@ export class GenericsComponent implements OnInit {
     this.getGenericTypes();
     this.getGenericDosages();
     this.getAccounts();
-    this.getGenericType();
+    // this.getGenericType();
   }
 
   manageDelete() {
@@ -264,7 +264,7 @@ export class GenericsComponent implements OnInit {
     // this.typeId = null;
     this.typeId = this.listGenericType[0].generic_type_id;
     this.primaryUnitId = this.primaryUnits[0].unit_id;
-    this.typeId = null;
+    // this.typeId = null;
     this.expired = 270;
     // this.groupId = null;
     this.dosageId = null;
@@ -434,19 +434,19 @@ export class GenericsComponent implements OnInit {
     }
   }
 
-  async getGenericType() {
-    this.genericService.getGenericType()
-      .then((results) => {
-        if (results.ok) {
-          this.genericType = results.rows;
-        } else {
-          this.alertService.error(JSON.stringify(results.error))
-        }
-      })
-      .catch((error) => {
-        this.loadingModal.hide();
-        this.alertService.error(JSON.stringify(error));
-      })
-  }
+  // async getGenericType() {
+  //   this.genericService.getGenericType()
+  //     .then((results) => {
+  //       if (results.ok) {
+  //         this.genericType = results.rows;
+  //       } else {
+  //         this.alertService.error(JSON.stringify(results.error))
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       this.loadingModal.hide();
+  //       this.alertService.error(JSON.stringify(error));
+  //     })
+  // }
 
 }
