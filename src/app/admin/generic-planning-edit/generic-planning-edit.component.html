@@ -41,7 +41,7 @@
     เลือก Generic
   </div>
   <div class="col-md-6">
-    <mm-search-generics-box (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
+    <mm-search-generics-box (onChange)="clearOnChangeGeneric($event)" [selectedName]="selectedGenericName"  (onSelect)="selectedGeneric($event)"></mm-search-generics-box>
   </div>
   <div class="col-md-4">
     <button type="button" class="btn btn-sm btn-success" (click)="add()">เพิ่ม</button>

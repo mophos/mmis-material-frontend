@@ -21,6 +21,7 @@ export class GenericPlanningEditComponent implements OnInit {
   generics: any;
   genericTypeId: any;
   selectedGenerics: any;
+  selectedGenericName: any;
 
   @ViewChild('loadingModal') loadingModal: LoadingComponent
   constructor(
@@ -102,7 +103,7 @@ export class GenericPlanningEditComponent implements OnInit {
                 this.alertService.success();
                 this.getGeneric(this.warehouseId);
               } else {
-                this.alertService.error();
+                this.alertService.error('รายการซ้ำ');
               }
             })
         })
@@ -114,6 +115,7 @@ export class GenericPlanningEditComponent implements OnInit {
   }
 
   async add() {
+    this.selectedGenericName = null;
     this.loadingModal.show();
     try {
       this.alertService.confirm('ต้องการเพิ่มรายการนี้ ใช่หรือไม่?')
@@ -124,7 +126,7 @@ export class GenericPlanningEditComponent implements OnInit {
                 this.alertService.success();
                 this.getGeneric(this.warehouseId);
               } else {
-                this.alertService.error();
+                this.alertService.error('รายการซ้ำ');
               }
             })
         })
@@ -146,7 +148,7 @@ export class GenericPlanningEditComponent implements OnInit {
                 this.alertService.success();
                 this.getGeneric(this.warehouseId);
               } else {
-                this.alertService.error();
+                this.alertService.error('รายการซ้ำ');
               }
             })
         })
@@ -168,7 +170,7 @@ export class GenericPlanningEditComponent implements OnInit {
                 this.alertService.success();
                 this.getGeneric(this.warehouseId);
               } else {
-                this.alertService.error();
+                this.alertService.error('รายการซ้ำ');
               }
             })
         })
@@ -190,7 +192,7 @@ export class GenericPlanningEditComponent implements OnInit {
                 this.alertService.success();
                 this.getGeneric(this.warehouseId);
               } else {
-                this.alertService.error();
+                this.alertService.error('รายการซ้ำ');
               }
             })
         })
@@ -220,7 +222,7 @@ export class GenericPlanningEditComponent implements OnInit {
 
   async searchGenerics() {
     try {
-      const rs: any = await this.standardService.searchGenerics(this.query);
+      const rs: any = await this.standardService.searchGenerics(this.query, this.warehouseId);
       if (rs.ok) {
         this.generics = rs.rows;
       } else {

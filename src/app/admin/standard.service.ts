@@ -238,8 +238,8 @@ export class StandardService {
     return rs.json();
   }
 
-  async searchGenerics(query: any) {
-    const rs: any = await this.authHttp.get(`${this.url}/std/search/generics?query=${query}`).toPromise();
+  async searchGenerics(query: any, warehouseId: any) {
+    const rs: any = await this.authHttp.get(`${this.url}/std/search/generics?query=${query}&warehouseId=${warehouseId}`).toPromise();
     return rs.json();
   }
 }
