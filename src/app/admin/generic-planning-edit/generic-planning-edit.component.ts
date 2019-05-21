@@ -114,6 +114,10 @@ export class GenericPlanningEditComponent implements OnInit {
     }
   }
 
+  clearOnChangeGeneric(event: any) {
+    if (event) this.selectedGenerics = null;
+  }
+
   async add() {
     this.selectedGenericName = null;
     this.loadingModal.show();
