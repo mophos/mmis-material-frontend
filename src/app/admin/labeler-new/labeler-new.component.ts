@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MapsAPILoader } from '@agm/core';
+// import { MapsAPILoader } from '@agm/core';
 import { LabelerService } from 'app/admin/labeler.service';
 import { StandardService } from 'app/admin/standard.service';
 import { AlertService } from 'app/admin/alert.service';
@@ -16,9 +16,9 @@ import { ActivatedRoute, Router } from '@angular/router';
   selector: 'wm-labeler-new',
   templateUrl: './labeler-new.component.html',
   styles: [`
-  agm-map {
-    height: 350px;
-  }
+  // agm-map {
+  //   height: 350px;
+  // }
   `]
 })
 export class LabelerNewComponent implements OnInit {
@@ -97,7 +97,7 @@ export class LabelerNewComponent implements OnInit {
   isUpdateCode = false;
 
   constructor(
-    private mapsAPILoader: MapsAPILoader,
+    // private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private labelerService: LabelerService,
     private stdService: StandardService,
@@ -143,27 +143,27 @@ export class LabelerNewComponent implements OnInit {
       this.setCurrentPosition();
     }
 
-    this.initialMap();
+    // this.initialMap();
   }
 
-  private initialMap() {
-    this.mapsAPILoader.load().then(() => {
-      const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {});
-      autocomplete.addListener('place_changed', () => {
-        this.ngZone.run(() => {
-          const place = autocomplete.getPlace();
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-          this.orgLatitude = place.geometry.location.lat();
-          this.orgLongitude = place.geometry.location.lng();
-          this.lat = place.geometry.location.lat();
-          this.lng = place.geometry.location.lng();
-          this.mapZoom = 15;
-        });
-      });
-    });
-  }
+  // private initialMap() {
+  //   this.mapsAPILoader.load().then(() => {
+  //     const autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {});
+  //     autocomplete.addListener('place_changed', () => {
+  //       this.ngZone.run(() => {
+  //         const place = autocomplete.getPlace();
+  //         if (place.geometry === undefined || place.geometry === null) {
+  //           return;
+  //         }
+  //         this.orgLatitude = place.geometry.location.lat();
+  //         this.orgLongitude = place.geometry.location.lng();
+  //         this.lat = place.geometry.location.lat();
+  //         this.lng = place.geometry.location.lng();
+  //         this.mapZoom = 15;
+  //       });
+  //     });
+  //   });
+  // }
 
   private _initialData() {
     this.isSaving = false;
