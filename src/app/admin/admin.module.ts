@@ -16,7 +16,7 @@ import { Ag2CompleterModule } from 'ag2-completer';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 
-import { AgmCoreModule } from '@agm/core';
+// import { AgmCoreModule } from '@agm/core';
 
 import { ClarityModule } from '@clr/angular';
 import { LabelerService } from './labeler.service';
@@ -73,10 +73,10 @@ import { GenericPlanningEditComponent } from './generic-planning-edit/generic-pl
     UnitsModule,
     TextMaskModule,
     Ag2CompleterModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyCqW0ow8YCVZ5b4KydGqawkE5QeuWf7rDM',
-      libraries: ['places']
-    }),
+    // AgmCoreModule.forRoot({
+    //   apiKey: 'AIzaSyCqW0ow8YCVZ5b4KydGqawkE5QeuWf7rDM',
+    //   libraries: ['places']
+    // }),
     MmComponentsModule,
     LoadingModule,
     AdminRoutingModule,
