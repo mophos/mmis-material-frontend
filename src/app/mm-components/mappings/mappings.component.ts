@@ -25,12 +25,12 @@ export class MappingsComponent implements OnInit {
   }
 
   async save() {
-    try {
+    try {      
       this.loadingModal.show()
       const data: any = {
-        edi_labeler_code: this.ediLabelerCode,
-        tmt_id: this.tmtId,
-        std_code: this.dcId
+        edi_labeler_code: this.ediLabelerCode || null,
+        tmt_id: this.tmtId || null,
+        std_code: this.dcId || null
       }
       await this.mappingsService.saveMappgins(this.productId, data);
       this.loadingModal.hide()
