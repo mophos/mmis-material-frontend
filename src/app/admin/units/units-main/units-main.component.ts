@@ -29,7 +29,9 @@ export class UnitsMainComponent implements OnInit {
   isPrimary = false;
 
   isUpdate = false;
+  isEditingPrimary = false;
   query: any = '';
+  searchTimeout: any;
 
   jwtHelper: JwtHelper = new JwtHelper();
   menuDelete = false;
@@ -56,6 +58,7 @@ export class UnitsMainComponent implements OnInit {
   }
 
   async addNew() {
+    this._clearForm();
     this.opened = true;
   }
 
@@ -84,6 +87,7 @@ export class UnitsMainComponent implements OnInit {
     this.unitCode = null;
     this.unitName = null;
     this.isUpdate = false;
+    this.isEditingPrimary = false;
     this.opened = false;
   }
 
@@ -180,8 +184,9 @@ export class UnitsMainComponent implements OnInit {
     this.unitName = unit.unit_name;
     this.unitCode = unit.unit_code;
     this.unitId = unit.unit_id;
-    this.isActive = unit.is_active;
-
+    this.isActive = unit.is_active === 'Y';
+    this.isPrimary = unit.is_primary === 'Y';
+    this.isEditingPrimary = unit.is_primary === 'Y';
     this.isUpdate = true;
   }
 
@@ -258,13 +263,13 @@ export class UnitsMainComponent implements OnInit {
     }
   }
   enterSearch(event) {
-    if (event.target.value === '') {
-      this.search();
-    }
+    if (this.searchTimeout) { clearTimeout(this.searchTimeout); }
     if (event.keyCode === 13) {
       this.search();
+    } else if (event.target.value === '') {
+      this.search();
     } else {
-      setTimeout(() => {
+      this.searchTimeout = setTimeout(() => {
         this.search();
       }, 550);
     }

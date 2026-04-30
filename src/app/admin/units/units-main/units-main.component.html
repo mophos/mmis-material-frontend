@@ -38,7 +38,7 @@
     </clr-dg-cell>
     <clr-dg-cell style="text-align: center;">
       <div class="btn-group btn-primary">
-        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="unit.is_primary === 'Y' || unit.is_deleted == 'Y'"
+        <button title="แก้ไข" class="btn btn-sm btn-success wm-small-btn" [disabled]="unit.is_deleted == 'Y'"
           (click)="setEditable(unit)">
           <clr-icon shape="note"></clr-icon>
         </button>
@@ -92,7 +92,7 @@
             <label for="isPrimary">&nbsp;</label>
           </div>
           <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
-            <clr-checkbox name="isPrimary" [(ngModel)]="isPrimary">
+            <clr-checkbox name="isPrimary" [(ngModel)]="isPrimary" [clrDisabled]="isEditingPrimary">
               Base unit
             </clr-checkbox>
           </div>
